@@ -1,344 +1,394 @@
 /* ==========================================================================
-   PART 3: THE SKILLS - CAULDRON & 3D VORTEX
+   PART 3: ABOUT & SKILLS - 3D GOLDEN SNITCH & STATEMENT SWAP
    ========================================================================== */
 
-.skills-section {
+/* Global Fixed / Static Theme Ambient Background */
+.global-fixed-theme-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  background: 
+    radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(217, 119, 6, 0.28) 0%, var(--house-bg-shine-1, rgba(139, 24, 27, 0.24)) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
+  transition: background 0.6s var(--ease-magic);
+}
+
+.skills-about-section {
   position: relative;
   min-height: 100vh;
   width: 100%;
-  padding: 100px 0 120px;
-  background: #06070b;
+  background: #05060a;
   overflow: hidden;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
-/* Atmospheric Potion Dungeon Background */
-.cauldron-laboratory-backdrop {
-  position: absolute;
-  inset: 0;
-  background: url('/assets/cauldron_vortex.jpg') center bottom / cover no-repeat;
-  opacity: 0.85;
-  filter: brightness(0.9) contrast(1.1);
-  z-index: 1;
-}
-
-.cauldron-vignette {
+/* Exact Ambient House Glow Vignette (Matches Hero Style) */
+.skills-ambient-glow {
   position: absolute;
   inset: 0;
   background: 
-    radial-gradient(circle at 50% 75%, transparent 35%, rgba(6, 7, 11, 0.88) 85%),
-    linear-gradient(180deg, var(--bg-deep) 0%, transparent 15%, transparent 85%, var(--bg-deep) 100%);
+    radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(217, 119, 6, 0.28) 0%, var(--house-bg-shine-1, rgba(139, 24, 27, 0.24)) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
   pointer-events: none;
-  z-index: 2;
+  z-index: 1;
+  transition: background 0.6s var(--ease-magic);
 }
 
-/* Interactive Canvas for Volumetric Smoke & Mystic Runes */
-#cauldron-vortex-canvas {
+/* House Theme Gradient Overrides */
+body.theme-slytherin .skills-ambient-glow,
+body.theme-slytherin .global-fixed-theme-bg {
+  background: radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(0, 255, 136, 0.22) 0%, rgba(22, 101, 52, 0.28) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
+}
+
+body.theme-ravenclaw .skills-ambient-glow,
+body.theme-ravenclaw .global-fixed-theme-bg {
+  background: radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(56, 189, 248, 0.22) 0%, rgba(30, 58, 138, 0.32) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
+}
+
+body.theme-hufflepuff .skills-ambient-glow,
+body.theme-hufflepuff .global-fixed-theme-bg {
+  background: radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(245, 158, 11, 0.26) 0%, rgba(120, 53, 15, 0.3) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
+}
+
+/* Split-Screen 2-Column Pinned Container (50% Left / 50% Right) */
+.skills-split-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1440px;
+  height: 100vh;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  padding: 2rem 4rem;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   LEFT SIDE: INTERACTIVE 3D GOLDEN SNITCH & CONCENTRIC SKILL ORBITS
+   ========================================================================== */
+.skills-constellation-column {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.skills-constellation-stage {
+  position: relative;
+  width: 560px;
+  height: 560px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Real Three.js 3D Golden Snitch Canvas */
+#snitch-three-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none;
-  z-index: 3;
-}
-
-/* Content Staging */
-.skills-container {
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 0 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Cauldron Stage Container */
-.cauldron-vortex-stage {
-  position: relative;
-  width: 100%;
-  max-width: 960px;
-  height: 640px;
-  margin: 20px auto 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  perspective: 1200px;
-}
-
-/* 3D Helix Vortex Rotator */
-.vortex-3d-scene {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  transform-style: preserve-3d;
-  cursor: grab;
+  display: block;
   z-index: 8;
-  will-change: transform;
+  pointer-events: none;
 }
 
-.vortex-3d-scene:active {
-  cursor: grabbing;
-}
-
-/* 3D Skill Capsule Items */
-.vortex-skill-item {
+/* Multi-Layered Enlarged Concentric Skill Orbits Overlay */
+.orbital-skills-system {
   position: absolute;
-  top: 0;
-  left: 0;
-  transform-style: preserve-3d;
+  inset: 0;
+  pointer-events: none;
+  z-index: 15;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 18px;
-  background: rgba(14, 17, 28, 0.88);
-  border: 1.5px solid var(--potion-green);
-  border-radius: 9999px;
-  color: #fff;
-  font-family: var(--font-mono);
-  font-size: 0.88rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  white-space: nowrap;
-  box-shadow: 
-    0 10px 25px rgba(0, 0, 0, 0.8),
-    0 0 20px var(--potion-green-glow),
-    inset 0 0 15px rgba(16, 185, 129, 0.2);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  cursor: pointer;
+  justify-content: center;
+}
+
+.orbit-layer {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px dashed rgba(245, 197, 66, 0.2);
+  pointer-events: none;
+  transform-origin: center center;
+}
+
+/* Outer Enlarged Circular Orbit (Diameter: 520px, Radius: 260px) */
+.orbit-layer-1 {
+  width: 520px;
+  height: 520px;
+  animation: orbitSpin2D1 42s linear infinite;
+}
+
+/* Inner Enlarged Circular Orbit (Diameter: 340px, Radius: 170px) */
+.orbit-layer-2 {
+  width: 340px;
+  height: 340px;
+  animation: orbitSpin2D2 28s linear infinite reverse;
+}
+
+@keyframes orbitSpin2D1 {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes orbitSpin2D2 {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Enlarged Orbiting Skill Badges */
+.orbit-skill-badge {
+  position: absolute;
+  pointer-events: auto;
   user-select: none;
-  transition: transform 0.2s ease, border-color 0.3s, box-shadow 0.3s;
-  transform: translate(-50%, -50%);
-}
-
-.vortex-skill-item.purple-theme {
-  border-color: var(--potion-purple);
-  box-shadow: 
-    0 10px 25px rgba(0, 0, 0, 0.8),
-    0 0 20px var(--potion-purple-glow),
-    inset 0 0 15px rgba(168, 85, 247, 0.2);
-}
-
-.vortex-skill-item.gold-theme {
-  border-color: var(--house-secondary);
-  box-shadow: 
-    0 10px 25px rgba(0, 0, 0, 0.8),
-    0 0 20px var(--house-secondary-glow),
-    inset 0 0 15px rgba(245, 197, 66, 0.2);
-}
-
-.vortex-skill-item:hover {
-  transform: translate(-50%, -50%) scale(1.18);
-  border-color: #fff;
-  box-shadow: 0 0 35px #fff, 0 0 50px var(--potion-green-glow);
-  z-index: 100;
-}
-
-.skill-badge-icon {
-  width: 22px;
-  height: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.skill-badge-icon svg {
-  width: 100%;
-  height: 100%;
-  fill: currentColor;
-}
-
-/* Pulsing Ancient Runes Interactive Panel */
-.cauldron-runes-bar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  padding: 12px 24px;
-  background: rgba(12, 15, 24, 0.85);
-  border: 1px solid var(--border-gold);
-  border-radius: 9999px;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(12px);
-  margin-top: 10px;
-}
-
-.rune-btn {
-  background: transparent;
-  border: 1px solid transparent;
-  color: var(--text-gold);
-  font-family: var(--font-rune);
-  font-size: 1.1rem;
-  padding: 6px 14px;
-  border-radius: 8px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  transition: all 0.3s;
-}
-
-.rune-btn:hover,
-.rune-btn.active {
-  background: rgba(245, 197, 66, 0.15);
-  border-color: var(--house-secondary);
+  padding: 9px 20px;
+  border-radius: 999px;
+  background: rgba(14, 11, 24, 0.9);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(245, 197, 66, 0.36);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.92rem;
+  font-weight: 700;
   color: #fff;
-  box-shadow: 0 0 15px var(--house-secondary-glow);
+  white-space: nowrap;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8), 0 0 18px rgba(245, 197, 66, 0.16);
+  animation: badgeCounterSpin2D1 42s linear infinite;
+  transform: translate(-50%, -50%);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
-/* Skill Details Spell Card Modal */
-.skill-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  z-index: 2000;
-  display: none;
-  align-items: center;
+.orbit-layer-2 .orbit-skill-badge {
+  animation: badgeCounterSpin2D2 28s linear infinite;
+  font-size: 0.88rem;
+  padding: 8px 18px;
+}
+
+@keyframes badgeCounterSpin2D1 {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+@keyframes badgeCounterSpin2D2 {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.orbit-skill-badge:hover {
+  transform: translate(-50%, -50%) scale(1.22) !important;
+  border-color: var(--house-secondary, #f5c542);
+  background: rgba(245, 197, 66, 0.28);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.92), 0 0 28px var(--house-secondary-glow, rgba(245, 197, 66, 0.8));
+  z-index: 50;
+}
+
+/* ==========================================================================
+   RIGHT SIDE: PINNED SINGLE-LINE STATEMENT SCROLLYTELLING SWAP
+   ========================================================================== */
+.kinetic-text-column {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  padding: 20px;
+  align-items: flex-start;
+  height: 100%;
+  max-width: 680px;
+  gap: 1.6rem;
+  padding: 3rem 0;
+  box-sizing: border-box;
 }
 
-.skill-modal-overlay.open {
-  display: flex;
-  animation: modalFade 0.3s var(--ease-magic);
-}
-
-@keyframes modalFade {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.skill-spell-card {
-  width: 100%;
-  max-width: 480px;
-  background: linear-gradient(145deg, #0e111a 0%, #151a28 100%);
-  border: 2px solid var(--border-gold);
-  border-radius: 20px;
-  padding: 32px;
-  position: relative;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 40px var(--house-secondary-glow);
-  transform-origin: center;
-}
-
-.skill-spell-header {
-  display: flex;
+.kinetic-header-badge {
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.skill-spell-title-group {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.skill-spell-icon-box {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: rgba(245, 197, 66, 0.15);
-  border: 1px solid var(--border-gold);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  color: var(--house-secondary);
-}
-
-.skill-spell-name {
-  font-family: var(--font-magic-serif);
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: #fff;
-}
-
-.skill-spell-class {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  gap: 8px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--house-secondary, #f5c542);
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: var(--potion-green);
 }
 
-.modal-close-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-muted);
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  cursor: pointer;
+.badge-sparkle {
+  font-size: 0.9rem;
+  color: var(--house-secondary, #f5c542);
+  text-shadow: 0 0 10px var(--house-secondary-glow);
+}
+
+/* Fixed-Height Viewport with Generous Padding to Prevent Ascender Clipping */
+.statement-swap-viewport {
+  position: relative;
+  width: 100%;
+  height: 460px;
+  min-height: 460px;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  transition: all 0.2s;
+  justify-content: flex-start;
+  padding: 2rem 0;
+  box-sizing: border-box;
 }
 
-.modal-close-btn:hover {
-  color: #fff;
-  border-color: var(--house-secondary);
-}
-
-.skill-spell-body {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 16px;
-}
-
-.skill-stat-bar-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.skill-stat-label-row {
-  display: flex;
-  justify-content: space-between;
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--text-dim);
-}
-
-.skill-stat-progress-track {
+.statement-swap-item {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.skill-stat-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--potion-green), var(--potion-purple));
-  border-radius: 4px;
-  transition: width 1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1.5rem 0;
+  box-sizing: border-box;
+  will-change: transform, opacity, filter;
+  pointer-events: none;
 }
 
-.skill-spell-lore {
-  font-size: 0.95rem;
-  color: var(--text-dim);
-  line-height: 1.6;
+/* Oversized Grand Typography (Clean bounds with generous line height) */
+.statement-text {
+  font-family: var(--font-cinzel, 'Cinzel', serif);
+  font-size: clamp(2.1rem, 3.4vw, 3.1rem);
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  color: #ffffff;
+  text-shadow: 0 0 28px var(--house-secondary-glow, rgba(245, 197, 66, 0.45)), 0 4px 18px rgba(0, 0, 0, 0.85);
+  margin: 0;
+  padding-top: 0.4rem;
+  user-select: text;
 }
 
-.skill-spell-projects-tag {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--house-secondary);
-  background: rgba(245, 197, 66, 0.1);
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: 1px solid rgba(245, 197, 66, 0.2);
+/* Step Progress Indicator */
+.statement-progress-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0.5rem;
+}
+
+.statement-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.35s ease;
+}
+
+.statement-dot.active {
+  background: var(--house-secondary, #f5c542);
+  box-shadow: 0 0 10px var(--house-secondary-glow, rgba(245, 197, 66, 0.8));
+  transform: scale(1.4);
+}
+
+.statement-line {
+  width: 32px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  transition: all 0.35s ease;
+}
+
+.statement-line.active {
+  background: var(--house-secondary, #f5c542);
+  box-shadow: 0 0 8px var(--house-secondary-glow, rgba(245, 197, 66, 0.8));
+}
+
+/* ==========================================================================
+   NAVIGATION TRANSITION & FLOATING HOME BUTTON
+   ========================================================================== */
+.top-nav-home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: rgba(14, 11, 24, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--house-secondary, #f5c542);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6), 0 0 18px var(--house-secondary-glow, rgba(245, 197, 66, 0.4));
+  color: #fff;
+  font-family: var(--font-cinzel, 'Cinzel', serif);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease;
+}
+
+.top-nav-home-btn:hover {
+  background: rgba(245, 197, 66, 0.2);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.8), 0 0 24px var(--house-secondary-glow, rgba(245, 197, 66, 0.7));
+  color: #fff;
+}
+
+/* When Scrolled Into Section: Transition Navbar Out & Floating Home Button In */
+.top-left-header.home-active #header-resume-btn {
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+  position: absolute;
+}
+
+.top-left-header.home-active #header-home-btn {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  position: relative;
+}
+
+.top-right-nav.nav-hidden {
+  transform: translateY(-120%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease !important;
+}
+
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .skills-split-container {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: auto;
+    padding: 80px 24px;
+    gap: 3rem;
+  }
+
+  .skills-constellation-stage {
+    width: 380px;
+    height: 380px;
+  }
+
+  .statement-swap-viewport {
+    height: 360px;
+    min-height: 360px;
+  }
+
+  .orbit-layer-1 {
+    width: 360px;
+    height: 360px;
+  }
+
+  .orbit-layer-2 {
+    width: 240px;
+    height: 240px;
+  }
 }

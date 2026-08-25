@@ -22,6 +22,9 @@
 </head>
 <body>
 
+  <!-- Global Fixed / Static Theme Ambient Background -->
+  <div class="global-fixed-theme-bg" id="global-theme-bg"></div>
+
   <!-- Wand Cursor & Particles Layer -->
   <canvas id="wand-particle-canvas"></canvas>
   <div class="wand-cursor-dot"></div>
@@ -30,16 +33,20 @@
   <!-- ==========================================================================
        TOP-LEFT RESUME BUTTON & TOP-RIGHT NAVIGATION BAR
        ========================================================================== -->
-  <!-- 1. Top-Left Resume Button -->
-  <div class="top-left-header">
-    <a href="#contact" class="top-nav-btn top-nav-resume-btn">
+  <!-- 1. Top-Left Header: Resume & Floating Home Button -->
+  <div class="top-left-header" id="top-left-header">
+    <a href="#contact" class="top-nav-btn top-nav-resume-btn" id="header-resume-btn">
       <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
       <span>Resume</span>
+    </a>
+    <a href="#hero-pin-wrapper" class="top-nav-btn top-nav-home-btn" id="header-home-btn">
+      <i data-lucide="home" style="width: 14px; height: 14px;"></i>
+      <span>Home</span>
     </a>
   </div>
 
   <!-- 2. Top-Right Navigation Bar -->
-  <nav class="top-right-nav" aria-label="Main Navigation">
+  <nav class="top-right-nav" id="top-right-nav" aria-label="Main Navigation">
     <!-- About Button -->
     <a href="#about" class="top-nav-btn">
       <span>About</span>
@@ -229,71 +236,62 @@
     </div>
 
     <!-- ==========================================================================
-         PART 3: THE SKILLS - CAULDRON & 3D VORTEX
+         PART 3: ABOUT & SKILLS - ENLARGED SKILLS CONSTELLATION & STATEMENT SWAP
          ========================================================================== -->
-    <section id="skills" class="skills-section">
-      <div class="cauldron-laboratory-backdrop"></div>
-      <div class="cauldron-vignette"></div>
+    <section id="about" class="skills-about-section">
+      <!-- Ambient House Glow Vignette (Matches Hero Style) -->
+      <div class="skills-ambient-glow"></div>
 
-      <div class="skills-container">
-        <div class="section-header">
-          <div class="section-tag">Hogwarts Legacy Potion Dungeon</div>
-          <h2 class="section-title">The Cauldron & <span class="text-gold">Skill Vortex</span></h2>
-          <p class="section-desc">
-            A rising 3D spiral of ethereal smoke carrying 10 arcane masteries. Drag to spin the 3D vortex, click any skill capsule to inspect its potion recipe, or touch the ancient runes below to transmute potion essences.
-          </p>
-        </div>
+      <!-- Split-Screen Pinned Container (100vh) -->
+      <div class="skills-split-container" id="skills-split-container">
+        
+        <!-- LEFT SIDE (50%): Interactive 3D Golden Snitch & Concentric Skill Orbits -->
+        <div class="skills-constellation-column">
+          <div class="skills-constellation-stage" id="skills-constellation-stage">
+            <!-- Real Three.js 3D Golden Snitch WebGL Canvas -->
+            <canvas id="snitch-three-canvas"></canvas>
 
-        <!-- 3D Vortex Scene Container -->
-        <div class="cauldron-vortex-stage">
-          <div class="vortex-3d-scene">
-            <!-- 10 Skills dynamically injected by cauldron-vortex.js -->
-          </div>
-        </div>
-
-        <!-- Ancient Cauldron Runes Bar -->
-        <div class="cauldron-runes-bar">
-          <button class="rune-btn active" data-potion="emerald">
-            <span>ᚠ Felix Emerald</span>
-          </button>
-          <button class="rune-btn" data-potion="amethyst">
-            <span>ᚢ Polyjuice Amethyst</span>
-          </button>
-          <button class="rune-btn" data-potion="felix">
-            <span>ᚨ Veritaserum Gold</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Skill Spell Card Modal -->
-      <div class="skill-modal-overlay">
-        <div class="skill-spell-card">
-          <div class="skill-spell-header">
-            <div class="skill-spell-title-group">
-              <div class="skill-spell-icon-box" id="modal-skill-icon">⚡</div>
-              <div>
-                <h3 class="skill-spell-name" id="modal-skill-name">Skill</h3>
-                <span class="skill-spell-class" id="modal-skill-class">Spell Class</span>
-              </div>
+            <!-- Multi-Layered Enlarged Concentric Skill Orbits -->
+            <div class="orbital-skills-system" id="orbital-skills-system">
+              <!-- Outer Orbit Ring (Radius 260px / 520px): React, Next.js, JavaScript, Git, Python -->
+              <div class="orbit-layer orbit-layer-1" id="orbit-layer-1"></div>
+              
+              <!-- Inner Orbit Ring (Radius 170px / 340px): SQL, PowerBI, Excel, C++, Machine Learning -->
+              <div class="orbit-layer orbit-layer-2" id="orbit-layer-2"></div>
             </div>
-            <button class="modal-close-btn" aria-label="Close modal">✕</button>
-          </div>
-
-          <div class="skill-spell-body">
-            <div class="skill-stat-bar-wrapper">
-              <div class="skill-stat-label-row">
-                <span>Sorcery Proficiency</span>
-                <span id="modal-skill-level">95%</span>
-              </div>
-              <div class="skill-stat-progress-track">
-                <div class="skill-stat-progress-fill" id="modal-skill-progress"></div>
-              </div>
-            </div>
-
-            <p class="skill-spell-lore" id="modal-skill-lore"></p>
-            <div class="skill-spell-projects-tag" id="modal-skill-projects"></div>
           </div>
         </div>
+
+        <!-- RIGHT SIDE (50%): Pinned Single-Line Scrollytelling Swap (Apple Style) -->
+        <div class="kinetic-text-column">
+          <div class="kinetic-header-badge">
+            <span class="badge-sparkle">✦</span>
+            <span>About &amp; Mastery Essence</span>
+          </div>
+
+          <!-- Fixed-Height Viewport with Absolute Stacking & Overflow Hidden -->
+          <div class="statement-swap-viewport" id="statement-swap-viewport">
+            <div class="statement-swap-item statement-1" id="statement-1">
+              <h2 class="statement-text">Pursuing a degree in Computer Science with a core specialization in Artificial Intelligence &amp; Machine Learning.</h2>
+            </div>
+            <div class="statement-swap-item statement-2" id="statement-2">
+              <h2 class="statement-text">A deeply curious AI Enthusiast and Data Analyst transforming complex datasets into predictive intelligence.</h2>
+            </div>
+            <div class="statement-swap-item statement-3" id="statement-3">
+              <h2 class="statement-text">A creative Full-Stack Engineer designing immersive 3D digital realms, crafting seamless modern interfaces with robust backends.</h2>
+            </div>
+          </div>
+
+          <!-- Subtle Progress Step Indicators -->
+          <div class="statement-progress-indicator">
+            <div class="statement-dot dot-1 active" id="sdot-1"></div>
+            <div class="statement-line line-1" id="sline-1"></div>
+            <div class="statement-dot dot-2" id="sdot-2"></div>
+            <div class="statement-line line-2" id="sline-2"></div>
+            <div class="statement-dot dot-3" id="sdot-3"></div>
+          </div>
+        </div>
+
       </div>
     </section>
 

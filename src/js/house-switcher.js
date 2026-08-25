@@ -124,6 +124,9 @@ export function initHouseSwitcher() {
 
       magicalAudio.playHedwigChime();
 
+      // Dispatch custom event for 3D Cauldron and particle shaders
+      document.dispatchEvent(new CustomEvent('hp_house_changed', { detail: { house } }));
+
       // Trigger downward top-center magical confetti shower
       triggerHouseMagicShower(house);
     });

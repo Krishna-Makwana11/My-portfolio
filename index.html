@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Krishna Makwana | Full Stack Developer — Harry Potter Portfolio</title>
+  <meta name="description" content="Magical Harry Potter-themed portfolio of Krishna Makwana, a passionate Full Stack Developer and UI/UX engineer skilled in React, Next.js, Python, TypeScript, and Data Analytics." />
+  <meta name="keywords" content="Krishna Makwana, Full Stack Developer, Harry Potter Portfolio, React, Next.js, Python, JavaScript, Gryffindor" />
+  <meta name="author" content="Krishna Makwana" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/src/styles/variables.css" />
+  <link rel="stylesheet" href="/src/styles/main.css" />
+  <link rel="stylesheet" href="/src/styles/hero.css" />
+  <link rel="stylesheet" href="/src/styles/skills.css" />
+  <link rel="stylesheet" href="/src/styles/projects.css" />
+  <link rel="stylesheet" href="/src/styles/about.css" />
+  <link rel="stylesheet" href="/src/styles/contact.css" />
+</head>
+<body>
+
+  <!-- Wand Cursor & Particles Layer -->
+  <canvas id="wand-particle-canvas"></canvas>
+  <div class="wand-cursor-dot"></div>
+  <div class="wand-cursor-ring"></div>
+
+  <!-- ==========================================================================
+       TOP-RIGHT 5-BUTTON NAVIGATION BAR
+       ========================================================================== -->
+  <nav class="top-right-nav" aria-label="Main Navigation">
+    <!-- 1. About Button -->
+    <a href="#about" class="top-nav-btn">
+      <span>About</span>
+    </a>
+
+    <!-- 2. Projects Button -->
+    <a href="#projects" class="top-nav-btn">
+      <span>Projects</span>
+    </a>
+
+    <!-- 3. Contact Button -->
+    <a href="#contact" class="top-nav-btn">
+      <span>Contact</span>
+    </a>
+
+    <!-- 4. Hogwarts House Slide-Down Selector -->
+    <div class="house-selector-wrapper">
+      <button class="house-select-btn top-nav-btn top-nav-house-btn" aria-label="Select Hogwarts House">
+        <span class="house-dot gryffindor"></span>
+        <span class="current-house-name">Gryffindor</span>
+        <i data-lucide="chevron-down" style="width: 14px; height: 14px;"></i>
+      </button>
+      <div class="house-dropdown-menu">
+        <button class="house-option" data-house="gryffindor">
+          <span class="house-dot gryffindor"></span> Gryffindor
+        </button>
+        <button class="house-option" data-house="slytherin">
+          <span class="house-dot slytherin"></span> Slytherin
+        </button>
+        <button class="house-option" data-house="ravenclaw">
+          <span class="house-dot ravenclaw"></span> Ravenclaw
+        </button>
+        <button class="house-option" data-house="hufflepuff">
+          <span class="house-dot hufflepuff"></span> Hufflepuff
+        </button>
+      </div>
+    </div>
+
+    <!-- 5. Resume Button -->
+    <a href="#contact" class="top-nav-btn top-nav-resume-btn">
+      <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
+      <span>Resume</span>
+    </a>
+  </nav>
+
+  <main>
+    <!-- ==========================================================================
+         PART 1: PINNED HERO STAGE (SCROLL ZOOM-OUT TRANSITION)
+         ========================================================================== -->
+    <div id="hero-pin-wrapper">
+      <div id="hero-sticky-card">
+        <!-- Clean Ambient Vignette Layer -->
+        <div class="hero-default-bg"></div>
+
+        <!-- Pinned Hero Center Stage (High-Impact Interactive Dual-Layer Portrait) -->
+        <div class="hero-center-stage">
+          <div class="cutout-ambient-glow"></div>
+          <div class="hero-portrait-frame" id="portrait-spotlight-frame">
+            <!-- Base Layer: Real Developer Portrait -->
+            <img 
+              src="/assets/krishna_real.png" 
+              alt="Krishna Makwana - Full Stack Developer" 
+              class="hero-portrait-img hero-portrait-base" 
+              id="hero-base-img"
+            />
+
+            <!-- Magic Spotlight Reveal Layer: Selected Hogwarts Persona -->
+            <div class="hero-spotlight-reveal-layer" id="hero-spotlight-layer">
+              <img 
+                src="/assets/house_gryffindor.png" 
+                alt="Krishna Makwana - Hogwarts Persona" 
+                class="hero-portrait-img hero-portrait-wizard" 
+                id="hero-wizard-img"
+              />
+              <div class="spotlight-magical-lens" id="spotlight-lens"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating Bottom-Left Subtle Intro Card -->
+        <div class="hero-intro-card">
+          <div class="intro-badge">
+            <span class="intro-dot"></span>
+            <span>Full Stack Developer · Jaipur</span>
+          </div>
+          <h1 class="intro-name">KRISHNA MAKWANA</h1>
+          <p class="intro-bio">
+            Crafting intelligent AI systems, high-performance web applications & modern digital realms.
+          </p>
+          <div class="intro-actions">
+            <a href="#projects" class="intro-btn intro-btn-primary">
+              <i data-lucide="wand-2" style="width: 13px; height: 13px;"></i>
+              <span>View Projects</span>
+            </a>
+            <a href="#contact" class="intro-btn intro-btn-secondary">
+              <i data-lucide="send" style="width: 13px; height: 13px;"></i>
+              <span>Contact Me</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Side Social Dock -->
+        <div class="hero-social-dock">
+          <div class="dock-divider-line"></div>
+          <a href="https://linkedin.com/in/iaryasharma" target="_blank" rel="noopener noreferrer" class="dock-social-btn" title="LinkedIn" aria-label="LinkedIn">
+            <i data-lucide="linkedin"></i>
+          </a>
+          <a href="https://github.com/iaryasharma" target="_blank" rel="noopener noreferrer" class="dock-social-btn" title="GitHub" aria-label="GitHub">
+            <i data-lucide="github"></i>
+          </a>
+          <a href="https://twitter.com/iaryasharma" target="_blank" rel="noopener noreferrer" class="dock-social-btn" title="Twitter / X" aria-label="Twitter">
+            <i data-lucide="twitter"></i>
+          </a>
+          <a href="https://instagram.com/i.aryasharma" target="_blank" rel="noopener noreferrer" class="dock-social-btn" title="Instagram" aria-label="Instagram">
+            <i data-lucide="instagram"></i>
+          </a>
+          <div class="dock-divider-line"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         PART 3: THE SKILLS - CAULDRON & 3D VORTEX
+         ========================================================================== -->
+    <section id="skills" class="skills-section">
+      <div class="cauldron-laboratory-backdrop"></div>
+      <div class="cauldron-vignette"></div>
+
+      <div class="skills-container">
+        <div class="section-header">
+          <div class="section-tag">Hogwarts Legacy Potion Dungeon</div>
+          <h2 class="section-title">The Cauldron & <span class="text-gold">Skill Vortex</span></h2>
+          <p class="section-desc">
+            A rising 3D spiral of ethereal smoke carrying 10 arcane masteries. Drag to spin the 3D vortex, click any skill capsule to inspect its potion recipe, or touch the ancient runes below to transmute potion essences.
+          </p>
+        </div>
+
+        <!-- 3D Vortex Scene Container -->
+        <div class="cauldron-vortex-stage">
+          <div class="vortex-3d-scene">
+            <!-- 10 Skills dynamically injected by cauldron-vortex.js -->
+          </div>
+        </div>
+
+        <!-- Ancient Cauldron Runes Bar -->
+        <div class="cauldron-runes-bar">
+          <button class="rune-btn active" data-potion="emerald">
+            <span>ᚠ Felix Emerald</span>
+          </button>
+          <button class="rune-btn" data-potion="amethyst">
+            <span>ᚢ Polyjuice Amethyst</span>
+          </button>
+          <button class="rune-btn" data-potion="felix">
+            <span>ᚨ Veritaserum Gold</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Skill Spell Card Modal -->
+      <div class="skill-modal-overlay">
+        <div class="skill-spell-card">
+          <div class="skill-spell-header">
+            <div class="skill-spell-title-group">
+              <div class="skill-spell-icon-box" id="modal-skill-icon">⚡</div>
+              <div>
+                <h3 class="skill-spell-name" id="modal-skill-name">Skill</h3>
+                <span class="skill-spell-class" id="modal-skill-class">Spell Class</span>
+              </div>
+            </div>
+            <button class="modal-close-btn" aria-label="Close modal">✕</button>
+          </div>
+
+          <div class="skill-spell-body">
+            <div class="skill-stat-bar-wrapper">
+              <div class="skill-stat-label-row">
+                <span>Sorcery Proficiency</span>
+                <span id="modal-skill-level">95%</span>
+              </div>
+              <div class="skill-stat-progress-track">
+                <div class="skill-stat-progress-fill" id="modal-skill-progress"></div>
+              </div>
+            </div>
+
+            <p class="skill-spell-lore" id="modal-skill-lore"></p>
+            <div class="skill-spell-projects-tag" id="modal-skill-projects"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         MARAUDER'S MAP PROJECT SHOWCASE
+         ========================================================================== -->
+    <section id="projects" class="projects-section">
+      <div class="projects-map-backdrop"></div>
+
+      <div class="projects-container">
+        <div class="map-oath-banner">
+          <p class="map-oath-quote">"I solemnly swear that I am up to no good."</p>
+        </div>
+
+        <div class="section-header">
+          <div class="section-tag">Marauder's Map Vault</div>
+          <h2 class="section-title">Selected <span class="text-gold">Enchanted Works</span></h2>
+          <p class="section-desc">
+            A curated grimoire of production-ready full-stack applications, intelligent AI platforms, and high-performance algorithms.
+          </p>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="project-filter-bar">
+          <button class="filter-btn active" data-filter="all">All Quests</button>
+          <button class="filter-btn" data-filter="fullstack">Full Stack & Web</button>
+          <button class="filter-btn" data-filter="ai">AI & Vision</button>
+          <button class="filter-btn" data-filter="security">Security & Tools</button>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="projects-grid">
+          
+          <!-- Project 1: Bareilly Police -->
+          <article class="project-card" data-category="fullstack">
+            <div class="project-media-wrapper">
+              <span class="project-badge-tag">Next.js · AI Portal</span>
+              <img 
+                src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80" 
+                alt="Bareilly Police Website" 
+                class="project-media-img"
+              />
+              <div class="project-overlay-glow"></div>
+            </div>
+            <div class="project-card-body">
+              <span class="project-number">#01 · PRODUCTION DISPATCH</span>
+              <h3 class="project-title">Bareilly Police Official Portal</h3>
+              <p class="project-description">
+                Engineered the official Bareilly Police web platform with citizen incident tracking, online report dispatch, and integrated Sanyogita AI for instant natural-language query resolution.
+              </p>
+              <div class="project-tech-stack">
+                <span class="tech-tag">Next.js</span>
+                <span class="tech-tag">TypeScript</span>
+                <span class="tech-tag">Sanyogita AI</span>
+                <span class="tech-tag">PostgreSQL</span>
+              </div>
+              <div class="project-actions">
+                <a href="https://bareillypolice.up.gov.in" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-live">
+                  <i data-lucide="external-link" style="width: 14px; height: 14px;"></i> Live Portal
+                </a>
+                <a href="https://github.com/iaryasharma" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-code">
+                  <i data-lucide="github" style="width: 14px; height: 14px;"></i> Source
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2: CineWhiz -->
+          <article class="project-card" data-category="ai">
+            <div class="project-media-wrapper">
+              <span class="project-badge-tag">FastAPI · MongoDB</span>
+              <img 
+                src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=800&q=80" 
+                alt="CineWhiz Movie Platform" 
+                class="project-media-img"
+              />
+              <div class="project-overlay-glow"></div>
+            </div>
+            <div class="project-card-body">
+              <span class="project-number">#02 · AI RECOMMENDATION</span>
+              <h3 class="project-title">CineWhiz Movie Discovery</h3>
+              <p class="project-description">
+                Personalized cinema recommendation platform with Google OAuth watchlists, machine learning preference filtering, and responsive streaming catalogs.
+              </p>
+              <div class="project-tech-stack">
+                <span class="tech-tag">Next.js</span>
+                <span class="tech-tag">MongoDB</span>
+                <span class="tech-tag">FastAPI</span>
+                <span class="tech-tag">Python</span>
+              </div>
+              <div class="project-actions">
+                <a href="https://github.com/iaryasharma/CineWhiz" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-live">
+                  <i data-lucide="external-link" style="width: 14px; height: 14px;"></i> View Project
+                </a>
+                <a href="https://github.com/iaryasharma/CineWhiz" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-code">
+                  <i data-lucide="github" style="width: 14px; height: 14px;"></i> Source
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3: SangamDrive -->
+          <article class="project-card" data-category="fullstack">
+            <div class="project-media-wrapper">
+              <span class="project-badge-tag">Cloud Sync · OAuth</span>
+              <img 
+                src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80" 
+                alt="SangamDrive Web App" 
+                class="project-media-img"
+              />
+              <div class="project-overlay-glow"></div>
+            </div>
+            <div class="project-card-body">
+              <span class="project-number">#03 · PRODUCTIVITY WIZARDRY</span>
+              <h3 class="project-title">SangamDrive Multi-Account</h3>
+              <p class="project-description">
+                Unified multi-account Google Drive manager allowing users to seamlessly browse, search, and manage assets across accounts without switching browser profiles.
+              </p>
+              <div class="project-tech-stack">
+                <span class="tech-tag">Next.js</span>
+                <span class="tech-tag">Google Drive API</span>
+                <span class="tech-tag">OAuth 2.0</span>
+                <span class="tech-tag">Tailwind</span>
+              </div>
+              <div class="project-actions">
+                <a href="https://github.com/iaryasharma/SangamDrive" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-live">
+                  <i data-lucide="external-link" style="width: 14px; height: 14px;"></i> View Project
+                </a>
+                <a href="https://github.com/iaryasharma/SangamDrive" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-code">
+                  <i data-lucide="github" style="width: 14px; height: 14px;"></i> Source
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 4: PassX -->
+          <article class="project-card" data-category="security">
+            <div class="project-media-wrapper">
+              <span class="project-badge-tag">Cryptography · Vault</span>
+              <img 
+                src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=800&q=80" 
+                alt="PassX Vault" 
+                class="project-media-img"
+              />
+              <div class="project-overlay-glow"></div>
+            </div>
+            <div class="project-card-body">
+              <span class="project-number">#04 · ENCRYPTED VAULT</span>
+              <h3 class="project-title">PassX Credentials Safe</h3>
+              <p class="project-description">
+                Zero-knowledge encrypted password vault built with Node.js and MongoDB, providing multi-layered cipher security and biometric authentication support.
+              </p>
+              <div class="project-tech-stack">
+                <span class="tech-tag">Node.js</span>
+                <span class="tech-tag">Express.js</span>
+                <span class="tech-tag">MongoDB</span>
+                <span class="tech-tag">AES-256</span>
+              </div>
+              <div class="project-actions">
+                <a href="https://passwordx.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-live">
+                  <i data-lucide="external-link" style="width: 14px; height: 14px;"></i> Live Vault
+                </a>
+                <a href="https://github.com/iaryasharma" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-code">
+                  <i data-lucide="github" style="width: 14px; height: 14px;"></i> Source
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 5: Distraction Detection -->
+          <article class="project-card" data-category="ai">
+            <div class="project-media-wrapper">
+              <span class="project-badge-tag">Computer Vision · Python</span>
+              <img 
+                src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80" 
+                alt="Distraction Detection AI" 
+                class="project-media-img"
+              />
+              <div class="project-overlay-glow"></div>
+            </div>
+            <div class="project-card-body">
+              <span class="project-number">#05 · COMPUTER VISION</span>
+              <h3 class="project-title">Distraction Detection AI</h3>
+              <p class="project-description">
+                Real-time facial landmark and gaze monitoring system using OpenCV and MediaPipe to detect driver drowsiness and workplace distractions with audible alarm triggers.
+              </p>
+              <div class="project-tech-stack">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">OpenCV</span>
+                <span class="tech-tag">MediaPipe</span>
+                <span class="tech-tag">TensorFlow</span>
+              </div>
+              <div class="project-actions">
+                <a href="https://github.com/iaryasharma" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-live">
+                  <i data-lucide="external-link" style="width: 14px; height: 14px;"></i> View AI Code
+                </a>
+                <a href="https://github.com/iaryasharma" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-code">
+                  <i data-lucide="github" style="width: 14px; height: 14px;"></i> Source
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 6: Nebula Assault -->
+          <article class="project-card" data-category="security">
+            <div class="project-media-wrapper">
+              <span class="project-badge-tag">Game Engine · Python</span>
+              <img 
+                src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80" 
+                alt="Nebula Assault Arcade" 
+                class="project-media-img"
+              />
+              <div class="project-overlay-glow"></div>
+            </div>
+            <div class="project-card-body">
+              <span class="project-number">#06 · ARCADE ENGINE</span>
+              <h3 class="project-title">Nebula Assault Game</h3>
+              <p class="project-description">
+                Retro-futuristic space combat arcade game built from scratch in Python featuring custom sprite physics, particle explosions, and dynamic wave scaling.
+              </p>
+              <div class="project-tech-stack">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Pygame</span>
+                <span class="tech-tag">Physics Engine</span>
+                <span class="tech-tag">Audio Synth</span>
+              </div>
+              <div class="project-actions">
+                <a href="https://github.com/iaryasharma" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-live">
+                  <i data-lucide="external-link" style="width: 14px; height: 14px;"></i> Play / Code
+                </a>
+                <a href="https://github.com/iaryasharma" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-code">
+                  <i data-lucide="github" style="width: 14px; height: 14px;"></i> Source
+                </a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         DAILY PROPHET & HOGWARTS JOURNEY (ABOUT & TIMELINE)
+         ========================================================================== -->
+    <section id="about" class="about-section">
+      <div class="about-container">
+        
+        <!-- Daily Prophet Newspaper Section -->
+        <div class="daily-prophet-frame">
+          <div class="daily-prophet-header">
+            <div class="prophet-edition">SPECIAL EDITION · MINISTRY OF INNOVATION</div>
+            <h2 class="prophet-headline">THE DAILY PROPHET</h2>
+            <div class="prophet-subheading">"WIZARD ENGINEER FORGES HIGH-PERFORMANCE WEB REALMS"</div>
+          </div>
+
+          <div class="daily-prophet-body">
+            <div class="moving-portrait-wrapper">
+              <img 
+                src="/assets/hero_avatar.jpg" 
+                alt="Moving Portrait of Krishna Makwana" 
+                class="moving-portrait-img"
+              />
+              <div class="portrait-caption">Krishna Makwana — Gryffindor Software Sorcerer</div>
+            </div>
+
+            <div class="prophet-story">
+              <p class="story-lead">
+                HOGWARTS CASTLE — Reports confirm that full-stack developer Krishna Makwana has pioneered a seamless fusion of modern engineering and magical interactivity.
+              </p>
+              <p class="story-text">
+                With deep foundations in React, Next.js, Node.js, Python, and SQL databases, Krishna crafts performant, accessible digital products that captivate users worldwide. From citizen safety AI engines to cloud productivity hubs, his creations reflect uncompromising craftsmanship.
+              </p>
+              <div class="story-quote-box">
+                "Code is merely incantation made logical — every function an enchantment, every UI a gateway to wonder."
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hogwarts Timeline Track -->
+        <div class="timeline-heading">
+          <div class="section-tag">Chronicles of Sorcery</div>
+          <h2 class="section-title">Magical Journey & <span class="text-gold">Milestones</span></h2>
+        </div>
+
+        <div class="timeline-track">
+          <!-- Item 1 -->
+          <div class="timeline-item">
+            <div class="timeline-node"></div>
+            <div class="timeline-content">
+              <div class="timeline-time-badge">2024 — Present</div>
+              <h3 class="timeline-role">Founder & Lead Sorcerer</h3>
+              <div class="timeline-org">ElectraNav & Vulcrux</div>
+              <p class="timeline-desc">
+                Architecting modern electric vehicle infrastructure navigators and next-generation developer tooling with microservices and real-time state synchronization.
+              </p>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="timeline-item">
+            <div class="timeline-node"></div>
+            <div class="timeline-content">
+              <div class="timeline-time-badge">2023 — 2024</div>
+              <h3 class="timeline-role">Full Stack Engineering Intern</h3>
+              <div class="timeline-org">Vinkura Technologies</div>
+              <p class="timeline-desc">
+                Spearheaded the official Bareilly Police web platform, engineered secure online report submission workflows, and integrated Sanyogita AI.
+              </p>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="timeline-item">
+            <div class="timeline-node"></div>
+            <div class="timeline-content">
+              <div class="timeline-time-badge">2021 — 2025</div>
+              <h3 class="timeline-role">Bachelor of Technology (Computer Science)</h3>
+              <div class="timeline-org">JECRC University</div>
+              <p class="timeline-desc">
+                Graduating with honors in Computer Science and Engineering, focusing on distributed systems, AI & Machine Learning, and Cloud Architecture.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         HEDWIG'S OWL POST (CONTACT & FOOTER)
+         ========================================================================== -->
+    <section id="contact" class="contact-section">
+      <div class="contact-container">
+        
+        <div class="section-header">
+          <div class="section-tag">The Owlery of Hogwarts</div>
+          <h2 class="section-title">Send An <span class="text-gold">Owl Post</span></h2>
+          <p class="section-desc">
+            Have a project, startup idea, or collaboration in mind? Inscribe your message on enchanted parchment and Hedwig will deliver it instantly.
+          </p>
+        </div>
+
+        <div class="owl-post-card">
+          <div class="owl-post-header">
+            <div class="owl-seal-icon">⚡</div>
+          </div>
+
+          <form id="owl-post-form" class="owl-post-form">
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="sender-name" class="form-label">Your Wizard Name</label>
+                <input type="text" id="sender-name" class="form-input" placeholder="e.g. Albus Dumbledore" required />
+              </div>
+              <div class="form-group">
+                <label for="sender-email" class="form-label">Owl Carrier (Email)</label>
+                <input type="email" id="sender-email" class="form-input" placeholder="e.g. albus@hogwarts.ac.uk" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="sender-subject" class="form-label">Scroll Subject</label>
+              <input type="text" id="sender-subject" class="form-input" placeholder="e.g. New Quest / Full-Stack Project Collaboration" required />
+            </div>
+
+            <div class="form-group">
+              <label for="sender-message" class="form-label">Parchment Inscription</label>
+              <textarea id="sender-message" class="form-textarea" placeholder="Write your thoughts or project requirements here..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-owl-send">
+              <i data-lucide="send"></i>
+              <span>Dispatch via Owl Post</span>
+            </button>
+          </form>
+
+          <div id="owl-success-msg" class="owl-success-msg">
+            <h4>🦉 Hedwig Has Taken Flight!</h4>
+            <p>Your parchment has been enchanted and dispatched. I will reply by owl shortly.</p>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="magical-footer">
+          <div class="footer-social-links">
+            <a href="https://linkedin.com/in/iaryasharma" target="_blank" rel="noopener noreferrer" class="social-icon-btn" title="LinkedIn" aria-label="LinkedIn">
+              <i data-lucide="linkedin"></i>
+            </a>
+            <a href="https://github.com/iaryasharma" target="_blank" rel="noopener noreferrer" class="social-icon-btn" title="GitHub" aria-label="GitHub">
+              <i data-lucide="github"></i>
+            </a>
+            <a href="https://twitter.com/iaryasharma" target="_blank" rel="noopener noreferrer" class="social-icon-btn" title="Twitter / X" aria-label="Twitter">
+              <i data-lucide="twitter"></i>
+            </a>
+            <a href="https://instagram.com/i.aryasharma" target="_blank" rel="noopener noreferrer" class="social-icon-btn" title="Instagram" aria-label="Instagram">
+              <i data-lucide="instagram"></i>
+            </a>
+          </div>
+
+          <div class="footer-mischief-managed">
+            "Mischief Managed." ⚡
+          </div>
+
+          <p class="footer-credits">
+            © 2026 Krishna Makwana. Crafted with magical HTML5, Vanilla CSS, and JavaScript. Inspired by Hogwarts Sorcery.
+          </p>
+        </footer>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Main JavaScript Module -->
+  <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>

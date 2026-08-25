@@ -1,0 +1,189 @@
+/* ==========================================================================
+   PART 2: THE TRANSITION - EMPTY BROOM OVER HOGWARTS
+   ========================================================================== */
+
+.transition-section {
+  position: relative;
+  min-height: 85vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #040508;
+  border-top: 1px solid rgba(245, 197, 66, 0.15);
+  border-bottom: 1px solid rgba(245, 197, 66, 0.15);
+}
+
+/* Widescreen Cinematic Hogwarts Mountain Backdrop */
+.broom-backdrop-layer {
+  position: absolute;
+  inset: 0;
+  background: url('/assets/broom_transition.jpg') center center / cover no-repeat;
+  opacity: 0.88;
+  filter: brightness(0.95) contrast(1.05);
+  z-index: 1;
+  transition: transform 0.5s ease-out;
+}
+
+.broom-vignette-overlay {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(4, 5, 8, 0.85) 90%),
+    linear-gradient(180deg, var(--bg-deep) 0%, transparent 20%, transparent 80%, var(--bg-deep) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Interactive Golden Particle Canvas Layer */
+#broom-particles-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Dynamic Nimbus 2000 Flight Flightpath & Element */
+.nimbus-flight-stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.nimbus-broom-actor {
+  position: absolute;
+  top: 45%;
+  left: -250px;
+  width: 220px;
+  height: auto;
+  pointer-events: auto;
+  cursor: grab;
+  transform-origin: center right;
+  filter: drop-shadow(0 0 15px rgba(245, 197, 66, 0.8)) drop-shadow(0 0 35px rgba(251, 191, 36, 0.4));
+  transition: filter 0.3s;
+  will-change: transform, left, top;
+}
+
+.nimbus-broom-actor:hover {
+  filter: drop-shadow(0 0 25px rgba(245, 197, 66, 1)) drop-shadow(0 0 50px rgba(251, 191, 36, 0.8));
+}
+
+.nimbus-broom-actor.flying {
+  animation: nimbusFlyAcross 9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes nimbusFlyAcross {
+  0% {
+    left: -250px;
+    top: 60%;
+    transform: rotate(-8deg) scale(0.85);
+  }
+  25% {
+    top: 38%;
+    transform: rotate(4deg) scale(1);
+  }
+  50% {
+    top: 50%;
+    transform: rotate(-4deg) scale(1.1);
+  }
+  75% {
+    top: 35%;
+    transform: rotate(6deg) scale(1);
+  }
+  100% {
+    left: calc(100% + 250px);
+    top: 45%;
+    transform: rotate(-5deg) scale(0.9);
+  }
+}
+
+/* Transition Portal Wave & Content Reveal Stage */
+.transition-portal-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 860px;
+  padding: 40px 24px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background: rgba(6, 8, 14, 0.65);
+  border: 1px solid var(--border-gold);
+  border-radius: 24px;
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.8),
+    0 0 30px rgba(245, 197, 66, 0.15),
+    inset 0 0 30px rgba(245, 197, 66, 0.05);
+}
+
+.transition-portal-tag {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--house-secondary);
+  margin-bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.transition-portal-title {
+  font-family: var(--font-magic-serif);
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.25;
+  margin-bottom: 16px;
+}
+
+.transition-portal-title .gold-accent {
+  color: var(--house-secondary);
+  font-style: italic;
+}
+
+.transition-portal-desc {
+  font-family: var(--font-modern);
+  font-size: 1.05rem;
+  color: var(--text-dim);
+  line-height: 1.65;
+  margin-bottom: 28px;
+}
+
+.transition-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-broom-action {
+  background: linear-gradient(135deg, rgba(245, 197, 66, 0.2), rgba(139, 24, 27, 0.4));
+  border: 1px solid var(--house-secondary);
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 9999px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+}
+
+.btn-broom-action:hover {
+  background: var(--house-secondary);
+  color: #000;
+  box-shadow: 0 0 25px var(--house-secondary-glow);
+  transform: translateY(-2px);
+}

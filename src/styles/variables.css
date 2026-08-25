@@ -1,0 +1,135 @@
+/* ==========================================================================
+   HARRY POTTER DEVELOPER PORTFOLIO - MAGICAL DESIGN SYSTEM TOKENS
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=MedievalSharp&display=swap');
+
+:root {
+  /* Fonts */
+  --font-magic-title: 'Cinzel Decorative', Georgia, serif;
+  --font-magic-serif: 'Cinzel', Georgia, serif;
+  --font-rune: 'MedievalSharp', cursive, serif;
+  --font-modern: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Space Grotesk', monospace;
+
+  /* Default House: Gryffindor (Velvet Scarlet & Warm Gold) */
+  --house-primary: #8b181b;
+  --house-primary-light: #b91c1c;
+  --house-primary-glow: rgba(185, 28, 28, 0.4);
+  --house-secondary: #f5c542;
+  --house-secondary-light: #fde047;
+  --house-secondary-glow: rgba(245, 197, 66, 0.25);
+  --house-crest-name: "Gryffindor";
+  --house-ambient-center: #1a1020;
+  --house-bg-shine-1: rgba(139, 24, 27, 0.32);
+  --house-bg-shine-2: rgba(185, 28, 28, 0.15);
+
+  /* Ambient & Background Palette */
+  --bg-deep: #05060a;
+  --bg-dark: #080a11;
+  --bg-surface: #0e111a;
+  --bg-card: rgba(15, 18, 28, 0.78);
+  --bg-card-hover: rgba(24, 28, 42, 0.9);
+  --bg-glass: rgba(12, 15, 24, 0.65);
+  --bg-parchment: #f4e8c1;
+
+  /* Text & Accents */
+  --text-main: #f3f4f8;
+  --text-dim: #cbd5e1;
+  --text-muted: #8b95a8;
+  --text-gold: #f7d070;
+  --text-scarlet: #ef4444;
+
+  /* Magical Energy Colors */
+  --potion-green: #10b981;
+  --potion-green-glow: rgba(16, 185, 129, 0.55);
+  --potion-purple: #a855f7;
+  --potion-purple-glow: rgba(168, 85, 247, 0.55);
+  --wand-blue: #38bdf8;
+  --wand-blue-glow: rgba(56, 189, 248, 0.6);
+  --snitch-gold: #fbbf24;
+
+  /* Borders & Shadows */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-gold: rgba(245, 197, 66, 0.3);
+  --border-glow: rgba(245, 197, 66, 0.6);
+  --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+  --shadow-gold: 0 0 25px rgba(245, 197, 66, 0.3);
+  --shadow-crimson: 0 0 25px rgba(185, 28, 28, 0.4);
+
+  /* Layout & Transitions */
+  --max-width: 1320px;
+  --header-height: 80px;
+  --ease-magic: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ==========================================================================
+   HOUSE THEMES
+   ========================================================================== */
+
+/* Slytherin (Emerald & Silver / Mystic Green) */
+body.theme-slytherin {
+  --house-primary: #12381f;
+  --house-primary-light: #166534;
+  --house-primary-glow: rgba(22, 101, 52, 0.5);
+  --house-secondary: #00ff88;
+  --house-secondary-light: #6ee7b7;
+  --house-secondary-glow: rgba(0, 255, 136, 0.35);
+  --house-crest-name: "Slytherin";
+  --house-ambient-center: #0d1e16;
+  --house-bg-shine-1: rgba(18, 56, 31, 0.45);
+  --house-bg-shine-2: rgba(22, 101, 52, 0.2);
+  --border-gold: rgba(0, 255, 136, 0.35);
+  --border-glow: rgba(0, 255, 136, 0.65);
+  --shadow-gold: 0 0 30px rgba(0, 255, 136, 0.35);
+  --shadow-crimson: 0 0 30px rgba(22, 101, 52, 0.45);
+}
+
+/* Ravenclaw (Sapphire & Celestial Bronze / Electric Astral Blue) */
+body.theme-ravenclaw {
+  --house-primary: #0e1a40;
+  --house-primary-light: #1e40af;
+  --house-primary-glow: rgba(30, 64, 175, 0.5);
+  --house-secondary: #38bdf8;
+  --house-secondary-light: #7dd3fc;
+  --house-secondary-glow: rgba(56, 189, 248, 0.35);
+  --house-crest-name: "Ravenclaw";
+  --house-ambient-center: #0a1329;
+  --house-bg-shine-1: rgba(14, 26, 64, 0.45);
+  --house-bg-shine-2: rgba(30, 64, 175, 0.2);
+  --border-gold: rgba(56, 189, 248, 0.35);
+  --border-glow: rgba(56, 189, 248, 0.65);
+  --shadow-gold: 0 0 30px rgba(56, 189, 248, 0.35);
+  --shadow-crimson: 0 0 30px rgba(30, 64, 175, 0.45);
+}
+
+/* Hufflepuff (Canary & Warm Honey Earth) */
+body.theme-hufflepuff {
+  --house-primary: #3d3220;
+  --house-primary-light: #713f12;
+  --house-primary-glow: rgba(113, 63, 18, 0.5);
+  --house-secondary: #ecb939;
+  --house-secondary-light: #fcd34d;
+  --house-secondary-glow: rgba(236, 185, 57, 0.35);
+  --house-crest-name: "Hufflepuff";
+  --house-ambient-center: #1d1810;
+  --house-bg-shine-1: rgba(61, 50, 32, 0.45);
+  --house-bg-shine-2: rgba(113, 63, 18, 0.2);
+  --border-gold: rgba(236, 185, 57, 0.35);
+  --border-glow: rgba(236, 185, 57, 0.65);
+  --shadow-gold: 0 0 30px rgba(236, 185, 57, 0.35);
+  --shadow-crimson: 0 0 30px rgba(113, 63, 18, 0.45);
+}
+
+/* Lumos Mode (Radiant High-Contrast Illumination) */
+body.mode-lumos {
+  --bg-deep: #0b0f19;
+  --bg-dark: #111728;
+  --bg-surface: #192238;
+  --bg-card: rgba(25, 34, 56, 0.88);
+  --text-main: #ffffff;
+  --text-gold: #ffe066;
+  --shadow-gold: 0 0 35px rgba(255, 224, 102, 0.6);
+  --border-subtle: rgba(255, 255, 255, 0.18);
+}

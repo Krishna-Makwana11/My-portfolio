@@ -1,0 +1,344 @@
+/* ==========================================================================
+   PART 3: THE SKILLS - CAULDRON & 3D VORTEX
+   ========================================================================== */
+
+.skills-section {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  padding: 100px 0 120px;
+  background: #06070b;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Atmospheric Potion Dungeon Background */
+.cauldron-laboratory-backdrop {
+  position: absolute;
+  inset: 0;
+  background: url('/assets/cauldron_vortex.jpg') center bottom / cover no-repeat;
+  opacity: 0.85;
+  filter: brightness(0.9) contrast(1.1);
+  z-index: 1;
+}
+
+.cauldron-vignette {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 50% 75%, transparent 35%, rgba(6, 7, 11, 0.88) 85%),
+    linear-gradient(180deg, var(--bg-deep) 0%, transparent 15%, transparent 85%, var(--bg-deep) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Interactive Canvas for Volumetric Smoke & Mystic Runes */
+#cauldron-vortex-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Content Staging */
+.skills-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Cauldron Stage Container */
+.cauldron-vortex-stage {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  height: 640px;
+  margin: 20px auto 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1200px;
+}
+
+/* 3D Helix Vortex Rotator */
+.vortex-3d-scene {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  cursor: grab;
+  z-index: 8;
+  will-change: transform;
+}
+
+.vortex-3d-scene:active {
+  cursor: grabbing;
+}
+
+/* 3D Skill Capsule Items */
+.vortex-skill-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  background: rgba(14, 17, 28, 0.88);
+  border: 1.5px solid var(--potion-green);
+  border-radius: 9999px;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.8),
+    0 0 20px var(--potion-green-glow),
+    inset 0 0 15px rgba(16, 185, 129, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s ease, border-color 0.3s, box-shadow 0.3s;
+  transform: translate(-50%, -50%);
+}
+
+.vortex-skill-item.purple-theme {
+  border-color: var(--potion-purple);
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.8),
+    0 0 20px var(--potion-purple-glow),
+    inset 0 0 15px rgba(168, 85, 247, 0.2);
+}
+
+.vortex-skill-item.gold-theme {
+  border-color: var(--house-secondary);
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.8),
+    0 0 20px var(--house-secondary-glow),
+    inset 0 0 15px rgba(245, 197, 66, 0.2);
+}
+
+.vortex-skill-item:hover {
+  transform: translate(-50%, -50%) scale(1.18);
+  border-color: #fff;
+  box-shadow: 0 0 35px #fff, 0 0 50px var(--potion-green-glow);
+  z-index: 100;
+}
+
+.skill-badge-icon {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skill-badge-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+/* Pulsing Ancient Runes Interactive Panel */
+.cauldron-runes-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 12px 24px;
+  background: rgba(12, 15, 24, 0.85);
+  border: 1px solid var(--border-gold);
+  border-radius: 9999px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(12px);
+  margin-top: 10px;
+}
+
+.rune-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-gold);
+  font-family: var(--font-rune);
+  font-size: 1.1rem;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+}
+
+.rune-btn:hover,
+.rune-btn.active {
+  background: rgba(245, 197, 66, 0.15);
+  border-color: var(--house-secondary);
+  color: #fff;
+  box-shadow: 0 0 15px var(--house-secondary-glow);
+}
+
+/* Skill Details Spell Card Modal */
+.skill-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.skill-modal-overlay.open {
+  display: flex;
+  animation: modalFade 0.3s var(--ease-magic);
+}
+
+@keyframes modalFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.skill-spell-card {
+  width: 100%;
+  max-width: 480px;
+  background: linear-gradient(145deg, #0e111a 0%, #151a28 100%);
+  border: 2px solid var(--border-gold);
+  border-radius: 20px;
+  padding: 32px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 40px var(--house-secondary-glow);
+  transform-origin: center;
+}
+
+.skill-spell-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.skill-spell-title-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.skill-spell-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(245, 197, 66, 0.15);
+  border: 1px solid var(--border-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--house-secondary);
+}
+
+.skill-spell-name {
+  font-family: var(--font-magic-serif);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.skill-spell-class {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--potion-green);
+}
+
+.modal-close-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: all 0.2s;
+}
+
+.modal-close-btn:hover {
+  color: #fff;
+  border-color: var(--house-secondary);
+}
+
+.skill-spell-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.skill-stat-bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.skill-stat-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.skill-stat-progress-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.skill-stat-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--potion-green), var(--potion-purple));
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+
+.skill-spell-lore {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.skill-spell-projects-tag {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--house-secondary);
+  background: rgba(245, 197, 66, 0.1);
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(245, 197, 66, 0.2);
+}

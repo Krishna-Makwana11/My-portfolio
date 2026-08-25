@@ -1,0 +1,334 @@
+/* ==========================================================================
+   PART 1: HERO VIEWPORT - PINNED HERO ZOOM-OUT STAGE
+   ========================================================================== */
+
+#hero-pin-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 175vh;
+  background: var(--bg-deep, #05060a);
+  margin: 0;
+  padding: 0;
+  z-index: 10;
+}
+
+#hero-sticky-card {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+  /* Deep obsidian backdrop */
+  background: #05060a;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  transform-origin: center center;
+  will-change: transform, border-radius, box-shadow;
+  z-index: 10;
+  transition: background 0.6s var(--ease-magic);
+}
+
+/* Seamless Luxury Centered Atmospheric House Glow (Smooth fade to pure obsidian) */
+.hero-default-bg {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 1100px 750px at 50% 45%, var(--house-bg-shine-1, rgba(139, 24, 27, 0.32)) 0%, rgba(5, 6, 10, 0.82) 65%, #05060a 100%);
+  opacity: 1;
+  transition: background 0.6s var(--ease-magic), opacity 0.7s var(--ease-magic);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   CENTERED HERO CHARACTER PORTRAIT STAGE (HIGH-IMPACT FULL-HEIGHT CLOSE-UP)
+   ========================================================================== */
+.hero-center-stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 15;
+  overflow: hidden;
+}
+
+/* Portrait Frame with Full-Height Scaling & Interactive Pointer Events */
+.hero-portrait-frame {
+  position: relative;
+  width: 100%;
+  max-width: 980px;
+  height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: auto;
+  cursor: default;
+}
+
+/* High-Impact Centered Close-up Portrait (100% Opaque, Crisp & Smooth) */
+.hero-portrait-img {
+  position: relative;
+  bottom: 0;
+  width: auto;
+  height: 98vh;
+  max-height: 100vh;
+  max-width: min(96vw, 940px);
+  object-fit: contain;
+  object-position: center bottom;
+  opacity: 1 !important;
+  user-select: none;
+  -webkit-user-drag: none;
+  filter: 
+    drop-shadow(0 25px 50px rgba(0, 0, 0, 0.95))
+    drop-shadow(0 0 35px var(--house-secondary-glow, rgba(245, 197, 66, 0.12)));
+  z-index: 2;
+  transition: filter 0.5s var(--ease-magic);
+}
+
+.hero-portrait-base {
+  z-index: 2;
+}
+
+/* Interactive Spotlight Reveal Layer (Selected Hogwarts Persona) - Seamless Feathered Mask */
+.hero-spotlight-reveal-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 5;
+  opacity: var(--reveal-opacity, 0);
+  transition: opacity 0.2s ease;
+  -webkit-mask-image: radial-gradient(
+    circle var(--spotlight-radius, 140px) at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.92) 50%,
+    rgba(0, 0, 0, 0.5) 78%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-image: radial-gradient(
+    circle var(--spotlight-radius, 140px) at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.92) 50%,
+    rgba(0, 0, 0, 0.5) 78%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  will-change: mask-image, -webkit-mask-image, opacity;
+}
+
+.hero-portrait-wizard {
+  z-index: 5;
+  transition: opacity 0.3s ease, filter 0.5s var(--ease-magic);
+}
+
+/* Lens Outline Ring (Removed / Hidden for seamless pure texture transition) */
+.spotlight-magical-lens {
+  display: none !important;
+}
+
+/* Smooth Soft Ambient Aura Behind Head & Shoulders */
+.cutout-ambient-glow {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(780px, 90vw);
+  height: 560px;
+  border-radius: 50%;
+  background: 
+    radial-gradient(circle at 50% 50%, var(--house-primary-glow, rgba(139, 24, 27, 0.35)) 0%, var(--house-secondary-glow, rgba(245, 197, 66, 0.15)) 45%, transparent 70%);
+  filter: blur(65px);
+  pointer-events: none;
+  z-index: 1;
+  transition: background 0.6s var(--ease-magic);
+}
+
+/* Floating Bottom-Left Subtle Intro Card (Low visual weight, non-blocking) */
+.hero-intro-card {
+  position: absolute;
+  bottom: 32px;
+  left: 36px;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 360px;
+  padding: 16px 20px;
+  border-radius: 18px;
+  background: rgba(10, 8, 16, 0.65);
+  border: 1px solid rgba(245, 197, 66, 0.25);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(245, 197, 66, 0.08);
+  transition: all 0.3s var(--ease-magic);
+}
+
+.intro-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--house-secondary);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.intro-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--house-secondary);
+  box-shadow: 0 0 10px var(--house-secondary-glow);
+  display: inline-block;
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+.intro-name {
+  font-family: var(--font-magic-serif);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 1.2px;
+  line-height: 1.1;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+}
+
+.intro-bio {
+  font-family: var(--font-modern);
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.45;
+}
+
+.intro-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.intro-btn {
+  padding: 7px 16px;
+  border-radius: 9999px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.25s var(--ease-magic);
+}
+
+.intro-btn-primary {
+  background: linear-gradient(135deg, var(--house-primary), var(--house-primary-light));
+  color: #fff !important;
+  border: 1px solid var(--house-secondary);
+  box-shadow: 0 0 12px var(--house-primary-glow);
+}
+
+.intro-btn-primary:hover {
+  background: linear-gradient(135deg, var(--house-secondary), var(--house-secondary-light));
+  color: #000 !important;
+  box-shadow: 0 0 20px var(--house-secondary-glow);
+  transform: translateY(-2px);
+}
+
+.intro-btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+}
+
+.intro-btn-secondary:hover {
+  background: rgba(245, 197, 66, 0.15);
+  border-color: var(--house-secondary);
+  color: var(--house-secondary-light) !important;
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   RIGHT SIDE SOCIAL DOCK
+   ========================================================================== */
+.hero-social-dock {
+  position: absolute;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.dock-divider-line {
+  width: 1px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dock-social-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(14, 10, 20, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: all 0.3s;
+}
+
+.dock-social-btn:hover {
+  background: var(--house-primary);
+  border-color: var(--house-secondary);
+  color: #fff;
+  box-shadow: 0 0 20px var(--house-secondary-glow);
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .hero-portrait-img {
+    height: 90vh;
+    max-height: 90vh;
+    max-width: 98vw;
+  }
+
+  .hero-intro-card {
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+    max-width: calc(100% - 28px);
+    padding: 12px 16px;
+  }
+
+  .hero-social-dock {
+    display: none;
+  }
+}

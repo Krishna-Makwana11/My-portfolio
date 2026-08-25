@@ -16,44 +16,30 @@
   transition: background 0.6s var(--ease-magic);
 }
 
+/* House Theme Gradient Overrides for Fixed Background */
+body.theme-slytherin .global-fixed-theme-bg {
+  background: radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(0, 255, 136, 0.22) 0%, rgba(22, 101, 52, 0.28) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
+}
+
+body.theme-ravenclaw .global-fixed-theme-bg {
+  background: radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(56, 189, 248, 0.22) 0%, rgba(30, 58, 138, 0.32) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
+}
+
+body.theme-hufflepuff .global-fixed-theme-bg {
+  background: radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(245, 158, 11, 0.26) 0%, rgba(120, 53, 15, 0.3) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
+}
+
 .skills-about-section {
   position: relative;
   min-height: 100vh;
   width: 100%;
-  background: #05060a;
+  background: transparent !important;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0;
   padding: 0;
-}
-
-/* Exact Ambient House Glow Vignette (Matches Hero Style) */
-.skills-ambient-glow {
-  position: absolute;
-  inset: 0;
-  background: 
-    radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(217, 119, 6, 0.28) 0%, var(--house-bg-shine-1, rgba(139, 24, 27, 0.24)) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
-  pointer-events: none;
-  z-index: 1;
-  transition: background 0.6s var(--ease-magic);
-}
-
-/* House Theme Gradient Overrides */
-body.theme-slytherin .skills-ambient-glow,
-body.theme-slytherin .global-fixed-theme-bg {
-  background: radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(0, 255, 136, 0.22) 0%, rgba(22, 101, 52, 0.28) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
-}
-
-body.theme-ravenclaw .skills-ambient-glow,
-body.theme-ravenclaw .global-fixed-theme-bg {
-  background: radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(56, 189, 248, 0.22) 0%, rgba(30, 58, 138, 0.32) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
-}
-
-body.theme-hufflepuff .skills-ambient-glow,
-body.theme-hufflepuff .global-fixed-theme-bg {
-  background: radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(245, 158, 11, 0.26) 0%, rgba(120, 53, 15, 0.3) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
 }
 
 /* Split-Screen 2-Column Pinned Container (50% Left / 50% Right) */

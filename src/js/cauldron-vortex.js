@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PART 3: ABOUT & SKILLS - 3D GOLDEN SNITCH & STATEMENT SWAP
+   PART 3: ABOUT & SKILLS - REALISTIC PBR 3D GOLDEN SNITCH & STATEMENT SWAP
    ========================================================================== */
 
 import * as THREE from 'three';
@@ -14,44 +14,103 @@ const outerSkills = ['React', 'Next.js', 'JavaScript', 'Git', 'Python'];
 const innerSkills = ['SQL', 'PowerBI', 'Excel', 'C++', 'Machine Learning'];
 
 /**
- * Procedural Engraved Gold Seam Bump Map Generator for the Snitch Sphere
+ * Procedural Studio Environment Reflection Map Generator
+ * Generates an HDRI-style studio lighting probe for realistic metallic reflections
+ */
+function createStudioEnvMap(renderer) {
+  const pmremGenerator = new THREE.PMREMGenerator(renderer);
+  pmremGenerator.compileEquirectangularShader();
+
+  const canvas = document.createElement('canvas');
+  canvas.width = 1024;
+  canvas.height = 512;
+  const ctx = canvas.getContext('2d');
+
+  // Dark studio ambient background
+  const bgGrad = ctx.createLinearGradient(0, 0, 0, 512);
+  bgGrad.addColorStop(0, '#0a0a14');
+  bgGrad.addColorStop(0.5, '#121018');
+  bgGrad.addColorStop(1, '#050508');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, 1024, 512);
+
+  // Softbox 1: Warm Golden Overhead Softbox
+  const light1 = ctx.createRadialGradient(512, 140, 0, 512, 140, 220);
+  light1.addColorStop(0, 'rgba(255, 240, 200, 1)');
+  light1.addColorStop(0.4, 'rgba(245, 197, 66, 0.6)');
+  light1.addColorStop(1, 'rgba(0, 0, 0, 0)');
+  ctx.fillStyle = light1;
+  ctx.fillRect(0, 0, 1024, 512);
+
+  // Softbox 2: Left Key Light
+  const light2 = ctx.createRadialGradient(180, 220, 0, 180, 220, 160);
+  light2.addColorStop(0, 'rgba(255, 225, 170, 0.9)');
+  light2.addColorStop(0.5, 'rgba(217, 119, 6, 0.4)');
+  light2.addColorStop(1, 'rgba(0, 0, 0, 0)');
+  ctx.fillStyle = light2;
+  ctx.fillRect(0, 0, 1024, 512);
+
+  // Softbox 3: Right Rim Light
+  const light3 = ctx.createRadialGradient(840, 220, 0, 840, 220, 160);
+  light3.addColorStop(0, 'rgba(255, 235, 180, 0.85)');
+  light3.addColorStop(0.5, 'rgba(185, 28, 28, 0.35)');
+  light3.addColorStop(1, 'rgba(0, 0, 0, 0)');
+  ctx.fillStyle = light3;
+  ctx.fillRect(0, 0, 1024, 512);
+
+  const envTexture = new THREE.CanvasTexture(canvas);
+  envTexture.mapping = THREE.EquirectangularReflectionMapping;
+
+  const envMap = pmremGenerator.fromEquirectangular(envTexture).texture;
+  pmremGenerator.dispose();
+  envTexture.dispose();
+
+  return envMap;
+}
+
+/**
+ * Procedural Engraved Gold Seam Bump Map for Snitch Sphere
  */
 function createSnitchBumpMap() {
   const canvas = document.createElement('canvas');
-  canvas.width = 512;
-  canvas.height = 512;
+  canvas.width = 1024;
+  canvas.height = 1024;
   const ctx = canvas.getContext('2d');
 
   // Base metallic fill
   ctx.fillStyle = '#808080';
-  ctx.fillRect(0, 0, 512, 512);
+  ctx.fillRect(0, 0, 1024, 1024);
 
   // Engraved curved swirl seams
-  ctx.strokeStyle = '#202020';
-  ctx.lineWidth = 6;
+  ctx.strokeStyle = '#181818';
+  ctx.lineWidth = 8;
 
   // Equator seam groove
   ctx.beginPath();
-  ctx.moveTo(0, 256);
-  ctx.lineTo(512, 256);
+  ctx.moveTo(0, 512);
+  ctx.lineTo(1024, 512);
   ctx.stroke();
 
-  // Swirl arcs (Matching movie Golden Snitch relief)
+  // Swirl arcs (Matching movie Golden Snitch relief panels)
   ctx.beginPath();
-  ctx.arc(128, 256, 90, 0, Math.PI * 2);
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.arc(384, 256, 90, 0, Math.PI * 2);
+  ctx.arc(256, 512, 175, 0, Math.PI * 2);
   ctx.stroke();
 
   ctx.beginPath();
-  ctx.arc(256, 128, 70, 0, Math.PI * 2);
+  ctx.arc(768, 512, 175, 0, Math.PI * 2);
   ctx.stroke();
 
   ctx.beginPath();
-  ctx.arc(256, 384, 70, 0, Math.PI * 2);
+  ctx.arc(512, 256, 140, 0, Math.PI * 2);
   ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(512, 768, 140, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Fine panel border grooves
+  ctx.lineWidth = 4;
+  ctx.strokeRect(60, 60, 904, 904);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.wrapS = THREE.RepeatWrapping;
@@ -60,61 +119,61 @@ function createSnitchBumpMap() {
 }
 
 /**
- * Build a single high-fidelity Feathered Golden Wing (Matching Reference Photo)
- * Consists of a curved spine and 24 individual sculpted feather vanes
+ * Build a Slender, Curved Metallic Feathered Wing (Scaled & Refined)
  */
-function createFeatheredWing(isRight = false) {
+function createFeatheredWing(isRight = false, envMap) {
   const wingGroup = new THREE.Group();
 
   const goldWingMat = new THREE.MeshStandardMaterial({
-    color: 0xfae070,
-    metalness: 0.94,
+    color: 0xedd06e,
+    metalness: 0.96,
     roughness: 0.18,
+    envMap: envMap,
+    envMapIntensity: 2.2,
     side: THREE.DoubleSide
   });
 
   const mirror = isRight ? 1 : -1;
 
-  // 1. Curved Central Wing Spine / Quill
+  // 1. Curved Central Wing Spine / Quill (Scaled down to 1.35 length)
   const curvePoints = [];
-  const totalLength = 2.4;
+  const totalLength = 1.35;
   for (let i = 0; i <= 20; i++) {
     const t = i / 20;
     const x = mirror * (t * totalLength * 0.85);
-    const y = Math.pow(t, 0.7) * 2.2;
-    const z = Math.sin(t * Math.PI) * 0.25;
+    const y = Math.pow(t, 0.72) * 1.25;
+    const z = Math.sin(t * Math.PI) * 0.14;
     curvePoints.push(new THREE.Vector3(x, y, z));
   }
   const curve = new THREE.CatmullRomCurve3(curvePoints);
-  const spineGeo = new THREE.TubeGeometry(curve, 32, 0.028, 8, false);
+  const spineGeo = new THREE.TubeGeometry(curve, 28, 0.016, 8, false);
   const spineMesh = new THREE.Mesh(spineGeo, goldWingMat);
   wingGroup.add(spineMesh);
 
-  // 2. Individual Feathered Vanes along the Quill (Matching Reference Comb Structure)
-  const vaneCount = 24;
+  // 2. Individual Feathered Vanes along the Quill (Comb structure)
+  const vaneCount = 22;
   for (let i = 0; i < vaneCount; i++) {
     const t = (i + 1) / (vaneCount + 2);
     const spinePoint = curve.getPoint(t);
     const spineTangent = curve.getTangent(t);
 
-    // Vane length tapers from long at base (0.55) to short at tip (0.12)
-    const vaneLength = (1.0 - t * 0.75) * 0.52;
-    const vaneWidth = 0.022;
+    // Vane length tapers from long at base (0.30) to short at tip (0.06)
+    const vaneLength = (1.0 - t * 0.78) * 0.32;
+    const vaneWidth = 0.014;
 
     const vaneGeo = new THREE.PlaneGeometry(vaneWidth, vaneLength);
-    // Move pivot to bottom of vane
+    // Move pivot to base of vane
     vaneGeo.translate(0, vaneLength / 2, 0);
 
     const vaneMesh = new THREE.Mesh(vaneGeo, goldWingMat);
     vaneMesh.position.copy(spinePoint);
 
-    // Align vane outward and slightly angled like bird feathers
-    const normal = new THREE.Vector3(-spineTangent.y * mirror, spineTangent.x * mirror, 0.15).normalize();
+    // Align vane outward and slightly angled like natural bird feather vanes
+    const normal = new THREE.Vector3(-spineTangent.y * mirror, spineTangent.x * mirror, 0.12).normalize();
     vaneMesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), normal);
 
-    // Subtle natural tilt
-    vaneMesh.rotation.z += mirror * 0.15;
-    vaneMesh.rotation.y += mirror * 0.1;
+    vaneMesh.rotation.z += mirror * 0.12;
+    vaneMesh.rotation.y += mirror * 0.08;
 
     wingGroup.add(vaneMesh);
   }
@@ -123,7 +182,7 @@ function createFeatheredWing(isRight = false) {
 }
 
 /**
- * 1. Setup Interactive 3D Golden Snitch WebGL Scene (Matching Reference Image)
+ * 1. Setup Realistic PBR 3D Golden Snitch WebGL Scene (Scaled Down & Compact)
  */
 function initThreeSnitch() {
   const canvas = document.getElementById('snitch-three-canvas');
@@ -135,8 +194,8 @@ function initThreeSnitch() {
 
   // Scene & Perspective Camera
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
-  camera.position.set(0, 0.2, 5.8);
+  const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+  camera.position.set(0, 0.15, 4.8);
 
   // WebGL Renderer
   const renderer = new THREE.WebGLRenderer({
@@ -148,79 +207,83 @@ function initThreeSnitch() {
   renderer.setSize(width, height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.4;
+  renderer.toneMappingExposure = 1.3;
 
-  // Lighting
-  const ambientLight = new THREE.AmbientLight(0xfff0d0, 1.8);
+  // Studio HDRI Reflection Map
+  const envMap = createStudioEnvMap(renderer);
+  scene.environment = envMap;
+
+  // Cinematic Three-Point Studio Lighting
+  const ambientLight = new THREE.AmbientLight(0xfffae8, 1.2);
   scene.add(ambientLight);
 
-  const mainLight = new THREE.DirectionalLight(0xfffae6, 3.8);
-  mainLight.position.set(4, 6, 5);
-  scene.add(mainLight);
+  const keyLight = new THREE.DirectionalLight(0xfff5d8, 3.2);
+  keyLight.position.set(3.5, 5, 4);
+  scene.add(keyLight);
 
-  const fillLight = new THREE.DirectionalLight(0xf5c542, 2.4);
-  fillLight.position.set(-5, 3, 3);
+  const fillLight = new THREE.DirectionalLight(0xf5c542, 1.8);
+  fillLight.position.set(-4, 2.5, 2.5);
   scene.add(fillLight);
 
-  const rimLight = new THREE.DirectionalLight(0x8b181b, 2.0);
-  rimLight.position.set(0, 2, -5);
+  const rimLight = new THREE.DirectionalLight(0x8b181b, 2.2);
+  rimLight.position.set(0, 2, -4);
   scene.add(rimLight);
 
-  // Snitch Point Light Glow
-  const snitchGlowLight = new THREE.PointLight(0xf5c542, 3.5, 6);
-  snitchGlowLight.position.set(0, 0, 0);
-  scene.add(snitchGlowLight);
-
-  // Master Snitch Group
+  // Snitch Master Group (Scaled compactly so orbit badges have maximum space)
   const snitchGroup = new THREE.Group();
   scene.add(snitchGroup);
 
-  // Textures & High-Specular Gold Material
+  // Textures & PBR Materials
   const bumpMap = createSnitchBumpMap();
 
+  // Authentic Realistic Metallic Gold (PBR)
   const snitchBodyMat = new THREE.MeshStandardMaterial({
-    color: 0xf7d046,
-    metalness: 0.96,
-    roughness: 0.14,
+    color: 0xdfb15b,
+    metalness: 0.98,
+    roughness: 0.15,
+    envMap: envMap,
+    envMapIntensity: 2.6,
     bumpMap: bumpMap,
-    bumpScale: 0.06
+    bumpScale: 0.035
   });
 
   const goldDetailMat = new THREE.MeshStandardMaterial({
-    color: 0xffdf6d,
-    metalness: 0.98,
-    roughness: 0.12
+    color: 0xedd06e,
+    metalness: 0.99,
+    roughness: 0.12,
+    envMap: envMap,
+    envMapIntensity: 2.8
   });
 
-  // --- A. Core Golden Sphere ---
-  const sphereGeo = new THREE.SphereGeometry(0.72, 48, 48);
+  // --- A. Core Golden Sphere (Radius: 0.38 - 48% smaller than original) ---
+  const sphereGeo = new THREE.SphereGeometry(0.38, 48, 48);
   const sphereMesh = new THREE.Mesh(sphereGeo, snitchBodyMat);
   snitchGroup.add(sphereMesh);
 
-  // Equator Seam Rings & Engraved Bands
-  const ringGeo = new THREE.TorusGeometry(0.725, 0.018, 16, 48);
+  // Equator Seam Ring & Engraved Bands
+  const ringGeo = new THREE.TorusGeometry(0.382, 0.01, 16, 48);
   const equatorRing = new THREE.Mesh(ringGeo, goldDetailMat);
   equatorRing.rotation.x = Math.PI / 2;
   snitchGroup.add(equatorRing);
 
   // Upper & Lower Decorative Crest Caps
-  const capGeo = new THREE.TorusGeometry(0.35, 0.016, 16, 36);
+  const capGeo = new THREE.TorusGeometry(0.19, 0.009, 16, 36);
   const topCap = new THREE.Mesh(capGeo, goldDetailMat);
   topCap.rotation.x = Math.PI / 2;
-  topCap.position.y = 0.62;
+  topCap.position.y = 0.32;
   snitchGroup.add(topCap);
 
   const bottomCap = new THREE.Mesh(capGeo, goldDetailMat);
   bottomCap.rotation.x = Math.PI / 2;
-  bottomCap.position.y = -0.62;
+  bottomCap.position.y = -0.32;
   snitchGroup.add(bottomCap);
 
   // --- B. Wing Hinge Attachment Brackets ---
-  const hingeGeo = new THREE.CylinderGeometry(0.06, 0.06, 0.14, 16);
+  const hingeGeo = new THREE.CylinderGeometry(0.035, 0.035, 0.08, 16);
 
   // Left Hinge Joint
   const leftHingePivot = new THREE.Group();
-  leftHingePivot.position.set(-0.58, 0.38, 0.0);
+  leftHingePivot.position.set(-0.31, 0.20, 0.0);
   snitchGroup.add(leftHingePivot);
 
   const leftBracket = new THREE.Mesh(hingeGeo, goldDetailMat);
@@ -229,18 +292,18 @@ function initThreeSnitch() {
 
   // Right Hinge Joint
   const rightHingePivot = new THREE.Group();
-  rightHingePivot.position.set(0.58, 0.38, 0.0);
+  rightHingePivot.position.set(0.31, 0.20, 0.0);
   snitchGroup.add(rightHingePivot);
 
   const rightBracket = new THREE.Mesh(hingeGeo, goldDetailMat);
   rightBracket.rotation.z = Math.PI / 2;
   rightHingePivot.add(rightBracket);
 
-  // --- C. Detailed Feathered Wings ---
-  const leftWing = createFeatheredWing(false);
+  // --- C. Detailed Slender Feathered Wings ---
+  const leftWing = createFeatheredWing(false, envMap);
   leftHingePivot.add(leftWing);
 
-  const rightWing = createFeatheredWing(true);
+  const rightWing = createFeatheredWing(true, envMap);
   rightHingePivot.add(rightWing);
 
   // Mouse Parallax tracking
@@ -254,43 +317,40 @@ function initThreeSnitch() {
     if (e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom) {
       mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
       mouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-      targetRotY = mouseX * 0.45;
-      targetRotX = mouseY * 0.35;
+      targetRotY = mouseX * 0.35;
+      targetRotX = mouseY * 0.25;
     }
   });
 
-  // Animation Loop (Rapid Flapping & Fluid Hover Physics)
+  // Animation Loop (Fluid Organic Flapping & Realistic Floating Physics)
   const clock = new THREE.Clock();
 
   function animate() {
     const elapsed = clock.getElapsedTime();
 
-    // 1. Rapid Organic Wing Flapping (sinusoidal wing flap with phase offset)
-    const flapFreq = 26.0;
-    const flapAngle = Math.sin(elapsed * flapFreq) * 0.52;
-    const flapTilt = Math.cos(elapsed * flapFreq) * 0.24;
+    // 1. Organic Sinusoidal Wing Flapping with Harmonic Lag
+    const flapFreq = 22.0;
+    const flapAngle = Math.sin(elapsed * flapFreq) * 0.44;
+    const flapTilt = Math.cos(elapsed * flapFreq - 0.3) * 0.20;
 
     // Left Wing Flap
-    leftHingePivot.rotation.z = 0.25 + flapAngle;
-    leftHingePivot.rotation.x = -0.15 + flapTilt;
-    leftHingePivot.rotation.y = -0.1 + flapAngle * 0.2;
+    leftHingePivot.rotation.z = 0.22 + flapAngle;
+    leftHingePivot.rotation.x = -0.10 + flapTilt;
+    leftHingePivot.rotation.y = -0.06 + flapAngle * 0.15;
 
     // Right Wing Flap
-    rightHingePivot.rotation.z = -0.25 - flapAngle;
-    rightHingePivot.rotation.x = -0.15 + flapTilt;
-    rightHingePivot.rotation.y = 0.1 - flapAngle * 0.2;
+    rightHingePivot.rotation.z = -0.22 - flapAngle;
+    rightHingePivot.rotation.x = -0.10 + flapTilt;
+    rightHingePivot.rotation.y = 0.06 - flapAngle * 0.15;
 
     // 2. Natural Vertical Bobbing & Tilting Hover Physics
-    snitchGroup.position.y = Math.sin(elapsed * 2.6) * 0.12;
-    snitchGroup.position.x = Math.cos(elapsed * 1.8) * 0.05;
+    snitchGroup.position.y = Math.sin(elapsed * 2.4) * 0.08;
+    snitchGroup.position.x = Math.cos(elapsed * 1.6) * 0.03;
 
     // Smooth Interactive Mouse Parallax Tilt
-    snitchGroup.rotation.y += (targetRotY + Math.sin(elapsed * 1.4) * 0.08 - snitchGroup.rotation.y) * 0.06;
-    snitchGroup.rotation.x += (targetRotX + Math.sin(elapsed * 2.0) * 0.06 - snitchGroup.rotation.x) * 0.06;
-    snitchGroup.rotation.z = Math.cos(elapsed * 1.8) * 0.06;
-
-    // Soft Light Pulse
-    snitchGlowLight.intensity = 3.2 + Math.sin(elapsed * 4.0) * 0.6;
+    snitchGroup.rotation.y += (targetRotY + Math.sin(elapsed * 1.2) * 0.06 - snitchGroup.rotation.y) * 0.05;
+    snitchGroup.rotation.x += (targetRotX + Math.sin(elapsed * 1.6) * 0.04 - snitchGroup.rotation.x) * 0.05;
+    snitchGroup.rotation.z = Math.cos(elapsed * 1.6) * 0.04;
 
     renderer.render(scene, camera);
     requestAnimationFrame(animate);

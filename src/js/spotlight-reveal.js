@@ -110,6 +110,12 @@ export function initSpotlightReveal() {
       try {
         if (active) {
           magicalAudio.playLumosSparkle();
+          // Dynamic top-center magic shower on full transformation
+          import('./house-switcher.js').then((module) => {
+            if (module.triggerHouseMagicShower) {
+              module.triggerHouseMagicShower(currentHouse);
+            }
+          });
         } else {
           magicalAudio.playWandSpell();
         }

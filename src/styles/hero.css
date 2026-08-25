@@ -170,117 +170,90 @@
   transition: background 0.6s var(--ease-magic);
 }
 
-/* Floating Bottom-Left Subtle Intro Card (Low visual weight, non-blocking) */
-.hero-intro-card {
+/* ==========================================================================
+   ELEGANT BOTTOM-LEFT SIGNATURE & ROLE BADGE
+   ========================================================================== */
+.hero-bottom-left-signature {
   position: absolute;
-  bottom: 32px;
-  left: 36px;
+  bottom: 36px;
+  left: 40px;
   z-index: 30;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  max-width: 360px;
-  padding: 16px 20px;
-  border-radius: 18px;
-  background: rgba(10, 8, 16, 0.65);
-  border: 1px solid rgba(245, 197, 66, 0.25);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(245, 197, 66, 0.08);
-  transition: all 0.3s var(--ease-magic);
+  gap: 6px;
+  max-width: 580px;
+  pointer-events: auto;
+  user-select: none;
+  animation: signatureFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s backwards;
 }
 
-.intro-badge {
-  display: inline-flex;
+.hero-signature-name {
+  font-family: var(--font-cinzel, 'Cinzel', serif);
+  font-size: clamp(1.35rem, 2.6vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #ffffff;
+  line-height: 1.15;
+  margin: 0;
+  text-shadow: 
+    0 2px 10px rgba(0, 0, 0, 0.95),
+    0 0 25px var(--house-secondary-glow, rgba(245, 197, 66, 0.35));
+  transition: text-shadow 0.4s var(--ease-magic);
+}
+
+.hero-signature-tags {
+  font-family: var(--font-mono, monospace);
+  font-size: clamp(0.72rem, 1.1vw, 0.88rem);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.5;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 6px;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.95);
+}
+
+.hero-signature-tags span {
+  transition: color 0.3s ease;
+}
+
+.hero-signature-tags .tag-separator {
+  color: var(--house-secondary, #f5c542);
+  opacity: 0.85;
+}
+
+.hero-signature-tags .tag-dash {
+  color: var(--house-secondary, #f5c542);
   font-weight: 700;
-  color: var(--house-secondary);
+  margin: 0 2px;
+}
+
+.hero-signature-tags .tag-location {
+  color: var(--house-secondary-light, #fef08a);
+  font-weight: 700;
   letter-spacing: 1px;
-  text-transform: uppercase;
 }
 
-.intro-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--house-secondary);
-  box-shadow: 0 0 10px var(--house-secondary-glow);
-  display: inline-block;
-  animation: pulseDot 2s infinite ease-in-out;
+@keyframes signatureFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@keyframes pulseDot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.85); }
-}
-
-.intro-name {
-  font-family: var(--font-magic-serif);
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: #ffffff;
-  letter-spacing: 1.2px;
-  line-height: 1.1;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
-}
-
-.intro-bio {
-  font-family: var(--font-modern);
-  font-size: 0.82rem;
-  color: var(--text-dim);
-  line-height: 1.45;
-}
-
-.intro-actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 4px;
-}
-
-.intro-btn {
-  padding: 7px 16px;
-  border-radius: 9999px;
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  font-weight: 600;
-  text-decoration: none;
-  letter-spacing: 0.5px;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  transition: all 0.25s var(--ease-magic);
-}
-
-.intro-btn-primary {
-  background: linear-gradient(135deg, var(--house-primary), var(--house-primary-light));
-  color: #fff !important;
-  border: 1px solid var(--house-secondary);
-  box-shadow: 0 0 12px var(--house-primary-glow);
-}
-
-.intro-btn-primary:hover {
-  background: linear-gradient(135deg, var(--house-secondary), var(--house-secondary-light));
-  color: #000 !important;
-  box-shadow: 0 0 20px var(--house-secondary-glow);
-  transform: translateY(-2px);
-}
-
-.intro-btn-secondary {
-  background: rgba(255, 255, 255, 0.05);
-  color: #fff !important;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
-}
-
-.intro-btn-secondary:hover {
-  background: rgba(245, 197, 66, 0.15);
-  border-color: var(--house-secondary);
-  color: var(--house-secondary-light) !important;
-  transform: translateY(-2px);
+@media (max-width: 768px) {
+  .hero-bottom-left-signature {
+    bottom: 24px;
+    left: 20px;
+    right: 20px;
+    max-width: calc(100% - 40px);
+  }
 }
 
 /* ==========================================================================

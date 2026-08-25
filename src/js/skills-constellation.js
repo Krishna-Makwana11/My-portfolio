@@ -427,8 +427,8 @@ function initOrbitalSkills() {
 }
 
 /**
- * 3. Pinned Single-Line Scrollytelling Swap (Apple / Awwwards Style)
- *    Smoothly swaps statements with slide-up, blur & fade on scroll
+ * 3. Pinned Single-Line Scrollytelling Swap & Clean Exit Transition
+ *    Smoothly swaps statements with slide-up, blur & fade, then scales down and glides left off-screen into the next section
  */
 function initStatementSwapScrollytelling() {
   const section = document.getElementById('about');
@@ -442,6 +442,16 @@ function initStatementSwapScrollytelling() {
   if (!section || !container || !statement1 || !statement2 || !statement3) return;
 
   // Set pristine initial stacked states
+  gsap.set(container, {
+    scale: 1,
+    xPercent: 0,
+    opacity: 1,
+    filter: 'blur(0px)',
+    borderRadius: '0px',
+    border: '1px solid transparent',
+    boxShadow: 'none',
+    force3D: true
+  });
   gsap.set(statement1, { yPercent: 0, opacity: 1, filter: 'blur(0px)', force3D: true });
   gsap.set(statement2, { yPercent: 120, opacity: 0, filter: 'blur(8px)', force3D: true });
   gsap.set(statement3, { yPercent: 120, opacity: 0, filter: 'blur(8px)', force3D: true });
@@ -451,7 +461,7 @@ function initStatementSwapScrollytelling() {
     scrollTrigger: {
       trigger: section,
       start: 'top top',
-      end: '+=250%',
+      end: '+=350%',
       pin: container,
       pinSpacing: true,
       scrub: 1,
@@ -461,7 +471,7 @@ function initStatementSwapScrollytelling() {
         const p = self.progress;
 
         // Navbar & Floating Home Button Toggle
-        if (p > 0.04) {
+        if (p > 0.03 && p < 0.94) {
           if (topNav) topNav.classList.add('nav-hidden');
           if (topLeftHeader) topLeftHeader.classList.add('home-active');
         } else {
@@ -470,6 +480,15 @@ function initStatementSwapScrollytelling() {
         }
       },
       onLeaveBack: () => {
+        gsap.set(container, {
+          scale: 1,
+          xPercent: 0,
+          opacity: 1,
+          filter: 'blur(0px)',
+          borderRadius: '0px',
+          border: '1px solid transparent',
+          boxShadow: 'none'
+        });
         gsap.set(statement1, { yPercent: 0, opacity: 1, filter: 'blur(0px)' });
         gsap.set(statement2, { yPercent: 120, opacity: 0, filter: 'blur(8px)' });
         gsap.set(statement3, { yPercent: 120, opacity: 0, filter: 'blur(8px)' });
@@ -480,13 +499,14 @@ function initStatementSwapScrollytelling() {
   });
 
   // =========================================================================
-  // Transition 1 -> 2: Statement 1 slides up/fades out, Statement 2 slides in
+  // Scrollytelling Sequence: Statement 1 -> 2 -> 3
   // =========================================================================
+  // Transition 1 -> 2
   tl.to(statement1, {
     yPercent: -120,
     opacity: 0,
     filter: 'blur(8px)',
-    duration: 0.35,
+    duration: 0.22,
     ease: 'power2.inOut'
   }, 0.20);
 
@@ -494,28 +514,48 @@ function initStatementSwapScrollytelling() {
     yPercent: 0,
     opacity: 1,
     filter: 'blur(0px)',
-    duration: 0.35,
+    duration: 0.22,
     ease: 'power2.inOut'
-  }, 0.25);
+  }, 0.24);
 
-  // =========================================================================
-  // Transition 2 -> 3: Statement 2 slides up/fades out, Statement 3 slides in
-  // =========================================================================
+  // Transition 2 -> 3
   tl.to(statement2, {
     yPercent: -120,
     opacity: 0,
     filter: 'blur(8px)',
-    duration: 0.35,
+    duration: 0.22,
     ease: 'power2.inOut'
-  }, 0.58);
+  }, 0.54);
 
   tl.to(statement3, {
     yPercent: 0,
     opacity: 1,
     filter: 'blur(0px)',
-    duration: 0.35,
+    duration: 0.22,
     ease: 'power2.inOut'
-  }, 0.63);
+  }, 0.58);
+
+  // =========================================================================
+  // Clean Scroll-Driven Exit Transition (After Statement 3 completes):
+  // Phase 1: Smoothly zoom out / scale down with rounded glassmorphism borders
+  // Phase 2: Glide smoothly left off-screen into the next section
+  // =========================================================================
+  tl.to(container, {
+    scale: 0.78,
+    borderRadius: '32px',
+    border: '1px solid rgba(245, 197, 66, 0.28)',
+    boxShadow: '0 25px 70px rgba(0, 0, 0, 0.85), 0 0 30px rgba(245, 197, 66, 0.12)',
+    duration: 0.14,
+    ease: 'power2.inOut'
+  }, 0.82);
+
+  tl.to(container, {
+    xPercent: -120,
+    opacity: 0,
+    filter: 'blur(8px)',
+    duration: 0.18,
+    ease: 'power2.in'
+  }, 0.90);
 }
 
 /**

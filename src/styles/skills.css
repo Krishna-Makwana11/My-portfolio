@@ -59,6 +59,10 @@ body.theme-hufflepuff .global-fixed-theme-bg {
   padding: 2rem 4rem;
   align-items: center;
   box-sizing: border-box;
+  transform-origin: center center;
+  will-change: transform, opacity, filter, border-radius, box-shadow;
+  border-radius: 0px;
+  border: 1px solid transparent;
 }
 
 /* ==========================================================================

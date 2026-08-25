@@ -38,7 +38,7 @@
   position: absolute;
   inset: 0;
   background: 
-    radial-gradient(ellipse 1100px 750px at 50% 45%, var(--house-bg-shine-1, rgba(139, 24, 27, 0.32)) 0%, rgba(5, 6, 10, 0.82) 65%, #05060a 100%);
+    radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(217, 119, 6, 0.28) 0%, var(--house-bg-shine-1, rgba(139, 24, 27, 0.22)) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
   opacity: 1;
   transition: background 0.6s var(--ease-magic), opacity 0.7s var(--ease-magic);
   z-index: 1;
@@ -65,7 +65,7 @@
 .hero-portrait-frame {
   position: relative;
   width: 100%;
-  max-width: 980px;
+  max-width: 1100px;
   height: 100vh;
   display: flex;
   align-items: flex-end;
@@ -77,11 +77,11 @@
 /* High-Impact Centered Close-up Portrait (100% Opaque, Crisp & Smooth) */
 .hero-portrait-img {
   position: relative;
-  bottom: 0;
+  bottom: -8vh;
   width: auto;
-  height: 98vh;
-  max-height: 100vh;
-  max-width: min(96vw, 940px);
+  height: 114vh;
+  max-height: 1200px;
+  max-width: min(96vw, 1050px);
   object-fit: contain;
   object-position: center bottom;
   opacity: 1 !important;
@@ -141,15 +141,15 @@
 /* Smooth Soft Ambient Aura Behind Head & Shoulders */
 .cutout-ambient-glow {
   position: absolute;
-  top: 40%;
+  top: 42%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(780px, 90vw);
-  height: 560px;
+  width: min(880px, 92vw);
+  height: 620px;
   border-radius: 50%;
   background: 
-    radial-gradient(circle at 50% 50%, var(--house-primary-glow, rgba(139, 24, 27, 0.35)) 0%, var(--house-secondary-glow, rgba(245, 197, 66, 0.15)) 45%, transparent 70%);
-  filter: blur(65px);
+    radial-gradient(circle at 50% 50%, rgba(217, 119, 6, 0.42) 0%, var(--house-primary-glow, rgba(139, 24, 27, 0.35)) 35%, var(--house-secondary-glow, rgba(245, 197, 66, 0.18)) 55%, transparent 75%);
+  filter: blur(75px);
   pointer-events: none;
   z-index: 1;
   transition: background 0.6s var(--ease-magic);

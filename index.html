@@ -28,25 +28,40 @@
   <div class="wand-cursor-ring"></div>
 
   <!-- ==========================================================================
-       TOP-RIGHT 5-BUTTON NAVIGATION BAR
+       TOP-LEFT RESUME BUTTON & TOP-RIGHT NAVIGATION BAR
        ========================================================================== -->
+  <!-- 1. Top-Left Resume Button -->
+  <div class="top-left-header">
+    <a href="#contact" class="top-nav-btn top-nav-resume-btn">
+      <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
+      <span>Resume</span>
+    </a>
+  </div>
+
+  <!-- 2. Top-Right Navigation Bar -->
   <nav class="top-right-nav" aria-label="Main Navigation">
-    <!-- 1. About Button -->
+    <!-- About Button -->
     <a href="#about" class="top-nav-btn">
       <span>About</span>
     </a>
 
-    <!-- 2. Projects Button -->
+    <!-- Projects Button -->
     <a href="#projects" class="top-nav-btn">
       <span>Projects</span>
     </a>
 
-    <!-- 3. Contact Button -->
+    <!-- Contact Button -->
     <a href="#contact" class="top-nav-btn">
       <span>Contact</span>
     </a>
 
-    <!-- 4. Hogwarts House Slide-Down Selector -->
+    <!-- Interactive House Crest Button (Click-to-Toggle Full Image Lock) -->
+    <button class="house-crest-toggle-btn" id="house-crest-btn" aria-label="Toggle Full Wizard Reveal" title="Click to reveal full wizard persona">
+      <img src="/assets/crests/crest_gryffindor.png" alt="House Crest" class="house-crest-img" id="house-crest-icon" />
+      <span class="crest-pulse-ring"></span>
+    </button>
+
+    <!-- Hogwarts House Slide-Down Selector -->
     <div class="house-selector-wrapper">
       <button class="house-select-btn top-nav-btn top-nav-house-btn" aria-label="Select Hogwarts House">
         <span class="house-dot gryffindor"></span>
@@ -68,12 +83,6 @@
         </button>
       </div>
     </div>
-
-    <!-- 5. Resume Button -->
-    <a href="#contact" class="top-nav-btn top-nav-resume-btn">
-      <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
-      <span>Resume</span>
-    </a>
   </nav>
 
   <main>

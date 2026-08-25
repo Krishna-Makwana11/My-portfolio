@@ -130,7 +130,22 @@
 
 .hero-portrait-wizard {
   z-index: 5;
-  transition: opacity 0.3s ease, filter 0.5s var(--ease-magic);
+  transition: opacity 0.4s ease-in-out, filter 0.5s var(--ease-magic);
+}
+
+/* Full-Transform / Full Reveal Mode (Locked 100% Visibility of Wizard Persona) */
+.full-reveal-mode .hero-spotlight-reveal-layer,
+.hero-portrait-frame.full-reveal-active .hero-spotlight-reveal-layer {
+  opacity: 1 !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+  transition: opacity 0.4s ease-in-out !important;
+}
+
+.full-reveal-mode .hero-portrait-base,
+.hero-portrait-frame.full-reveal-active .hero-portrait-base {
+  opacity: 0 !important;
+  transition: opacity 0.4s ease-in-out !important;
 }
 
 /* Lens Outline Ring (Removed / Hidden for seamless pure texture transition) */

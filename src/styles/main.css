@@ -209,8 +209,17 @@ body {
 }
 
 /* ==========================================================================
-   TOP-RIGHT 5-BUTTON NAVIGATION BAR
+   TOP-LEFT RESUME BUTTON & TOP-RIGHT NAVIGATION BAR
    ========================================================================== */
+.top-left-header {
+  position: fixed;
+  top: 24px;
+  left: 28px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+}
+
 .top-right-nav {
   position: fixed;
   top: 24px;
@@ -266,26 +275,116 @@ body {
   box-shadow: 0 0 15px var(--house-secondary-glow);
 }
 
+/* Interactive House Crest Button (Click-to-Toggle Full Reveal Mode) */
+.house-crest-toggle-btn {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(18, 14, 28, 0.85);
+  border: 1.5px solid var(--house-secondary, #f5c542);
+  box-shadow: 0 0 12px var(--house-secondary-glow, rgba(245, 197, 66, 0.4));
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s var(--ease-magic);
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+.house-crest-toggle-btn:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 20px var(--house-secondary-glow, rgba(245, 197, 66, 0.7)), 0 0 30px var(--house-primary-glow, rgba(139, 24, 27, 0.5));
+  border-color: var(--house-secondary-light, #fef08a);
+}
+
+.house-crest-img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
+  transition: transform 0.3s var(--ease-magic), filter 0.3s ease;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.house-crest-toggle-btn:hover .house-crest-img {
+  transform: rotate(-6deg) scale(1.08);
+}
+
+/* Active State: Full Transform / Reveal Locked */
+.house-crest-toggle-btn.active {
+  background: linear-gradient(135deg, var(--house-primary, #8b181b), var(--house-primary-light, #b91c1c));
+  border-color: var(--house-secondary, #f5c542);
+  box-shadow: 
+    0 0 18px 2px var(--house-secondary-glow, rgba(245, 197, 66, 0.85)),
+    0 0 30px 4px var(--house-primary-glow, rgba(139, 24, 27, 0.6));
+  transform: scale(1.08);
+}
+
+.house-crest-toggle-btn.active .crest-pulse-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid var(--house-secondary, #f5c542);
+  animation: crestPulse 1.8s infinite ease-out;
+  pointer-events: none;
+}
+
+@keyframes crestPulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+
 .top-nav-resume-btn {
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
   background: linear-gradient(135deg, var(--house-primary), var(--house-primary-light));
   color: #fff !important;
   border: 1px solid var(--house-secondary);
-  box-shadow: 0 0 15px var(--house-primary-glow);
+  box-shadow: 0 0 15px var(--house-primary-glow), 0 8px 20px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  cursor: pointer;
+  transition: all 0.25s var(--ease-magic);
 }
 
 .top-nav-resume-btn:hover {
   background: linear-gradient(135deg, var(--house-secondary), var(--house-secondary-light));
   color: #000 !important;
-  box-shadow: 0 0 25px var(--house-secondary-glow);
+  box-shadow: 0 0 25px var(--house-secondary-glow), 0 10px 25px rgba(0, 0, 0, 0.6);
   transform: translateY(-1px);
 }
 
 @media (max-width: 768px) {
+  .top-left-header {
+    top: 12px;
+    left: 12px;
+    z-index: 1001;
+  }
+
   .top-right-nav {
     top: 12px;
     right: 12px;
-    left: 12px;
-    justify-content: center;
+    left: auto;
+    justify-content: flex-end;
     flex-wrap: wrap;
     padding: 6px 8px;
     gap: 4px;

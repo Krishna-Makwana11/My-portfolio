@@ -2,6 +2,8 @@
    INTERACTIVE MAGIC SPOTLIGHT / REVEAL LENS ENGINE
    ========================================================================== */
 
+import { magicalAudio } from './audio-synth.js';
+
 const HOUSE_IMAGES = {
   gryffindor: '/assets/house_gryffindor.png',
   slytherin: '/assets/house_slytherin.png',
@@ -9,24 +11,79 @@ const HOUSE_IMAGES = {
   hufflepuff: '/assets/house_hufflepuff.png',
 };
 
-// Preload house images for instant lag-free switching
+const CREST_IMAGES = {
+  gryffindor: '/assets/crests/crest_gryffindor.png',
+  slytherin: '/assets/crests/crest_slytherin.png',
+  ravenclaw: '/assets/crests/crest_ravenclaw.png',
+  hufflepuff: '/assets/crests/crest_hufflepuff.png',
+};
+
+// Preload house and crest images for instant lag-free switching
 Object.values(HOUSE_IMAGES).forEach((src) => {
   const img = new Image();
   img.src = src;
 });
 
+Object.values(CREST_IMAGES).forEach((src) => {
+  const img = new Image();
+  img.src = src;
+});
+
 let currentHouse = 'gryffindor';
+let isFullReveal = false;
+
+export function isFullRevealActive() {
+  return isFullReveal;
+}
 
 export function setSpotlightHouse(house) {
   currentHouse = house.toLowerCase();
   const wizardImg = document.getElementById('hero-wizard-img');
-  if (wizardImg && HOUSE_IMAGES[currentHouse]) {
-    wizardImg.style.opacity = '0.5';
-    wizardImg.src = HOUSE_IMAGES[currentHouse];
-    wizardImg.onload = () => {
-      wizardImg.style.opacity = '1';
-    };
+  const crestIcon = document.getElementById('house-crest-icon');
+
+  // Update dynamic crest icon in navbar
+  if (crestIcon && CREST_IMAGES[currentHouse]) {
+    crestIcon.src = CREST_IMAGES[currentHouse];
+    crestIcon.alt = `${currentHouse.charAt(0).toUpperCase() + currentHouse.slice(1)} Crest`;
   }
+
+  // Update wizard image with smooth crossfade
+  if (wizardImg && HOUSE_IMAGES[currentHouse]) {
+    wizardImg.style.transition = 'opacity 0.4s ease-in-out';
+    wizardImg.style.opacity = '0';
+    setTimeout(() => {
+      wizardImg.src = HOUSE_IMAGES[currentHouse];
+      if (wizardImg.complete) {
+        wizardImg.style.opacity = '1';
+      } else {
+        wizardImg.onload = () => {
+          wizardImg.style.opacity = '1';
+        };
+      }
+    }, 150);
+  }
+}
+
+export function toggleFullReveal() {
+  const frame = document.getElementById('portrait-spotlight-frame');
+  const crestBtn = document.getElementById('house-crest-btn');
+
+  isFullReveal = !isFullReveal;
+
+  if (frame) {
+    frame.classList.toggle('full-reveal-active', isFullReveal);
+    document.body.classList.toggle('full-reveal-mode', isFullReveal);
+  }
+
+  if (crestBtn) {
+    crestBtn.classList.toggle('active', isFullReveal);
+    crestBtn.setAttribute('aria-pressed', isFullReveal ? 'true' : 'false');
+    crestBtn.title = isFullReveal 
+      ? 'Locked Full Reveal Active (Click to return to hover spotlight)' 
+      : 'Click to reveal full wizard persona';
+  }
+
+  return isFullReveal;
 }
 
 export function initSpotlightReveal() {
@@ -34,7 +91,7 @@ export function initSpotlightReveal() {
   const revealLayer = document.getElementById('hero-spotlight-layer');
   const baseImg = document.getElementById('hero-base-img');
   const wizardImg = document.getElementById('hero-wizard-img');
-  const lens = document.getElementById('spotlight-lens');
+  const crestBtn = document.getElementById('house-crest-btn');
   const heroCard = document.getElementById('hero-sticky-card');
 
   if (!frame || !revealLayer || !baseImg) return;
@@ -44,6 +101,21 @@ export function initSpotlightReveal() {
     const savedHouse = localStorage.getItem('hp_house_theme') || 'gryffindor';
     setSpotlightHouse(savedHouse);
   } catch (err) {}
+
+  // Wire Crest Button toggle
+  if (crestBtn) {
+    crestBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const active = toggleFullReveal();
+      try {
+        if (active) {
+          magicalAudio.playLumosSparkle();
+        } else {
+          magicalAudio.playWandSpell();
+        }
+      } catch (err) {}
+    });
+  }
 
   // Alpha hit-test canvas (100x128 downsampled grid for ultra-fast, zero-lag O(1) hit testing)
   const hitCanvas = document.createElement('canvas');
@@ -103,7 +175,7 @@ export function initSpotlightReveal() {
   const SPOTLIGHT_RADIUS = 135; // Pixel radius of magic reveal circle
 
   function updateCoordinates() {
-    if (!isHovering) return;
+    if (!isHovering || isFullReveal) return;
 
     // Smooth lerp interpolation for silky motion
     mouseX += (targetX - mouseX) * 0.3;
@@ -116,6 +188,8 @@ export function initSpotlightReveal() {
   }
 
   function showReveal(clientX, clientY) {
+    if (isFullReveal) return;
+
     const frameRect = frame.getBoundingClientRect();
     targetX = clientX - frameRect.left;
     targetY = clientY - frameRect.top;
@@ -134,6 +208,8 @@ export function initSpotlightReveal() {
   }
 
   function hideReveal() {
+    if (isFullReveal) return;
+
     if (isHovering) {
       isHovering = false;
       frame.style.setProperty('--reveal-opacity', '0');
@@ -145,6 +221,8 @@ export function initSpotlightReveal() {
   }
 
   function handlePointer(e) {
+    if (isFullReveal) return;
+
     const clientX = e.clientX || (e.touches && e.touches[0]?.clientX);
     const clientY = e.clientY || (e.touches && e.touches[0]?.clientY);
 

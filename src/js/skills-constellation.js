@@ -9,9 +9,74 @@ import { magicalAudio } from './audio-synth.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// 10 Exact Skills requested
-const outerSkills = ['React', 'Next.js', 'JavaScript', 'Git', 'Python'];
-const innerSkills = ['SQL', 'PowerBI', 'Excel', 'C++', 'Machine Learning'];
+// 14 Exact Skills distributed evenly across 3 concentric orbits
+// 1. Outer Orbit (5 skills): HTML5, CSS3, JavaScript, React, Next.js
+const outerSkills = [
+  {
+    name: 'HTML5',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M4 2l1.6 18 6.4 2 6.4-2L20 2H4z" fill="#E44D26"/><path d="M12 3.8v16.4l4.9-1.5 1.3-14.9H12z" fill="#F16529"/><path d="M12 7.4h4.4l-.3 3.6h-4.1v2.3h3.9l-.4 4.5-3.5 1v-2.3l1.8-.5.2-1.9H8.7l.2-2.3h3.1V7.4zm0 0H7.6l.2-2.3H12v2.3z" fill="#fff"/></svg>`
+  },
+  {
+    name: 'CSS3',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M4 2l1.6 18 6.4 2 6.4-2L20 2H4z" fill="#264DE4"/><path d="M12 3.8v16.4l4.9-1.5 1.3-14.9H12z" fill="#2965F1"/><path d="M12 7.4h4.4l-.4 4.5-4 .9v-2.4l1.9-.4.2-1.9H7.8l.2-2.3H12v1.6zm0 4.7H8.2l.2 2.3h3.6v-2.3zm0 2.3v2.3l-1.9-.5-.1-1.3H8.3l.3 2.6 3.4.9v-4z" fill="#fff"/></svg>`
+  },
+  {
+    name: 'JavaScript',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16"><rect width="24" height="24" rx="3" fill="#F7DF1E"/><path d="M7 17.5c.8.6 1.8 1 2.8 1 1.7 0 2.5-.8 2.5-2.5v-7.3h-2v7.3c0 .7-.3 1-1 1-.5 0-1-.2-1.4-.5l-.9 1.5zm8.5-.2c.9.6 2 .9 3.2.9 2.1 0 3.3-1.1 3.3-2.8 0-1.8-1.2-2.4-2.8-3.1-.9-.4-1.5-.7-1.5-1.3 0-.6.5-1 1.4-1 .8 0 1.5.3 2.1.7l.8-1.5c-.8-.5-1.8-.8-2.9-.8-2.1 0-3.3 1.2-3.3 2.7 0 1.7 1.1 2.4 2.7 3.1.9.4 1.6.7 1.6 1.4 0 .7-.6 1.1-1.6 1.1-1 0-1.9-.4-2.5-.9l-.5 1.6z" fill="#000"/></svg>`
+  },
+  {
+    name: 'React',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><ellipse cx="12" cy="12" rx="4.2" ry="10" transform="rotate(30 12 12)" stroke="#61DAFB" stroke-width="1.2"/><ellipse cx="12" cy="12" rx="4.2" ry="10" transform="rotate(90 12 12)" stroke="#61DAFB" stroke-width="1.2"/><ellipse cx="12" cy="12" rx="4.2" ry="10" transform="rotate(150 12 12)" stroke="#61DAFB" stroke-width="1.2"/><circle cx="12" cy="12" r="2" fill="#61DAFB"/></svg>`
+  },
+  {
+    name: 'Next.js',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><circle cx="12" cy="12" r="11" fill="#000" stroke="rgba(255,255,255,0.4)" stroke-width="1"/><path d="M15 8v8M9 8v8l6.5-8" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+  }
+];
+
+// 2. Middle Orbit (5 skills): Python, Machine Learning, MySQL, Git, Node.js
+const middleSkills = [
+  {
+    name: 'Python',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M11.9 2C8.3 2 8.5 3.6 8.5 3.6l.01 1.6h3.49v.5H4.8S2 5.4 2 9.1s2.5 3.5 2.5 3.5h1.5v-2.1s-.1-2.5 2.5-2.5h4.3s2.4.1 2.4-2.4V4.4S15.6 2 11.9 2zm-1.8 1.4c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9z" fill="#3776AB"/><path d="M12.1 22c3.6 0 3.4-1.6 3.4-1.6l-.01-1.6H12v-.5h7.2s2.8.3 2.8-3.4-2.5-3.5-2.5-3.5h-1.5v2.1s.1 2.5-2.5 2.5H11s-2.4-.1-2.4 2.4v1.2s-.4 2.4 3.5 2.4zm1.8-1.4c-.5 0-.9-.4-.9-.9s.4-.9.9-.9.9.4.9.9-.4.9-.9.9z" fill="#FFD438"/></svg>`
+  },
+  {
+    name: 'Machine Learning',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#C084FC" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04z"/></svg>`
+  },
+  {
+    name: 'MySQL',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M12 3c-4.9 0-9 4.1-9 9.1 0 3.6 2.1 6.7 5.2 8.1l.6-1.5C6.1 17.5 4.5 15 4.5 12.1c0-4.1 3.4-7.5 7.5-7.5s7.5 3.4 7.5 7.5c0 2.9-1.6 5.4-4.1 6.6l.6 1.5c3.1-1.4 5.2-4.5 5.2-8.1 0-5-4.1-9.1-9.2-9.1z" fill="#00758F"/><path d="M12 8a4 4 0 00-4 4c0 1.5.8 2.8 2 3.4l.7-1.4A2.5 2.5 0 019.5 12c0-1.4 1.1-2.5 2.5-2.5s2.5 1.1 2.5 2.5c0 .9-.5 1.6-1.2 2l.7 1.4c1.2-.6 2-1.9 2-3.4a4 4 0 00-4-4z" fill="#F29111"/></svg>`
+  },
+  {
+    name: 'Git',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M21.6 10.6l-8.2-8.2c-.8-.8-2-.8-2.8 0L8.8 4.2l3.5 3.5c.8-.3 1.8-.1 2.4.5.6.6.8 1.6.5 2.4l3.4 3.4c.8-.3 1.8-.1 2.4.5.9.9.9 2.3 0 3.2-.9.9-2.3.9-3.2 0-.7-.7-.9-1.7-.5-2.5L13.9 12v5.3c.3.2.5.4.6.6.9.9.9 2.3 0 3.2-.9.9-2.3.9-3.2 0-.9-.9-.9-2.3 0-3.2.3-.3.6-.5 1-.6V11.8c-.4-.1-.7-.3-1-.6-.7-.7-.9-1.7-.5-2.5L7.4 5.2 2.4 10.2c-.8.8-.8 2 0 2.8l8.2 8.2c.8.8 2 .8 2.8 0l8.2-8.2c.8-.8.8-2 0-2.4z" fill="#F05032"/></svg>`
+  },
+  {
+    name: 'Node.js',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M12 2l8.7 5v10L12 22l-8.7-5V7L12 2z" fill="#339933"/><path d="M12 4.4L5.5 8.1v7.6L12 19.5l6.5-3.8V8.1L12 4.4z" fill="#fff" opacity=".2"/><path d="M12 8a4 4 0 014 4c0 2.2-1.8 4-4 4s-4-1.8-4-4a4 4 0 014-4z" fill="#fff"/></svg>`
+  }
+];
+
+// 3. Inner Orbit (4 skills): Excel, PowerBI, SQL, C++
+const innerSkills = [
+  {
+    name: 'Excel',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" fill="#107C41"/><path d="M8 7.5l3.5 4.5L8 16.5h2.2l2.3-3.2 2.3 3.2H17l-3.5-4.5L17 7.5h-2.2L12.5 10.7 10.2 7.5H8z" fill="#fff"/></svg>`
+  },
+  {
+    name: 'PowerBI',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><rect x="3" y="11" width="4" height="10" rx="1.5" fill="#F2C811"/><rect x="10" y="7" width="4" height="14" rx="1.5" fill="#E8B500"/><rect x="17" y="3" width="4" height="18" rx="1.5" fill="#F2C811"/></svg>`
+  },
+  {
+    name: 'SQL',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#00BCF2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>`
+  },
+  {
+    name: 'C++',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M12 2l8.7 5v10L12 22l-8.7-5V7L12 2z" fill="#00599C"/><path d="M10.8 7.5a4.8 4.8 0 100 9 4.8 4.8 0 000-9zm5 2.5h1.2v1.5h1.5v1.2h-1.5v1.5h-1.2v-1.5h-1.5v-1.2h1.5V10zm3.5 0h1.2v1.5h1.5v1.2H20.5v1.5h-1.2v-1.5h-1.5v-1.2h1.5V10z" fill="#fff"/></svg>`
+  }
+];
 
 /**
  * Procedural Studio Environment Reflection Map Generator
@@ -374,27 +439,31 @@ function initThreeSnitch() {
 }
 
 /**
- * 2. Populate Enlarged Floating Skill Orbits Constellation
- *    Outer Ring (Radius 260px / 520px Diameter), Inner Ring (Radius 170px / 340px Diameter)
+ * 2. Populate 3 Concentric Floating Skill Orbits with Official Vector Logos
+ *    Outer Ring (Radius 290px / 580px Diameter, 5 skills)
+ *    Middle Ring (Radius 215px / 430px Diameter, 5 skills)
+ *    Inner Ring (Radius 140px / 280px Diameter, 4 skills)
  */
 function initOrbitalSkills() {
   const ring1 = document.getElementById('orbit-layer-1');
   const ring2 = document.getElementById('orbit-layer-2');
-  if (!ring1 || !ring2) return;
+  const ring3 = document.getElementById('orbit-layer-3');
+  if (!ring1 || !ring2 || !ring3) return;
 
   ring1.innerHTML = '';
   ring2.innerHTML = '';
+  ring3.innerHTML = '';
 
-  // Outer Circular Orbit (Radius: 260px, Center: 260, 260)
-  outerSkills.forEach((name, i) => {
+  // 1. Outer Orbit (5 skills, Radius: 290px, Center: 290, 290)
+  outerSkills.forEach((item, i) => {
     const angle = (i / outerSkills.length) * Math.PI * 2;
-    const r = 260;
+    const r = 290;
     const x = Math.cos(angle) * r + r;
     const y = Math.sin(angle) * r + r;
 
     const badge = document.createElement('div');
     badge.className = 'orbit-skill-badge';
-    badge.innerHTML = `<span>⚡</span><span>${name}</span>`;
+    badge.innerHTML = `<span class="orbit-badge-icon">${item.svg}</span><span>${item.name}</span>`;
     badge.style.left = `${x}px`;
     badge.style.top = `${y}px`;
 
@@ -405,16 +474,16 @@ function initOrbitalSkills() {
     ring1.appendChild(badge);
   });
 
-  // Inner Circular Orbit (Radius: 170px, Center: 170, 170)
-  innerSkills.forEach((name, i) => {
-    const angle = (i / innerSkills.length) * Math.PI * 2;
-    const r = 170;
+  // 2. Middle Orbit (5 skills, Radius: 215px, Center: 215, 215)
+  middleSkills.forEach((item, i) => {
+    const angle = (i / middleSkills.length) * Math.PI * 2;
+    const r = 215;
     const x = Math.cos(angle) * r + r;
     const y = Math.sin(angle) * r + r;
 
     const badge = document.createElement('div');
     badge.className = 'orbit-skill-badge';
-    badge.innerHTML = `<span>✦</span><span>${name}</span>`;
+    badge.innerHTML = `<span class="orbit-badge-icon">${item.svg}</span><span>${item.name}</span>`;
     badge.style.left = `${x}px`;
     badge.style.top = `${y}px`;
 
@@ -423,6 +492,26 @@ function initOrbitalSkills() {
     });
 
     ring2.appendChild(badge);
+  });
+
+  // 3. Inner Orbit (4 skills, Radius: 140px, Center: 140, 140)
+  innerSkills.forEach((item, i) => {
+    const angle = (i / innerSkills.length) * Math.PI * 2;
+    const r = 140;
+    const x = Math.cos(angle) * r + r;
+    const y = Math.sin(angle) * r + r;
+
+    const badge = document.createElement('div');
+    badge.className = 'orbit-skill-badge';
+    badge.innerHTML = `<span class="orbit-badge-icon">${item.svg}</span><span>${item.name}</span>`;
+    badge.style.left = `${x}px`;
+    badge.style.top = `${y}px`;
+
+    badge.addEventListener('mouseenter', () => {
+      magicalAudio.playHoverChime();
+    });
+
+    ring3.appendChild(badge);
   });
 }
 

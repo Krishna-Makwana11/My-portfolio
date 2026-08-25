@@ -521,7 +521,7 @@ function initStatementSwapScrollytelling() {
 /**
  * Main Initialization Entrypoint for About/Skills Section
  */
-export function initCauldronVortex() {
+export function initSkillsConstellation() {
   const snitchEngine = initThreeSnitch();
   initOrbitalSkills();
   initStatementSwapScrollytelling();
@@ -536,3 +536,6 @@ export function initCauldronVortex() {
     else if (house === 'hufflepuff') snitchEngine.setHouseColor(0x372e29);
   });
 }
+
+// Backward compatibility export alias
+export { initSkillsConstellation as initCauldronVortex };

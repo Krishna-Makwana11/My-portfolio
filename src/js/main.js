@@ -6,7 +6,7 @@ import { createIcons, icons } from 'lucide';
 import { initWandCursor } from './wand-cursor.js';
 import { initHeroAvatarInteraction } from './eye-tracker.js';
 import { initHeroScrollAnimation } from './hero-scroll.js';
-import { initCauldronVortex } from './cauldron-vortex.js';
+import { initSkillsConstellation } from './skills-constellation.js';
 import { initHouseSwitcher } from './house-switcher.js';
 import { initSpotlightReveal } from './spotlight-reveal.js';
 import { initOwlPost } from './owl-post.js';
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initWandCursor();
   initHeroAvatarInteraction();
   initHeroScrollAnimation();
-  initCauldronVortex();
+  initSkillsConstellation();
   initHouseSwitcher();
   initSpotlightReveal();
   initOwlPost();

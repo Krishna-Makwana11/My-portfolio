@@ -48,7 +48,7 @@
 │   ├── js/
 │   │   ├── audio-synth.js       # Web Audio API procedural sound engine
 │   │   ├── broom-engine.js      # Nimbus flight animation engine
-│   │   ├── cauldron-vortex.js   # Interactive potion vortex canvas
+│   │   ├── skills-constellation.js # 3D Golden Snitch & orbital skills engine
 │   │   ├── eye-tracker.js       # Eye tracking effect
 │   │   ├── fluid-distortion.js  # Fluid wave distortion shaders
 │   │   ├── hero-scroll.js       # Scroll-triggered animations

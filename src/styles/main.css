@@ -26,22 +26,19 @@ html, body, #root, main {
 html {
   scroll-behavior: smooth;
   color-scheme: dark;
-  background-color: var(--bg-deep);
+  background-color: var(--bg-deep, #05060a);
   overflow-x: hidden;
 }
 
 body {
   font-family: var(--font-modern);
   color: var(--text-main);
-  background-color: var(--bg-deep);
-  background-image: 
-    radial-gradient(ellipse 1200px 800px at 50% 0%, var(--house-bg-shine-1, rgba(139, 24, 27, 0.15)) 0%, transparent 70%);
+  background-color: transparent;
   min-height: 100vh;
   overflow-x: hidden;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.6s var(--ease-magic);
 }
 
 /* ==========================================================================

@@ -5,28 +5,31 @@
 /* Global Fixed / Static Theme Ambient Background */
 .global-fixed-theme-bg {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100vw;
   height: 100vh;
   z-index: -1;
   pointer-events: none;
   background: 
-    radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(217, 119, 6, 0.28) 0%, var(--house-bg-shine-1, rgba(139, 24, 27, 0.24)) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
+    radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(217, 119, 6, 0.32) 0%, var(--house-bg-shine-1, rgba(139, 24, 27, 0.28)) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
   transition: background 0.6s var(--ease-magic);
 }
 
 /* House Theme Gradient Overrides for Fixed Background */
+body.theme-gryffindor .global-fixed-theme-bg {
+  background: radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(217, 119, 6, 0.32) 0%, rgba(139, 24, 27, 0.28) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
+}
+
 body.theme-slytherin .global-fixed-theme-bg {
-  background: radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(0, 255, 136, 0.22) 0%, rgba(22, 101, 52, 0.28) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
+  background: radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(0, 255, 136, 0.25) 0%, rgba(22, 101, 52, 0.32) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
 }
 
 body.theme-ravenclaw .global-fixed-theme-bg {
-  background: radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(56, 189, 248, 0.22) 0%, rgba(30, 58, 138, 0.32) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
+  background: radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(56, 189, 248, 0.25) 0%, rgba(30, 58, 138, 0.36) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
 }
 
 body.theme-hufflepuff .global-fixed-theme-bg {
-  background: radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(245, 158, 11, 0.26) 0%, rgba(120, 53, 15, 0.3) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
+  background: radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(245, 158, 11, 0.30) 0%, rgba(120, 53, 15, 0.35) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
 }
 
 .skills-about-section {
@@ -116,7 +119,7 @@ body.theme-hufflepuff .global-fixed-theme-bg {
   animation: orbitSpin2D1 42s linear infinite;
 }
 
-/* Inner Enlarged Circular Orbit (Diameter: 340px, Radius: 170px) */
+/* Inner Circular Orbit (Diameter: 340px, Radius: 170px) */
 .orbit-layer-2 {
   width: 340px;
   height: 340px;
@@ -257,40 +260,6 @@ body.theme-hufflepuff .global-fixed-theme-bg {
   margin: 0;
   padding-top: 0.4rem;
   user-select: text;
-}
-
-/* Step Progress Indicator */
-.statement-progress-indicator {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 0.5rem;
-}
-
-.statement-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  transition: all 0.35s ease;
-}
-
-.statement-dot.active {
-  background: var(--house-secondary, #f5c542);
-  box-shadow: 0 0 10px var(--house-secondary-glow, rgba(245, 197, 66, 0.8));
-  transform: scale(1.4);
-}
-
-.statement-line {
-  width: 32px;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.15);
-  transition: all 0.35s ease;
-}
-
-.statement-line.active {
-  background: var(--house-secondary, #f5c542);
-  box-shadow: 0 0 8px var(--house-secondary-glow, rgba(245, 197, 66, 0.8));
 }
 
 /* ==========================================================================

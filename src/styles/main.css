@@ -45,6 +45,28 @@ body {
 }
 
 /* ==========================================================================
+   WAND PARTICLE CANVAS & CURSOR DETACHED OVERLAY
+   ========================================================================== */
+.wand-particle-canvas,
+#wand-particle-canvas,
+.wand-cursor-container,
+#wand-canvas,
+.wand-cursor-dot,
+.wand-cursor-ring {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  pointer-events: none !important;
+  z-index: 9999 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  overflow: hidden !important;
+}
+
+/* ==========================================================================
    THE ELDER WAND - CUSTOM PRECISION CURSOR
    ========================================================================== */
 @media (hover: hover) and (pointer: fine) {

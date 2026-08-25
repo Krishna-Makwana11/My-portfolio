@@ -90,6 +90,105 @@
          PART 1: PINNED HERO STAGE (SCROLL ZOOM-OUT TRANSITION)
          ========================================================================== -->
     <div id="hero-pin-wrapper">
+      <!-- Deep Background Cinematic Marquee Layer (Revealed as Hero scales down) -->
+      <div class="hero-scroll-bg-marquee" id="hero-bg-marquee" aria-hidden="true">
+        <div class="marquee-row marquee-row-1">
+          <div class="marquee-track" id="marquee-track-1">
+            <span>KRISHNA MAKWANA</span>
+            <span class="marquee-star">✦</span>
+            <span>FULL STACK DEVELOPER</span>
+            <span class="marquee-star">✦</span>
+            <span>AI ENTHUSIAST</span>
+            <span class="marquee-star">✦</span>
+            <span>DATA SCIENCE</span>
+            <span class="marquee-star">✦</span>
+            <span>KRISHNA MAKWANA</span>
+            <span class="marquee-star">✦</span>
+            <span>FULL STACK DEVELOPER</span>
+            <span class="marquee-star">✦</span>
+          </div>
+        </div>
+        <div class="marquee-row marquee-row-2">
+          <div class="marquee-track marquee-track-reverse" id="marquee-track-2">
+            <span>HOGWARTS SORCERY</span>
+            <span class="marquee-star">✦</span>
+            <span>DATA ANALYSIS</span>
+            <span class="marquee-star">✦</span>
+            <span>KRISHNA MAKWANA</span>
+            <span class="marquee-star">✦</span>
+            <span>CREATIVE DEVELOPER</span>
+            <span class="marquee-star">✦</span>
+            <span>HOGWARTS SORCERY</span>
+            <span class="marquee-star">✦</span>
+            <span>DATA ANALYSIS</span>
+            <span class="marquee-star">✦</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cinematic Nimbus Flying Broom Flight Stage -->
+      <div class="nimbus-flight-stage" id="nimbus-stage" aria-hidden="true">
+        <div class="nimbus-broom-wrapper" id="nimbus-broom">
+          <!-- Golden Stardust / Magic Sparkle Particle Trail -->
+          <div class="nimbus-magic-trail">
+            <span class="sparkle spark-1">✨</span>
+            <span class="sparkle spark-2">✦</span>
+            <span class="sparkle spark-3">✨</span>
+            <span class="sparkle spark-4">✦</span>
+            <span class="sparkle spark-5">✨</span>
+          </div>
+          
+          <!-- Detailed Stylized Nimbus Broom SVG -->
+          <svg class="nimbus-broom-svg" viewBox="0 0 280 80" width="280" height="80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="nimbusWood" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#3d1e0d" />
+                <stop offset="40%" stop-color="#8b4513" />
+                <stop offset="70%" stop-color="#d4af37" />
+                <stop offset="100%" stop-color="#5c2c16" />
+              </linearGradient>
+              <linearGradient id="nimbusTwigs" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#d4af37" />
+                <stop offset="30%" stop-color="#c68a24" />
+                <stop offset="70%" stop-color="#6e4718" />
+                <stop offset="100%" stop-color="#2a1705" />
+              </linearGradient>
+              <linearGradient id="nimbusGoldBand" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ffe066" />
+                <stop offset="50%" stop-color="#f5c542" />
+                <stop offset="100%" stop-color="#996515" />
+              </linearGradient>
+              <filter id="nimbusGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+            
+            <!-- Golden Speed Streamlines -->
+            <path d="M10 42 C 40 40, 80 43, 120 40" stroke="#f5c542" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="8 6" opacity="0.6" />
+            <path d="M5 48 C 35 46, 75 49, 115 46" stroke="#f5c542" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="5 4" opacity="0.4" />
+            
+            <!-- Broom Bristles / Twigs Tail -->
+            <path d="M25 45 C 50 30, 85 32, 115 38 C 115 48, 85 54, 25 45 Z" fill="url(#nimbusTwigs)" filter="drop-shadow(0 2px 8px rgba(0,0,0,0.8))" />
+            <path d="M15 44 C 45 35, 80 37, 112 40 C 112 45, 80 50, 15 44 Z" fill="#e0a838" opacity="0.4" />
+            <path d="M30 46 C 60 40, 90 41, 114 42" stroke="#4a2e0e" stroke-width="1.2" opacity="0.7" />
+            <path d="M20 43 C 55 36, 85 38, 113 39" stroke="#fce280" stroke-width="0.8" opacity="0.8" />
+            
+            <!-- Gold Bands binding twigs -->
+            <rect x="112" y="36" width="6" height="12" rx="2" fill="url(#nimbusGoldBand)" stroke="#4a3000" stroke-width="0.5" />
+            <rect x="120" y="37" width="5" height="10" rx="1.5" fill="url(#nimbusGoldBand)" stroke="#4a3000" stroke-width="0.5" />
+            
+            <!-- Handle / Shaft (Mahogany aerodynamic handle) -->
+            <path d="M125 42 C 160 40, 200 37, 240 33 C 255 31, 268 28, 275 25 C 276 24.5, 274 23.5, 272 24 C 265 26.5, 250 29.5, 238 31.5 C 198 35.5, 160 38.5, 125 40 Z" fill="url(#nimbusWood)" filter="url(#nimbusGlow)" />
+            <path d="M130 40.5 C 165 38.5, 205 35.5, 245 31.5 C 258 29.5, 270 27, 274 24.5" stroke="#ffeaa7" stroke-width="1.2" stroke-linecap="round" opacity="0.7" />
+            
+            <!-- Golden Footpegs / Stirrup -->
+            <path d="M155 41 L 157 48 L 161 48 L 159 41 Z" fill="url(#nimbusGoldBand)" />
+            <circle cx="274" cy="24.5" r="2.5" fill="#f5c542" filter="drop-shadow(0 0 6px #f5c542)" />
+          </svg>
+        </div>
+      </div>
+
       <div id="hero-sticky-card">
         <!-- Clean Ambient Vignette Layer -->
         <div class="hero-default-bg"></div>

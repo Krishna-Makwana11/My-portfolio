@@ -5,11 +5,123 @@
 #hero-pin-wrapper {
   position: relative;
   width: 100%;
-  min-height: 175vh;
+  min-height: 100vh;
   background: var(--bg-deep, #05060a);
   margin: 0;
   padding: 0;
   z-index: 10;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   DEEP BACKGROUND CINEMATIC MARQUEE LAYER (REVEALED ON ZOOM-OUT)
+   ========================================================================== */
+.hero-scroll-bg-marquee {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2.5rem;
+  pointer-events: none;
+  opacity: 0;
+  overflow: hidden;
+  will-change: opacity, transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.marquee-row {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 2.5rem;
+  white-space: nowrap;
+  font-family: var(--font-cinzel, 'Cinzel', serif);
+  font-size: clamp(3rem, 7.5vw, 6.5rem);
+  font-weight: 900;
+  letter-spacing: 6px;
+  color: rgba(245, 197, 66, 0.08);
+  -webkit-text-stroke: 1.5px rgba(245, 197, 66, 0.25);
+  text-shadow: 0 0 35px rgba(245, 197, 66, 0.18);
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.marquee-star {
+  font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+  color: var(--house-secondary, #f5c542);
+  opacity: 0.45;
+  text-shadow: 0 0 20px var(--house-secondary-glow);
+}
+
+/* ==========================================================================
+   CINEMATIC NIMBUS FLYING BROOM FLIGHT STAGE
+   ========================================================================== */
+.nimbus-flight-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 25;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.nimbus-broom-wrapper {
+  position: absolute;
+  top: 45%;
+  left: 0;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transform: translate3d(-350px, 0, 0);
+  will-change: transform, opacity;
+  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 25px rgba(245, 197, 66, 0.5));
+}
+
+.nimbus-magic-trail {
+  position: absolute;
+  right: 88%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.nimbus-magic-trail .sparkle {
+  font-size: 1.2rem;
+  color: var(--house-secondary, #f5c542);
+  text-shadow: 0 0 12px var(--house-secondary-glow, rgba(245, 197, 66, 0.85));
+  animation: nimbusSparkleFlicker 0.6s infinite alternate ease-in-out;
+}
+
+.nimbus-magic-trail .spark-1 { animation-delay: 0s; font-size: 1.5rem; }
+.nimbus-magic-trail .spark-2 { animation-delay: 0.15s; font-size: 1.1rem; }
+.nimbus-magic-trail .spark-3 { animation-delay: 0.3s; font-size: 1.6rem; }
+.nimbus-magic-trail .spark-4 { animation-delay: 0.45s; font-size: 1rem; }
+.nimbus-magic-trail .spark-5 { animation-delay: 0.2s; font-size: 1.3rem; }
+
+@keyframes nimbusSparkleFlicker {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.7) translateY(-3px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.3) translateY(3px);
+  }
 }
 
 #hero-sticky-card {
@@ -28,12 +140,12 @@
   margin: 0;
   padding: 0;
   transform-origin: center center;
-  will-change: transform, border-radius, box-shadow;
+  will-change: transform, border-radius, box-shadow, opacity;
   z-index: 10;
   transition: background 0.6s var(--ease-magic);
 }
 
-/* Seamless Luxury Centered Atmospheric House Glow (Smooth fade to pure obsidian) */
+/* Seamless Luxury Centered Atmospheric House Glow */
 .hero-default-bg {
   position: absolute;
   inset: 0;

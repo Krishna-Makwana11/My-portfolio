@@ -34,6 +34,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
 }
 
 /* Section 3 Ambient Glow (Disabled so master global background flows seamlessly) */
@@ -41,11 +43,12 @@
   display: none !important;
 }
 
-/* Book of Spells Mount Stage */
+/* Book of Spells Mount Stage (Exact Skills Section Boundary Card Match) */
 .book-of-spells-stage {
   position: relative;
   z-index: 2;
   width: 100%;
+  max-width: 1440px;
   height: 100vh;
   min-height: 100vh;
   display: flex;
@@ -55,10 +58,17 @@
   overflow: hidden;
   box-sizing: border-box;
   transform-origin: center center;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   transform: scale(1) translateX(0);
   opacity: 1;
   visibility: visible;
-  will-change: transform, opacity, filter;
+  border-radius: 1.25rem;
+  border: 1px solid transparent;
+  box-shadow: none;
+  background: transparent;
+  will-change: transform;
 }
 
 /* Thematic Corner Filigrees for Section 3 Exit Card Frame */

@@ -59,7 +59,59 @@ function generateLeatherBumpCanvas() {
 }
 
 /**
- * Generates Dark Antique Weathered Leather Texture (for Cover Slabs & Spine)
+ * Draws an ornate antique gilded filigree corner bracket
+ */
+function drawFiligreeCorner(ctx, x, y, size, flipX, flipY) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(flipX ? -1 : 1, flipY ? -1 : 1);
+
+  // Outer corner L-bracket line
+  ctx.strokeStyle = '#d4af37';
+  ctx.fillStyle = '#f5c542';
+  ctx.lineWidth = 3.5;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  ctx.beginPath();
+  ctx.moveTo(0, size);
+  ctx.lineTo(0, 0);
+  ctx.lineTo(size, 0);
+  ctx.stroke();
+
+  // Fine inner filigree curve
+  ctx.lineWidth = 1.6;
+  ctx.beginPath();
+  ctx.moveTo(14, size - 16);
+  ctx.quadraticCurveTo(14, 14, size - 16, 14);
+  ctx.stroke();
+
+  // Corner rivets & decorative dots
+  ctx.beginPath();
+  ctx.arc(8, 8, 5, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(size - 10, 14, 3.5, 0, Math.PI * 2);
+  ctx.arc(14, size - 10, 3.5, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Leaf / scroll curve
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.quadraticCurveTo(size * 0.4, size * 0.15, size * 0.5, size * 0.5);
+  ctx.quadraticCurveTo(size * 0.15, size * 0.4, 0, 0);
+  ctx.fillStyle = 'rgba(212, 175, 55, 0.45)';
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+/**
+ * Generates Dark Antique Weathered Leather Texture (for Cover Slabs, Spine & Back Cover)
+ * Features rich weathered leather grain, gilded double borders, 4 corner filigree brackets,
+ * and an embossed central Hogwarts grimoire medallion.
  */
 function generateAntiqueLeatherCanvas() {
   const canvas = document.createElement('canvas');
@@ -67,26 +119,98 @@ function generateAntiqueLeatherCanvas() {
   canvas.height = 1400;
   const ctx = canvas.getContext('2d');
 
-  const grad = ctx.createRadialGradient(512, 700, 100, 512, 700, 900);
+  // Deep antique leather gradient with subtle warm vignette
+  const grad = ctx.createRadialGradient(512, 700, 120, 512, 700, 950);
   grad.addColorStop(0, '#1c080b');
   grad.addColorStop(0.5, '#120406');
-  grad.addColorStop(1, '#080102');
+  grad.addColorStop(0.85, '#0a0203');
+  grad.addColorStop(1, '#050102');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, 1024, 1400);
 
-  ctx.fillStyle = 'rgba(255, 230, 200, 0.03)';
-  for (let i = 0; i < 15000; i++) {
+  // Weathered leather organic pores & grain
+  ctx.fillStyle = 'rgba(255, 230, 200, 0.035)';
+  for (let i = 0; i < 16000; i++) {
     ctx.fillRect(Math.random() * 1024, Math.random() * 1400, 2, 2);
   }
 
-  ctx.save();
-  ctx.strokeStyle = 'rgba(212, 175, 55, 0.35)';
-  ctx.lineWidth = 2.5;
-  ctx.strokeRect(30, 30, 964, 1340);
-
-  ctx.strokeStyle = 'rgba(212, 175, 55, 0.15)';
+  // Antique leather creasing
+  ctx.strokeStyle = 'rgba(0, 0, 0, 0.35)';
   ctx.lineWidth = 1;
-  ctx.strokeRect(42, 42, 940, 1316);
+  for (let i = 0; i < 35; i++) {
+    ctx.beginPath();
+    ctx.moveTo(Math.random() * 1024, Math.random() * 1400);
+    ctx.lineTo(Math.random() * 1024, Math.random() * 1400);
+    ctx.stroke();
+  }
+
+  // Double gilded margin borders
+  ctx.save();
+  ctx.strokeStyle = 'rgba(212, 175, 55, 0.45)';
+  ctx.lineWidth = 2.5;
+  ctx.strokeRect(32, 32, 960, 1336);
+
+  ctx.strokeStyle = 'rgba(212, 175, 55, 0.22)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(44, 44, 936, 1312);
+  ctx.restore();
+
+  // 4 Ornate Antique Corner Filigree Brackets
+  drawFiligreeCorner(ctx, 32, 32, 130, false, false);
+  drawFiligreeCorner(ctx, 1024 - 32, 32, 130, true, false);
+  drawFiligreeCorner(ctx, 32, 1400 - 32, 130, false, true);
+  drawFiligreeCorner(ctx, 1024 - 32, 1400 - 32, 130, true, true);
+
+  // Centered Embossed Gilded Hogwarts Grimoire Medallion
+  ctx.save();
+  ctx.translate(512, 700);
+
+  // Outer medallion circle
+  ctx.strokeStyle = 'rgba(212, 175, 55, 0.35)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(0, 0, 190, 0, Math.PI * 2);
+  ctx.stroke();
+
+  ctx.strokeStyle = 'rgba(212, 175, 55, 0.20)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.arc(0, 0, 204, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Inner decorative rune circle
+  ctx.setLineDash([6, 8]);
+  ctx.beginPath();
+  ctx.arc(0, 0, 174, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Central 8-pointed star / Hogwarts sigil
+  ctx.strokeStyle = 'rgba(245, 197, 66, 0.55)';
+  ctx.fillStyle = 'rgba(212, 175, 55, 0.12)';
+  ctx.lineWidth = 2.5;
+  for (let r = 0; r < 2; r++) {
+    ctx.save();
+    ctx.rotate((r * Math.PI) / 4);
+    ctx.strokeRect(-90, -90, 180, 180);
+    ctx.fillRect(-90, -90, 180, 180);
+    ctx.restore();
+  }
+
+  // Central emblem typography
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#fef3c7';
+  ctx.font = '900 22px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '5px';
+  ctx.shadowColor = 'rgba(245, 197, 66, 0.7)';
+  ctx.shadowBlur = 10;
+  ctx.fillText('HOGWARTS', 0, -10);
+
+  ctx.font = '600 14px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '4px';
+  ctx.fillStyle = 'rgba(245, 197, 66, 0.75)';
+  ctx.fillText('RESTRICTED SECTION', 0, 18);
+
   ctx.restore();
 
   return canvas;
@@ -390,6 +514,7 @@ export class BookOfSpellsViewer {
     this.controls = null;
     this.bookGroup = null;
     this.frontCoverGroup = null;
+    this.backCoverGroup = null;
     this.baseLeftPage = null;
     this.leafMeshes = [];
 
@@ -629,12 +754,27 @@ export class BookOfSpellsViewer {
 
     this.bookGroup.add(this.frontCoverGroup);
 
-    // 3. Back Cover: SOLID INTEGRAL ANTIQUE LEATHER BOARD (Zero floating / duplicate meshes!)
+    // 3. Back Cover Group: Pivots at x = 0, z = -halfP to realistically fold over the left stack!
+    this.backCoverGroup = new THREE.Group();
+    this.backCoverGroup.position.set(0, 0, -halfP);
+
     const backBoardGeo = createBevelledCoverBoard(W, H, cT, 0.06);
     const backBoardMesh = new THREE.Mesh(backBoardGeo, leatherMat);
-    backBoardMesh.position.set(0, 0, -halfP - bT);
+    // Scale Z by -1 so that when backCoverGroup is at angle 0:
+    // Inner face meets paper block at z = 0 (z = -halfP world)
+    // Outer face (weathered leather with corner filigrees) faces -Z at z = -bT (z = -halfP - bT world)
+    backBoardMesh.scale.set(1, 1, -1);
     backBoardMesh.receiveShadow = true;
-    this.bookGroup.add(backBoardMesh);
+    this.backCoverGroup.add(backBoardMesh);
+
+    // Inside Back Cover Face Panel: Florentine marbled endpaper
+    const insideBackPlaneGeo = new THREE.PlaneGeometry(W - 0.02, H - 0.02);
+    insideBackPlaneGeo.translate((W - 0.02) / 2 + 0.01, 0, 0);
+    insideBackPlaneGeo.computeVertexNormals();
+
+    const insideBackEndpaperMesh = new THREE.Mesh(insideBackPlaneGeo, innerCoverMat);
+    insideBackEndpaperMesh.position.set(0, 0, 0.001);
+    this.backCoverGroup.add(insideBackEndpaperMesh);
 
     // 4. Seamless Parametric Spine Arch Geometry (Watertight Binding at x = 0)
     const spineCanvas = generateSpineCanvas();
@@ -703,9 +843,12 @@ export class BookOfSpellsViewer {
       paperTopFaceMat,  // top paper face (+Z)
       paperEdgesMat     // bottom paper face (-Z)
     ];
-    const solidBlockMesh = new THREE.Mesh(solidBlockGeo, solidBlockMaterials);
-    solidBlockMesh.receiveShadow = true;
-    this.bookGroup.add(solidBlockMesh);
+    this.solidBlockMesh = new THREE.Mesh(solidBlockGeo, solidBlockMaterials);
+    this.solidBlockMesh.position.set(0, 0, halfP);
+    this.solidBlockMesh.receiveShadow = true;
+    this.backCoverGroup.add(this.solidBlockMesh);
+
+    this.bookGroup.add(this.backCoverGroup);
 
     // 6. Base Left Page (Clean Slate Blank Parchment at z = halfP + 0.002)
     const baseLeftGeo = new THREE.PlaneGeometry(this.pageWidth, this.pageHeight);
@@ -840,12 +983,14 @@ export class BookOfSpellsViewer {
     if (this.stage) {
       gsap.set(this.stage, {
         scale: 1,
+        x: 0,
+        y: 0,
         xPercent: 0,
         opacity: 1,
         visibility: 'visible',
         display: 'flex',
-        filter: 'blur(0px)',
-        borderRadius: '0px',
+        filter: 'none',
+        borderRadius: '1.25rem',
         border: '1px solid transparent',
         boxShadow: 'none',
         background: 'transparent',
@@ -863,7 +1008,8 @@ export class BookOfSpellsViewer {
 
   /**
    * Setup GSAP ScrollTrigger Sequence & Pinning:
-   * - Pin Section 3 cleanly (pin: true, scrub: 1, start: "top top", end: "+=3500")
+   * - Pin Section 3 cleanly (pin: true, scrub: 1.8, start: "top top", end: "+=6000")
+   * - Expanded 6000px scroll track for natural paper weight, steady deliberate reading, and calm velocity
    */
   setupScrollTrigger() {
     const section = document.getElementById('projects');
@@ -880,9 +1026,9 @@ export class BookOfSpellsViewer {
     const trigger = ScrollTrigger.create({
       trigger: section,
       start: 'top top',
-      end: '+=3500',
+      end: '+=6000',
       pin: true,
-      scrub: 1,
+      scrub: 1.8,
       anticipatePin: 1,
       onEnter: () => {
         if (topNav) topNav.classList.add('nav-hidden');
@@ -920,32 +1066,37 @@ export class BookOfSpellsViewer {
   }
 
   /**
-   * Master Scrollytelling Sequence Progression:
-   * 1. [0% - 70%]: Book starts closed -> Opens -> Flips parchment pages sequentially
-   * 2. [70% - 85%]: Book smoothly swings closed back to the center grimoire state
-   * 3. [85% - 90%]: Glowing boundary box frame fades in (opacity: 0 -> 1)
-   * 4. [90% - 100%]: Container zooms out (scale: 1 -> 0.75) and glides out to the left (x: 0 -> -120vw)
-   * (The zoom-out and glide-out strictly execute ONLY when progress > 0.90, NEVER on initial load!)
+   * Master Scrollytelling Sequence Progression (Matching Skills Section Pacing):
+   * 1. [0% - 75%]: Dedicated to steady, deliberate page turns -> Book closes naturally to back cover.
+   * 2. [75% - 82%]: Section border card frame fades in smoothly (opacity: 0 -> 1).
+   * 3. [82% - 100%]: Controlled, steady zoom-out (scale: 1 -> 0.60) and parallel left glide (x: 0 -> -130vw).
    */
   updateScrollSequence(progress) {
     const halfWidth = this.coverWidth / 2;
     const halfP = this.paperThickness / 2; // 0.11
+    const bT = this.boardTotalThickness;   // 0.08
 
     // Clamp progress safely
     const p = Math.max(0, Math.min(1, progress));
 
     // =========================================================================
-    // 1. [0% - 70%]: BOOK STARTS CLOSED -> OPENS -> FLIPS PARCHMENT PAGES
+    // 1. [0% - 75%]: STEADY DELIBERATE PAGE TURNS -> BOOK CLOSES TO BACK COVER
     // =========================================================================
-    if (p <= 0.70) {
-      // Phase 1A: Cover Opening [0.00 -> 0.15]
-      if (p <= 0.15) {
-        const openNorm = p / 0.15;
-        const easeT = gsap.parseEase('power2.inOut')(openNorm);
+    if (p <= 0.75) {
+      // Sub-Phase 1A: Front Cover Opening [0.00 -> 0.08]
+      if (p <= 0.08) {
+        // Ensure back cover group is resting flat in open position
+        if (this.backCoverGroup) {
+          this.backCoverGroup.rotation.y = 0;
+          this.backCoverGroup.position.set(0, 0, -halfP);
+        }
+
+        const openNorm = p / 0.08;
+        const easeT = gsap.parseEase('power1.inOut')(openNorm);
         const coverAngle = -easeT * Math.PI;
 
         if (this.bookGroup) {
-          // Moves from -halfWidth (centering the closed book) to 0 (centering the open spine)
+          // Moves from -halfWidth (centering closed front cover) to 0 (centering open spine)
           this.bookGroup.position.x = -halfWidth * (1 - easeT);
         }
 
@@ -971,8 +1122,13 @@ export class BookOfSpellsViewer {
 
         this.isBookOpen = isCoverOpening;
       }
-      // Phase 1B: Sequential Page Flipping [0.15 -> 0.70]
-      else {
+      // Sub-Phase 1B: Sequential Page Flipping [0.08 -> 0.60] (Generous 3100px track for 4 leaves)
+      else if (p > 0.08 && p <= 0.60) {
+        if (this.backCoverGroup) {
+          this.backCoverGroup.rotation.y = 0;
+          this.backCoverGroup.position.set(0, 0, -halfP);
+        }
+
         if (this.bookGroup) {
           this.bookGroup.position.x = 0;
         }
@@ -988,7 +1144,7 @@ export class BookOfSpellsViewer {
 
         this.isBookOpen = true;
 
-        const pageNorm = (p - 0.15) / (0.70 - 0.15);
+        const pageNorm = (p - 0.08) / (0.60 - 0.08);
         const totalFlips = this.leafMeshes.length;
         const rawPageProg = pageNorm * totalFlips;
         const clampedPageProg = Math.max(0, Math.min(totalFlips, rawPageProg));
@@ -1006,7 +1162,9 @@ export class BookOfSpellsViewer {
             leafProgress = clampedPageProg - k;
           }
 
-          const theta = leafProgress * Math.PI;
+          // Natural paper weight and organic momentum easing
+          const smoothedProgress = gsap.parseEase('power1.inOut')(leafProgress);
+          const theta = smoothedProgress * Math.PI;
           leafItem.angle = theta;
 
           if (leafProgress >= 0.999) {
@@ -1032,104 +1190,91 @@ export class BookOfSpellsViewer {
           this.currentSpreadIndex = activeIndex;
         }
       }
+      // Sub-Phase 1C: Book Closes Naturally to Back Cover [0.60 -> 0.75]
+      else {
+        const closeNorm = (p - 0.60) / (0.75 - 0.60);
+        const easeC = gsap.parseEase('power1.inOut')(closeNorm);
 
-      // Container is guaranteed at default scale: 1, xPercent: 0, opacity: 1
-      this.resetStageStyles();
-    }
+        // Back cover pivots leftward: 0 -> -PI
+        const backAngle = -easeC * Math.PI;
 
-    // =========================================================================
-    // 2. [70% - 85%]: BOOK SMOOTHLY SWINGS CLOSED BACK TO CENTER GRIMOIRE STATE
-    // =========================================================================
-    else if (p > 0.70 && p <= 0.85) {
-      const closeNorm = (p - 0.70) / (0.85 - 0.70);
-      const easeC = gsap.parseEase('power2.inOut')(closeNorm);
-
-      // Closing angle goes from -PI to 0
-      const closingAngle = -Math.PI * (1 - easeC);
-
-      if (this.frontCoverGroup) {
-        this.frontCoverGroup.rotation.y = closingAngle;
-        this.frontCoverGroup.position.z = halfP + Math.sin((1 - easeC) * Math.PI) * 0.18;
-      }
-
-      const isNearClosed = easeC >= 0.98;
-
-      // Turned leaves swing smoothly closed inside the front cover
-      for (let k = 0; k < this.leafMeshes.length; k++) {
-        const leafItem = this.leafMeshes[k];
-        if (isNearClosed) {
-          leafItem.group.visible = false;
-          leafItem.group.rotation.y = 0;
-          leafItem.group.position.z = leafItem.restingZ;
-          this.deformLeafGeometry(leafItem, 0);
-        } else {
-          leafItem.group.visible = true;
-          leafItem.group.rotation.y = closingAngle;
-          const currentZ = halfP + 0.005 + k * 0.003;
-          const targetZ = leafItem.restingZ;
-          leafItem.group.position.z = currentZ + (targetZ - currentZ) * easeC;
-          this.deformLeafGeometry(leafItem, Math.sin((1 - easeC) * Math.PI) * 0.18);
+        if (this.backCoverGroup) {
+          this.backCoverGroup.rotation.y = backAngle;
+          // Lifts and smoothly settles on top of the left stack
+          this.backCoverGroup.position.z = -halfP + Math.sin(easeC * Math.PI) * 0.22 + easeC * (halfP * 2 + bT);
         }
+
+        // Front cover stays flat open on the left at -PI under the stack
+        if (this.frontCoverGroup) {
+          this.frontCoverGroup.rotation.y = -Math.PI;
+          this.frontCoverGroup.position.z = halfP;
+        }
+
+        // Leaves stay resting on the left stack under the closing back cover
+        for (let k = 0; k < this.leafMeshes.length; k++) {
+          const leafItem = this.leafMeshes[k];
+          leafItem.group.visible = true;
+          leafItem.group.rotation.y = -Math.PI;
+          leafItem.group.position.z = halfP + 0.005 + k * 0.003;
+          this.deformLeafGeometry(leafItem, 0);
+        }
+
+        if (this.baseLeftPage) {
+          this.baseLeftPage.visible = true;
+        }
+
+        // Smoothly shifts from 0 to +halfWidth, centering the closed book with spine on the RIGHT!
+        if (this.bookGroup) {
+          this.bookGroup.position.x = halfWidth * easeC;
+        }
+
+        this.isBookOpen = easeC < 0.98;
       }
 
-      if (this.baseLeftPage) {
-        this.baseLeftPage.visible = !isNearClosed && (Math.abs(closingAngle * (180 / Math.PI)) > 25);
-      }
-
-      // Smoothly re-center the closed book volume
-      if (this.bookGroup) {
-        this.bookGroup.position.x = -halfWidth * easeC;
-      }
-
-      this.isBookOpen = !isNearClosed;
-
-      // Container remains at default scale: 1, xPercent: 0, opacity: 1
+      // Container is guaranteed at default scale: 1, x: 0, opacity: 1
       this.resetStageStyles();
     }
 
     // =========================================================================
-    // 3. [85% - 90%]: GLOWING BOUNDARY BOX FRAME FADES IN (opacity: 0 -> 1)
+    // 2. [75% - 82%]: SECTION BORDER CARD FRAME FADES IN (opacity: 0 -> 1)
     // =========================================================================
-    else if (p > 0.85 && p <= 0.90) {
-      // Book is fully locked in closed grimoire state in the center
+    else if (p > 0.75 && p <= 0.82) {
+      // Book is fully locked in its closed BACK-COVER state in the center
+      if (this.backCoverGroup) {
+        this.backCoverGroup.rotation.y = -Math.PI;
+        this.backCoverGroup.position.z = halfP + bT;
+      }
       if (this.frontCoverGroup) {
-        this.frontCoverGroup.rotation.y = 0;
+        this.frontCoverGroup.rotation.y = -Math.PI;
         this.frontCoverGroup.position.z = halfP;
       }
       if (this.bookGroup) {
-        this.bookGroup.position.x = -halfWidth;
+        this.bookGroup.position.x = halfWidth;
       }
-      if (this.baseLeftPage) {
-        this.baseLeftPage.visible = false;
-      }
-      this.leafMeshes.forEach((leaf) => {
-        leaf.group.visible = false;
-        leaf.group.rotation.y = 0;
-        leaf.group.position.z = leaf.restingZ;
-        this.deformLeafGeometry(leaf, 0);
-      });
       this.isBookOpen = false;
 
-      const frameNorm = (p - 0.85) / (0.90 - 0.85);
-      const easeF = gsap.parseEase('power2.inOut')(frameNorm);
+      const frameNorm = (p - 0.75) / (0.82 - 0.75);
+      const easeF = gsap.parseEase('power1.inOut')(frameNorm);
 
-      const borderAlpha = (0.35 * easeF).toFixed(3);
-      const shadowAlpha = (0.80 * easeF).toFixed(3);
-      const glowAlpha = (0.25 * easeF).toFixed(3);
-      const bgAlpha = (0.60 * easeF).toFixed(3);
+      const borderAlpha = (0.40 * easeF).toFixed(3);
+      const shadowAlpha = (0.90 * easeF).toFixed(3);
+      const insetAlpha = (0.05 * easeF).toFixed(3);
+      const bgAlpha = (0.65 * easeF).toFixed(3);
 
       if (this.stage) {
         gsap.set(this.stage, {
           scale: 1,
+          x: 0,
+          y: 0,
           xPercent: 0,
           opacity: 1,
           visibility: 'visible',
           display: 'flex',
-          filter: 'blur(0px)',
-          borderRadius: `${32 * easeF}px`,
+          filter: 'none',
+          borderRadius: '1.25rem',
           border: `1px solid rgba(234, 179, 8, ${borderAlpha})`,
-          boxShadow: `0 0 ${30 * easeF}px rgba(0, 0, 0, ${shadowAlpha}), 0 0 ${25 * easeF}px rgba(234, 179, 8, ${glowAlpha})`,
-          background: `rgba(15, 6, 8, ${bgAlpha})`,
+          boxShadow: `0 0 35px rgba(0, 0, 0, ${shadowAlpha}), inset 0 0 20px rgba(234, 179, 8, ${insetAlpha})`,
+          background: `rgba(14, 10, 18, ${bgAlpha})`,
           backdropFilter: `blur(${12 * easeF}px)`,
           force3D: true
         });
@@ -1143,48 +1288,52 @@ export class BookOfSpellsViewer {
     }
 
     // =========================================================================
-    // 4. [90% - 100%]: CONTAINER ZOOMS OUT (1 -> 0.75) & GLIDES LEFT (x: 0 -> -120vw)
+    // 3. [82% - 100%]: CONTROLLED STEADY ZOOM-OUT (1 -> 0.60) & LEFT GLIDE (0 -> -130vw)
+    // (Matching Skills Section calm, premium velocity with power1.inOut)
     // =========================================================================
-    else if (p > 0.90) {
-      // Book remains locked in closed grimoire state
+    else if (p > 0.82) {
+      // Book remains locked in closed BACK-COVER state
+      if (this.backCoverGroup) {
+        this.backCoverGroup.rotation.y = -Math.PI;
+        this.backCoverGroup.position.z = halfP + bT;
+      }
       if (this.frontCoverGroup) {
-        this.frontCoverGroup.rotation.y = 0;
+        this.frontCoverGroup.rotation.y = -Math.PI;
         this.frontCoverGroup.position.z = halfP;
       }
       if (this.bookGroup) {
-        this.bookGroup.position.x = -halfWidth;
+        this.bookGroup.position.x = halfWidth;
       }
-      if (this.baseLeftPage) {
-        this.baseLeftPage.visible = false;
-      }
-      this.leafMeshes.forEach((leaf) => {
-        leaf.group.visible = false;
-        leaf.group.rotation.y = 0;
-        leaf.group.position.z = leaf.restingZ;
-        this.deformLeafGeometry(leaf, 0);
-      });
       this.isBookOpen = false;
 
-      const exitNorm = (p - 0.90) / (1.00 - 0.90);
-      const easeE = gsap.parseEase('power2.inOut')(exitNorm);
+      const exitNorm = (p - 0.82) / (1.00 - 0.82);
+      // power1.inOut matches the calm, premium velocity of Section 2
+      const ease = gsap.parseEase('power1.inOut')(exitNorm);
 
-      const scale = 1 - 0.25 * easeE; // 1.0 -> 0.75
-      const xPercent = -120 * easeE;  // 0 -> -120vw
-      const opacity = Math.max(0, 1 - easeE);
-      const blurPx = (8 * easeE).toFixed(2);
+      // Controlled, steady zoom-out: 1.0 down to 0.60
+      const scale = 1.0 - (1.0 - 0.60) * ease;
+      // Parallel left glide: 0 -> -130vw
+      const xGlide = -130 * ease;
+
+      // Subtle gradual fade out in final stretch of the exit track
+      const fadeFactor = Math.max(0, (exitNorm - 0.75) / 0.25);
+      const opacity = Math.max(0, 1 - fadeFactor);
+      const blurPx = (6 * fadeFactor).toFixed(2);
 
       if (this.stage) {
         gsap.set(this.stage, {
           scale: scale,
-          xPercent: xPercent,
+          x: `${xGlide}vw`,
+          y: 0,
+          xPercent: 0,
           opacity: opacity,
           visibility: 'visible',
           display: 'flex',
-          filter: `blur(${blurPx}px)`,
-          borderRadius: '32px',
-          border: '1px solid rgba(234, 179, 8, 0.35)',
-          boxShadow: '0 0 30px rgba(0, 0, 0, 0.8), 0 0 25px rgba(234, 179, 8, 0.25)',
-          background: 'rgba(15, 6, 8, 0.60)',
+          filter: blurPx > 0 ? `blur(${blurPx}px)` : 'none',
+          borderRadius: '1.25rem',
+          border: '1px solid rgba(234, 179, 8, 0.4)',
+          boxShadow: '0 0 35px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(234, 179, 8, 0.05)',
+          background: 'rgba(14, 10, 18, 0.65)',
           backdropFilter: 'blur(12px)',
           force3D: true
         });

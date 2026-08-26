@@ -1,8 +1,9 @@
 /* ==========================================================================
    INTERACTIVE 3D "BOOK OF SPELLS" (GRIMOIRE) COMPONENT
-   - Volumetric 3D Solid Geometry (Thick Leather Slabs, Gap-Free Unified Spine)
-   - 360° Unrestricted Drag Orbit (OrbitControls with Full Azimuth & Polar Inspection)
+   - Volumetric Bevelled Leather Covers (Fillet Rounded Outer Corners & Edges)
+   - Continuous Smooth Curved Spine & Antique Silk Headbands (Zero Gaps)
    - Closed-State Mesh Hierarchy (Zero Exposed Pages on Left When Closed)
+   - 360° Unrestricted Click-and-Drag OrbitControls
    - Clean High-Definition Blank Antique Parchment Slates
    - Smooth GSAP ScrollTrigger Page Turns
    ========================================================================== */
@@ -32,11 +33,11 @@ function generateLeatherBumpCanvas() {
 
   // Micro-grain leather noise
   ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
-  for (let i = 0; i < 24000; i++) {
+  for (let i = 0; i < 25000; i++) {
     ctx.fillRect(Math.random() * 1024, Math.random() * 1400, 2, 2);
   }
 
-  // Soft distress lines
+  // Soft organic distress lines
   ctx.strokeStyle = '#505050';
   ctx.lineWidth = 1.5;
   for (let i = 0; i < 30; i++) {
@@ -52,7 +53,7 @@ function generateLeatherBumpCanvas() {
 }
 
 /**
- * Generates Leather Edge Texture for Volumetric Cover Slabs (+X, -X, +Y, -Y)
+ * Generates Leather Edge Texture for Volumetric Cover Slabs (+X, -X, +Y, -Y & Bevels)
  */
 function generateLeatherEdgeCanvas() {
   const canvas = document.createElement('canvas');
@@ -63,8 +64,8 @@ function generateLeatherEdgeCanvas() {
   // Deep antique burgundy leather gradient
   const grad = ctx.createLinearGradient(0, 0, 0, 128);
   grad.addColorStop(0, '#0e0304');
-  grad.addColorStop(0.3, '#240a0e');
-  grad.addColorStop(0.7, '#240a0e');
+  grad.addColorStop(0.3, '#22090d');
+  grad.addColorStop(0.7, '#22090d');
   grad.addColorStop(1, '#0b0203');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, 512, 128);
@@ -102,7 +103,7 @@ function generateBackCoverCanvas() {
   ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, 1024, 1400);
 
-  // Subtle grain
+  // Grain
   ctx.fillStyle = 'rgba(255, 230, 200, 0.025)';
   for (let i = 0; i < 8000; i++) {
     ctx.fillRect(Math.random() * 1024, Math.random() * 1400, 2, 2);
@@ -284,38 +285,40 @@ function generateSpineGutterCanvas() {
  */
 function generateSpineCanvas() {
   const canvas = document.createElement('canvas');
-  canvas.width = 300;
+  canvas.width = 400;
   canvas.height = 1400;
   const ctx = canvas.getContext('2d');
 
-  const bgGrad = ctx.createLinearGradient(0, 0, 300, 0);
-  bgGrad.addColorStop(0, '#0e0304');
-  bgGrad.addColorStop(0.5, '#1e080b');
-  bgGrad.addColorStop(1, '#0e0304');
+  const bgGrad = ctx.createLinearGradient(0, 0, 400, 0);
+  bgGrad.addColorStop(0, '#0c0203');
+  bgGrad.addColorStop(0.15, '#1c080b');
+  bgGrad.addColorStop(0.5, '#280c10');
+  bgGrad.addColorStop(0.85, '#1c080b');
+  bgGrad.addColorStop(1, '#0c0203');
   ctx.fillStyle = bgGrad;
-  ctx.fillRect(0, 0, 300, 1400);
+  ctx.fillRect(0, 0, 400, 1400);
 
   const ribPositions = [150, 420, 700, 980, 1250];
   ribPositions.forEach((ry) => {
     ctx.save();
     ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
-    ctx.fillRect(0, ry - 12, 300, 24);
+    ctx.fillRect(0, ry - 14, 400, 28);
 
-    const ribGrad = ctx.createLinearGradient(0, 0, 300, 0);
-    ribGrad.addColorStop(0, '#8c6d23');
+    const ribGrad = ctx.createLinearGradient(0, 0, 400, 0);
+    ribGrad.addColorStop(0, '#755418');
     ribGrad.addColorStop(0.5, '#fef08a');
-    ribGrad.addColorStop(1, '#8c6d23');
+    ribGrad.addColorStop(1, '#755418');
     ctx.fillStyle = ribGrad;
-    ctx.fillRect(15, ry - 6, 270, 12);
+    ctx.fillRect(20, ry - 7, 360, 14);
 
     ctx.strokeStyle = '#d4af37';
     ctx.lineWidth = 1.5;
-    ctx.strokeRect(15, ry - 6, 270, 12);
+    ctx.strokeRect(20, ry - 7, 360, 14);
     ctx.restore();
   });
 
   ctx.save();
-  ctx.translate(150, 700);
+  ctx.translate(200, 700);
   ctx.rotate(-Math.PI / 2);
   ctx.textAlign = 'center';
   ctx.fillStyle = '#fef3c7';
@@ -325,6 +328,31 @@ function generateSpineCanvas() {
   ctx.shadowBlur = 10;
   ctx.fillText('THE GRIMOIRE OF SPELLS', 0, 10);
   ctx.restore();
+
+  return canvas;
+}
+
+/**
+ * Generates Braided Silk Headband/Endband Texture (Gold & Crimson weave)
+ */
+function generateHeadbandCanvas() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 64;
+  const ctx = canvas.getContext('2d');
+
+  for (let x = 0; x < 256; x += 16) {
+    ctx.fillStyle = (x / 16) % 2 === 0 ? '#991b1b' : '#f59e0b';
+    ctx.fillRect(x, 0, 16, 64);
+
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+    ctx.fillRect(x, 0, 2, 64);
+  }
+
+  // Top/bottom edge gold borders
+  ctx.fillStyle = '#d4af37';
+  ctx.fillRect(0, 0, 256, 4);
+  ctx.fillRect(0, 60, 256, 4);
 
   return canvas;
 }
@@ -415,6 +443,76 @@ function generateCleanBlankParchmentCanvas(isLeft) {
   return canvas;
 }
 
+/**
+ * Creates Bevelled & Fillet-Rounded 3D Cover Slab Geometry
+ * - Straight flush edge along spine hinge (x = 0)
+ * - Rounded outer corners (fillet radius r = 0.08)
+ * - Smooth bevelled edge rounding on all outer borders (bevelThickness = 0.025, bevelSize = 0.025, bevelSegments = 5)
+ */
+function createBevelledCoverGeometry(W, H, cD) {
+  const r = 0.08; // Fillet radius on outer corners
+  const shape = new THREE.Shape();
+
+  // Straight along spine hinge at x = 0
+  shape.moveTo(0, -H / 2);
+  shape.lineTo(W - r, -H / 2);
+  shape.quadraticCurveTo(W, -H / 2, W, -H / 2 + r);
+  shape.lineTo(W, H / 2 - r);
+  shape.quadraticCurveTo(W, H / 2, W - r, H / 2);
+  shape.lineTo(0, H / 2);
+  shape.closePath();
+
+  const bevelSize = 0.025;
+  const bevelThickness = 0.025;
+  const geo = new THREE.ExtrudeGeometry(shape, {
+    depth: cD,
+    bevelEnabled: true,
+    bevelThickness: bevelThickness,
+    bevelSize: bevelSize,
+    bevelSegments: 5,
+    curveSegments: 16
+  });
+
+  // Center Z so the back face of the bevelled slab sits at z = 0
+  geo.translate(0, 0, bevelThickness);
+
+  const pos = geo.attributes.position;
+  const uv = geo.attributes.uv;
+  const totalVertices = pos.count;
+
+  // Identify planar cap triangles (normal along Z)
+  let capCount = 0;
+  for (let i = 0; i < totalVertices; i += 3) {
+    const z0 = pos.getZ(i);
+    const z1 = pos.getZ(i + 1);
+    const z2 = pos.getZ(i + 2);
+    if (Math.abs(z0 - z1) < 0.0001 && Math.abs(z1 - z2) < 0.0001) {
+      capCount += 3;
+    } else {
+      break;
+    }
+  }
+
+  const halfCap = capCount / 2;
+  // Normalize UVs for front and inside face caps
+  for (let i = 0; i < capCount; i++) {
+    const x = pos.getX(i);
+    const y = pos.getY(i);
+    uv.setXY(i, Math.max(0, Math.min(1, x / W)), Math.max(0, Math.min(1, (y + H / 2) / H)));
+  }
+
+  geo.clearGroups();
+  // Group 0: Front face (+Z)
+  geo.addGroup(halfCap, halfCap, 0);
+  // Group 1: Inside face (-Z)
+  geo.addGroup(0, halfCap, 1);
+  // Group 2: Bevelled & rounded edges
+  geo.addGroup(capCount, totalVertices - capCount, 2);
+
+  geo.computeVertexNormals();
+  return geo;
+}
+
 // ==========================================================================
 // 2. THREE.JS 3D GRIMOIRE MODEL & RIGGING (Volumetric Slabs + 360° Orbit)
 // ==========================================================================
@@ -443,7 +541,8 @@ export class BookOfSpellsViewer {
     this.bookThickness = 0.26; // Substantial solid grimoire paper block
     this.coverWidth = this.pageWidth + 0.12;
     this.coverHeight = this.pageHeight + 0.16;
-    this.coverDepth = 0.08; // Thick bevelled leather covers (No 2D flat cardboard!)
+    this.coverDepth = 0.08; // Base slab depth (total bevelled thickness ~0.13)
+    this.totalCoverThickness = this.coverDepth + 0.05; // cD + 2 * bevelThickness
 
     this.animationFrameId = null;
     this.clock = new THREE.Clock();
@@ -525,20 +624,20 @@ export class BookOfSpellsViewer {
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.25);
     this.scene.add(ambientLight);
 
-    // Key directional light with soft shadows
+    // Key directional light with soft shadows (highlights bevelled leather curves)
     const keyLight = new THREE.DirectionalLight(0xffffff, 1.8);
-    keyLight.position.set(3, 4, 6);
+    keyLight.position.set(3.5, 4.5, 6);
     keyLight.castShadow = true;
     keyLight.shadow.mapSize.width = 1024;
     keyLight.shadow.mapSize.height = 1024;
     this.scene.add(keyLight);
 
-    // Cool moonlight rim light
+    // Cool moonlight rim light (catches outer rounded corners)
     const coolMoonlight = new THREE.DirectionalLight(0x8faec9, 0.75);
     coolMoonlight.position.set(-5, 2, 4);
     this.scene.add(coolMoonlight);
 
-    // Soft neutral fill
+    // Soft neutral fill from right
     const softFill = new THREE.DirectionalLight(0xffffff, 0.45);
     softFill.position.set(5, 1, 4);
     this.scene.add(softFill);
@@ -546,21 +645,23 @@ export class BookOfSpellsViewer {
 
   /**
    * Builds the Realistic Volumetric 3D Book
-   * - Front and Back Covers are thick 3D Box slabs (depth 0.08) with leather edges
+   * - Front and Back Covers are thick 3D bevelled slabs with rounded fillet corners
    * - Curved cylindrical spine on left bridging covers with zero gaps
+   * - Braided silk headbands capping the top and bottom of the page binding
    * - Solid contiguous paper block underneath (zero hollow void)
    * - Clean blank antique parchment for all pages
    */
   buildVolumetricBookModel() {
     const W = this.coverWidth;
     const H = this.coverHeight;
-    const cD = this.coverDepth; // 0.08 units physical slab thickness
+    const cD = this.coverDepth;
+    const tCD = this.totalCoverThickness;
     const T = this.bookThickness;
     const pIndent = this.pageIndent;
 
     const textureLoader = new THREE.TextureLoader();
 
-    // 1. Core Textures
+    // 1. Core Materials & Textures
     const coverTex = textureLoader.load('/assets/magic_cover.jpg', (tex) => {
       tex.colorSpace = THREE.SRGBColorSpace;
       tex.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
@@ -600,13 +701,11 @@ export class BookOfSpellsViewer {
       depthWrite: true
     });
 
-    // 2. Volumetric Front Cover Slab (BoxGeometry with depth cD)
+    // 2. Bevelled Front Cover Slab (Rounded corners, smooth edge fillet)
     this.frontCoverGroup = new THREE.Group();
     this.frontCoverGroup.position.set(0, 0, 0);
 
-    const frontCoverGeo = new THREE.BoxGeometry(W, H, cD, 4, 4, 1);
-    // Pivot strictly along the spine hinge at x = 0
-    frontCoverGeo.translate(W / 2, 0, cD / 2);
+    const frontCoverGeo = createBevelledCoverGeometry(W, H, cD);
 
     const outerCoverMat = new THREE.MeshStandardMaterial({
       map: coverTex,
@@ -620,15 +719,11 @@ export class BookOfSpellsViewer {
       depthWrite: true
     });
 
-    // 6-face materials for volumetric slab:
-    // [right (+X), left (-X), top (+Y), bottom (-Y), front (+Z), back (-Z)]
+    // Materials array matching groups: [Front Face, Inside Face, Bevelled Edges]
     const frontCoverMaterials = [
-      leatherEdgeMat, // right (+X)
-      leatherEdgeMat, // left (-X spine)
-      leatherEdgeMat, // top (+Y)
-      leatherEdgeMat, // bottom (-Y)
-      outerCoverMat,  // front (+Z) Magic cover artwork
-      innerCoverMat   // back (-Z) Florentine marbled endpaper
+      outerCoverMat,  // Front Face (+Z) with Magic Cover artwork
+      innerCoverMat,  // Inside Face (-Z) with Florentine marbled endpaper
+      leatherEdgeMat  // Bevelled & rounded edges
     ];
 
     const frontCoverMesh = new THREE.Mesh(frontCoverGeo, frontCoverMaterials);
@@ -637,7 +732,7 @@ export class BookOfSpellsViewer {
     this.frontCoverGroup.add(frontCoverMesh);
     this.bookGroup.add(this.frontCoverGroup);
 
-    // 3. Volumetric Back Cover Slab (BoxGeometry with depth cD)
+    // 3. Bevelled Back Cover Slab (Rounded corners, smooth edge fillet)
     const backCoverCanvas = generateBackCoverCanvas();
     const backCoverTex = new THREE.CanvasTexture(backCoverCanvas);
     backCoverTex.colorSpace = THREE.SRGBColorSpace;
@@ -654,45 +749,45 @@ export class BookOfSpellsViewer {
       depthWrite: true
     });
 
-    const backCoverGeo = new THREE.BoxGeometry(W, H, cD, 4, 4, 1);
-    backCoverGeo.translate(W / 2, 0, -T - cD / 2);
+    const backCoverGeo = createBevelledCoverGeometry(W, H, cD);
+    // Position back cover so its inside face sits flush against the paper block at z = -T
+    backCoverGeo.translate(0, 0, -T - tCD);
 
+    // Materials: [Inside Face (+Z), Outside Back Face (-Z), Bevelled Edges]
     const backCoverMaterials = [
-      leatherEdgeMat,   // right (+X)
-      leatherEdgeMat,   // left (-X)
-      leatherEdgeMat,   // top (+Y)
-      leatherEdgeMat,   // bottom (-Y)
-      innerCoverMat,    // inside (+Z)
-      backOuterCoverMat // outside back (-Z)
+      innerCoverMat,    // Inside Face (+Z)
+      backOuterCoverMat,// Outside Back Face (-Z) with Hogwarts Seal
+      leatherEdgeMat    // Bevelled & rounded edges
     ];
 
     const backCoverMesh = new THREE.Mesh(backCoverGeo, backCoverMaterials);
     backCoverMesh.receiveShadow = true;
     this.bookGroup.add(backCoverMesh);
 
-    // 4. Solid Unified Curved Spine along x = 0 (Zero Hollow Gap)
-    // Span from front cover outer face (z = cD) to back cover outer face (z = -T - cD)
-    const totalSpan = T + cD * 2;
-    const spineRadius = totalSpan / 2;
-    const zCenter = -T / 2;
+    // 4. Smooth Continuous Rounded Spine (Zero Gaps, Seamless Hinge)
+    // Span exactly from front cover outer face (z = tCD) to back cover outer face (z = -T - tCD)
+    const totalSpan = T + tCD * 2; // e.g. 0.26 + 0.26 = 0.52
+    const spineRadius = totalSpan / 2; // e.g. 0.26
+    const zCenter = -T / 2; // Center of spine curvature
 
     const spineCanvas = generateSpineCanvas();
     const spineTex = new THREE.CanvasTexture(spineCanvas);
     spineTex.colorSpace = THREE.SRGBColorSpace;
     spineTex.anisotropy = 4;
 
-    // Cylinder with closed endcaps and half-circle arc wrapping from front cover to back cover
+    // High-resolution curved cylinder with 64 radial segments for smooth curvature
     const spineGeo = new THREE.CylinderGeometry(
       spineRadius,
       spineRadius,
       H,
-      32,
+      64,
       1,
       false,
       Math.PI / 2,
       Math.PI
     );
     spineGeo.translate(0, 0, zCenter);
+    spineGeo.computeVertexNormals();
 
     const spineMat = new THREE.MeshStandardMaterial({
       color: 0xffffff,
@@ -708,11 +803,30 @@ export class BookOfSpellsViewer {
     spineMesh.receiveShadow = true;
     this.bookGroup.add(spineMesh);
 
-    // Solid inner spine backing core (fills any internal hollow gap between pages and spine)
-    const spineCoreGeo = new THREE.BoxGeometry(spineRadius * 0.9, H * 0.98, T);
-    spineCoreGeo.translate(-spineRadius * 0.45, 0, zCenter);
+    // Spine Top & Bottom Solid Bevelled Endcaps (Seals top and bottom of cylinder completely)
+    const capShape = new THREE.Shape();
+    capShape.absarc(0, zCenter, spineRadius, Math.PI / 2, (3 * Math.PI) / 2, false);
+    capShape.lineTo(0, zCenter + spineRadius);
+    capShape.closePath();
+
+    const capGeo = new THREE.ShapeGeometry(capShape, 32);
+    capGeo.rotateX(-Math.PI / 2);
+
+    // Top Cap (at y = H/2)
+    const topCapMesh = new THREE.Mesh(capGeo, leatherEdgeMat);
+    topCapMesh.position.set(0, H / 2, 0);
+    this.bookGroup.add(topCapMesh);
+
+    // Bottom Cap (at y = -H/2)
+    const bottomCapMesh = new THREE.Mesh(capGeo.clone().rotateX(Math.PI), leatherEdgeMat);
+    bottomCapMesh.position.set(0, -H / 2, 0);
+    this.bookGroup.add(bottomCapMesh);
+
+    // Solid Inner Spine Core (Eliminates any possible hollow void between paper and spine)
+    const spineCoreGeo = new THREE.BoxGeometry(spineRadius * 0.95, H * 0.99, T);
+    spineCoreGeo.translate(-spineRadius * 0.475, 0, zCenter);
     const spineCoreMat = new THREE.MeshStandardMaterial({
-      color: 0x160608,
+      color: 0x140507,
       roughness: 0.9,
       depthTest: true,
       depthWrite: true
@@ -720,7 +834,45 @@ export class BookOfSpellsViewer {
     const spineCoreMesh = new THREE.Mesh(spineCoreGeo, spineCoreMat);
     this.bookGroup.add(spineCoreMesh);
 
-    // 5. Solid Contiguous Closed Paper Block (Zero see-through cracks)
+    // 5. Traditional Braided Silk Headbands (Endbands)
+    // Sits right above and below the paper block inside the spine curve
+    const headbandCanvas = generateHeadbandCanvas();
+    const headbandTex = new THREE.CanvasTexture(headbandCanvas);
+    headbandTex.wrapS = THREE.RepeatWrapping;
+    headbandTex.repeat.set(4, 1);
+
+    const headbandMat = new THREE.MeshStandardMaterial({
+      map: headbandTex,
+      roughness: 0.75,
+      metalness: 0.2,
+      depthTest: true,
+      depthWrite: true
+    });
+
+    const hbRadius = spineRadius * 0.88;
+    const hbGeo = new THREE.CylinderGeometry(
+      hbRadius,
+      hbRadius,
+      0.035,
+      32,
+      1,
+      true,
+      Math.PI / 2,
+      Math.PI
+    );
+    hbGeo.translate(0, 0, zCenter);
+
+    // Top Headband (at top of paper block y = pageHeight / 2)
+    const topHeadband = new THREE.Mesh(hbGeo, headbandMat);
+    topHeadband.position.set(0, this.pageHeight / 2 + 0.015, 0);
+    this.bookGroup.add(topHeadband);
+
+    // Bottom Headband (at bottom of paper block y = -pageHeight / 2)
+    const bottomHeadband = new THREE.Mesh(hbGeo, headbandMat);
+    bottomHeadband.position.set(0, -this.pageHeight / 2 - 0.015, 0);
+    this.bookGroup.add(bottomHeadband);
+
+    // 6. Solid Contiguous Closed Paper Block (Zero see-through cracks)
     const pageEdgesCanvas = generatePageEdgesCanvas();
     const pageEdgesTex = new THREE.CanvasTexture(pageEdgesCanvas);
     pageEdgesTex.colorSpace = THREE.SRGBColorSpace;
@@ -768,7 +920,7 @@ export class BookOfSpellsViewer {
     solidBlockMesh.receiveShadow = true;
     this.bookGroup.add(solidBlockMesh);
 
-    // 6. Seamless Center Spine Gutter Mesh
+    // 7. Seamless Center Spine Gutter Mesh
     const gutterCanvas = generateSpineGutterCanvas();
     const gutterTex = new THREE.CanvasTexture(gutterCanvas);
     gutterTex.colorSpace = THREE.SRGBColorSpace;
@@ -796,7 +948,7 @@ export class BookOfSpellsViewer {
     this.spineGutterMesh.visible = false; // Strictly hidden when closed
     this.bookGroup.add(this.spineGutterMesh);
 
-    // 7. Base Left Page (Clean Blank Slate, STRICTLY HIDDEN WHEN CLOSED)
+    // 8. Base Left Page (Clean Blank Slate, STRICTLY HIDDEN WHEN CLOSED)
     const baseLeftGeo = new THREE.PlaneGeometry(this.pageWidth, this.pageHeight);
     baseLeftGeo.translate(-pIndent - this.pageWidth / 2, 0, 0);
     const baseLeftMat = new THREE.MeshStandardMaterial({
@@ -808,11 +960,11 @@ export class BookOfSpellsViewer {
       depthWrite: true
     });
     this.baseLeftPage = new THREE.Mesh(baseLeftGeo, baseLeftMat);
-    this.baseLeftPage.position.set(0, 0, -cD + 0.005);
-    this.baseLeftPage.visible = false; // Hidden when closed! No exposed left page bug!
+    this.baseLeftPage.position.set(0, 0, -tCD + 0.005);
+    this.baseLeftPage.visible = false; // Hidden when closed! Zero exposed left page!
     this.bookGroup.add(this.baseLeftPage);
 
-    // 8. Dynamic Flipping Leaves (Total: 4 blank parchment leaves)
+    // 9. Dynamic Flipping Leaves (Total: 4 blank parchment leaves)
     const totalFlips = 4;
     this.leafMeshes = [];
     const segmentsX = 36;

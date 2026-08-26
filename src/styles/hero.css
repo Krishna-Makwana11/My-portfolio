@@ -169,14 +169,12 @@
   transition: background 0.6s var(--ease-magic);
 }
 
-/* Seamless Luxury Centered Atmospheric House Glow */
+/* Seamless Luxury Centered Atmospheric House Glow (Inherits Master Global Theme Background) */
 .hero-default-bg {
   position: absolute;
   inset: 0;
-  background: 
-    radial-gradient(ellipse 1100px 750px at 50% 42%, rgba(217, 119, 6, 0.28) 0%, var(--house-bg-shine-1, rgba(139, 24, 27, 0.22)) 35%, rgba(5, 6, 10, 0.85) 65%, #05060a 100%);
-  opacity: 1;
-  transition: background 0.6s var(--ease-magic), opacity 0.7s var(--ease-magic);
+  background: transparent !important;
+  opacity: 0;
   z-index: 1;
   pointer-events: none;
 }

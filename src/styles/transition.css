@@ -11,7 +11,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #040508;
+  background: transparent !important;
+  background-color: transparent !important;
   border-top: 1px solid rgba(245, 197, 66, 0.15);
   border-bottom: 1px solid rgba(245, 197, 66, 0.15);
 }

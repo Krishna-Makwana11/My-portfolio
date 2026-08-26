@@ -1,14 +1,17 @@
 /* ==========================================================================
    INTERACTIVE 3D "BOOK OF SPELLS" (GRIMOIRE) COMPONENT
-   - Clean Slate for All Internal Pages (High-Resolution Blank Vintage Parchment)
-   - Zero Dummy Text, Headers, Badges, or UI Overlays on Internal Pages
+   - Permanent Mounting & Full Visibility (scale: 1, translateX: 0, opacity: 1)
+   - Correct Pinned GSAP ScrollTrigger Sequence (pin: true on #projects, end: "+=3500", scrub: 1)
+     * [0% - 70%]: Book starts closed in center -> Opens -> Flips parchment pages sequentially
+     * [70% - 85%]: Book smoothly swings closed back to the center grimoire state
+     * [85% - 90%]: Glowing boundary box frame & corner filigrees fade in (opacity: 0 -> 1)
+     * [90% - 100%]: Container zooms out (scale: 1 -> 0.75) and glides out to left (xPercent: 0 -> -120)
+     (Exit zoom/glide strictly runs ONLY at progress > 0.90, never on load!)
    - Authentic Cinematic Hogwarts Front Cover Artwork (Magic (1)_3.jpg)
-   - Persistent Double-Sided Pages with Non-Vanishing Left Stack
-   - Solid Integral Antique Leather Back Cover (Zero Floating Meshes)
-   - Watertight Continuous Parametric Spine Arch (Zero Gaps / Seamless at x = 0)
-   - Clean Uniform 0.05-Unit Leather Overhang (Top, Bottom, Right)
-   - Anti-Z-Fighting PolygonOffset & Strict Closed-State Hierarchy
-   - Unrestricted 360° OrbitControls & Smooth GSAP Scroll Scrubbing
+   - Clean High-Definition Blank Vintage Parchment Pages
+   - Watertight Parametric Spine Arch & Solid Integral Leather Back Cover
+   - Camera at (0, 0, 5) with near: 0.1, far: 1000 and Vibrant Three-Point Lighting
+   - Unrestricted 360° Drag OrbitControls with Smooth Inertia Damping
    ========================================================================== */
 
 import * as THREE from 'three';
@@ -214,8 +217,6 @@ function generatePageEdgesCanvas() {
 /**
  * Generates Clean High-Resolution Blank Vintage Parchment Texture
  * (PURE CLEAN SLATE: Zero dummy text, zero headers, zero titles, zero badges, zero overlays)
- * Features natural aged parchment gradients, micro-fibers, delicate weathered margin rules,
- * antique corner filigrees, and binding gutter shadow.
  */
 function generateCleanBlankParchmentCanvas(isLeft) {
   const canvas = document.createElement('canvas');
@@ -376,6 +377,9 @@ function createParametricSpineArchGeometry(Rout, Rin, H, segments = 36) {
 export class BookOfSpellsViewer {
   constructor(container) {
     this.container = container;
+    this.stage = document.getElementById('book-of-spells-stage');
+    this.cornerAccents = this.stage ? this.stage.querySelectorAll('.stage-corner-accent') : [];
+
     this.currentSpreadIndex = 0;
     this.isBookOpen = false;
 
@@ -418,6 +422,11 @@ export class BookOfSpellsViewer {
     this.setupOrbitControls();
     this.setupScrollTrigger();
     this.setupEventListeners();
+
+    // Explicit initial state reset: book closed in center, stage scale: 1, opacity: 1
+    this.resetStageStyles();
+    this.updateScrollSequence(0);
+
     this.animate();
   }
 
@@ -428,14 +437,21 @@ export class BookOfSpellsViewer {
       powerPreference: 'high-performance'
     });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+
+    const width = this.container.clientWidth || window.innerWidth;
+    const height = this.container.clientHeight || window.innerHeight;
+    this.renderer.setSize(width, height);
+
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.05;
+    this.renderer.toneMappingExposure = 1.15;
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     this.renderer.domElement.style.touchAction = 'pan-y';
     this.renderer.domElement.style.cursor = 'grab';
+    this.renderer.domElement.style.display = 'block';
+    this.renderer.domElement.style.width = '100%';
+    this.renderer.domElement.style.height = '100%';
 
     this.container.appendChild(this.renderer.domElement);
   }
@@ -443,14 +459,21 @@ export class BookOfSpellsViewer {
   setupSceneAndCamera() {
     this.scene = new THREE.Scene();
 
-    const aspect = this.container.clientWidth / this.container.clientHeight;
-    this.camera = new THREE.PerspectiveCamera(44, aspect, 0.1, 100);
-    this.camera.position.set(0, 0, 5.8);
+    const width = this.container.clientWidth || window.innerWidth;
+    const height = this.container.clientHeight || window.innerHeight;
+    const aspect = width / height;
+
+    // Camera at (0, 0, 5) with near: 0.1, far: 1000
+    this.camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
+    this.camera.position.set(0, 0, 5);
     this.camera.lookAt(0, 0, 0);
 
     this.bookGroup = new THREE.Group();
     this.bookGroup.scale.set(1.0, 1.0, 1.0);
     this.bookGroup.rotation.set(0.04, 0, 0);
+    // Center the closed book horizontally in viewport:
+    // Spine is at x = 0, front cover extends to x = +coverWidth.
+    // Shifting bookGroup by -coverWidth / 2 centers the closed book at x = 0.
     this.bookGroup.position.set(-this.coverWidth / 2, 0, 0);
 
     this.scene.add(this.bookGroup);
@@ -471,23 +494,24 @@ export class BookOfSpellsViewer {
   }
 
   setupLighting() {
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.25);
+    // Rich active directional & ambient lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.8);
     this.scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xffffff, 1.8);
-    keyLight.position.set(3.5, 4.5, 6);
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2.2);
+    keyLight.position.set(3.5, 5, 6);
     keyLight.castShadow = true;
     keyLight.shadow.mapSize.width = 1024;
     keyLight.shadow.mapSize.height = 1024;
     this.scene.add(keyLight);
 
-    const coolMoonlight = new THREE.DirectionalLight(0x8faec9, 0.75);
-    coolMoonlight.position.set(-5, 2, 4);
+    const coolMoonlight = new THREE.DirectionalLight(0x8faec9, 1.2);
+    coolMoonlight.position.set(-5, 3, 5);
     this.scene.add(coolMoonlight);
 
-    const softFill = new THREE.DirectionalLight(0xffffff, 0.45);
-    softFill.position.set(5, 1, 4);
-    this.scene.add(softFill);
+    const warmFill = new THREE.DirectionalLight(0xffecd2, 0.9);
+    warmFill.position.set(5, -2, 4);
+    this.scene.add(warmFill);
   }
 
   /**
@@ -583,12 +607,12 @@ export class BookOfSpellsViewer {
     this.frontCoverGroup.add(frontBoardMesh);
 
     // Front Face Panel: Full-resolution cinematic Magic (1)_3 artwork
-    // Placed cleanly on outer front face at z = bT + 0.001 (0.081)
+    // Placed cleanly on outer front face at z = bT + 0.002 (0.082)
     const artPlaneGeo = new THREE.PlaneGeometry(W, H);
     artPlaneGeo.translate(W / 2, 0, 0);
     artPlaneGeo.computeVertexNormals();
     const frontArtMesh = new THREE.Mesh(artPlaneGeo, outerCoverMat);
-    frontArtMesh.position.set(0, 0, bT + 0.001);
+    frontArtMesh.position.set(0, 0, bT + 0.002);
     frontArtMesh.castShadow = true;
     this.frontCoverGroup.add(frontArtMesh);
 
@@ -705,7 +729,6 @@ export class BookOfSpellsViewer {
     this.bookGroup.add(this.baseLeftPage);
 
     // 7. Dynamic Blank Parchment Flipping Leaves (Total: 4 double-sided leaves)
-    // Pure clean slate: zero dummy text, zero headings, zero badges
     const totalFlips = 4;
     this.leafMeshes = [];
     const segmentsX = 32;
@@ -810,18 +833,56 @@ export class BookOfSpellsViewer {
     geo.computeVertexNormals();
   }
 
+  /**
+   * Resets Section 3 Stage Container to Full-Bleed Default State (scale: 1, translateX: 0, opacity: 1)
+   */
+  resetStageStyles() {
+    if (this.stage) {
+      gsap.set(this.stage, {
+        scale: 1,
+        xPercent: 0,
+        opacity: 1,
+        visibility: 'visible',
+        display: 'flex',
+        filter: 'blur(0px)',
+        borderRadius: '0px',
+        border: '1px solid transparent',
+        boxShadow: 'none',
+        background: 'transparent',
+        backdropFilter: 'none',
+        force3D: true
+      });
+    }
+
+    if (this.cornerAccents) {
+      this.cornerAccents.forEach((el) => {
+        el.style.opacity = '0';
+      });
+    }
+  }
+
+  /**
+   * Setup GSAP ScrollTrigger Sequence & Pinning:
+   * - Pin Section 3 cleanly (pin: true, scrub: 1, start: "top top", end: "+=3500")
+   */
   setupScrollTrigger() {
     const section = document.getElementById('projects');
     if (!section) return;
 
+    this.stage = document.getElementById('book-of-spells-stage');
+    this.cornerAccents = this.stage ? this.stage.querySelectorAll('.stage-corner-accent') : [];
+
     const topNav = document.getElementById('top-right-nav');
 
+    // Pristine initial reset
+    this.resetStageStyles();
+
     const trigger = ScrollTrigger.create({
-      trigger: '#projects',
+      trigger: section,
       start: 'top top',
-      end: '+=3600',
+      end: '+=3500',
       pin: true,
-      scrub: 1.2,
+      scrub: 1,
       anticipatePin: 1,
       onEnter: () => {
         if (topNav) topNav.classList.add('nav-hidden');
@@ -833,13 +894,25 @@ export class BookOfSpellsViewer {
         if (topNav) topNav.classList.remove('nav-hidden');
       },
       onLeaveBack: () => {
-        // Handled when returning
+        this.resetStageStyles();
+        this.updateScrollSequence(0);
+        if (topNav) topNav.classList.remove('nav-hidden');
       },
       onUpdate: (self) => {
-        if (topNav && !topNav.classList.contains('nav-hidden')) {
-          topNav.classList.add('nav-hidden');
+        const p = self.progress;
+
+        // Navbar management
+        if (p > 0.02 && p < 0.95) {
+          if (topNav && !topNav.classList.contains('nav-hidden')) {
+            topNav.classList.add('nav-hidden');
+          }
+        } else if (p <= 0.02 || p >= 0.95) {
+          if (topNav && topNav.classList.contains('nav-hidden')) {
+            topNav.classList.remove('nav-hidden');
+          }
         }
-        this.updateScrollSequence(self.progress);
+
+        this.updateScrollSequence(p);
       }
     });
 
@@ -847,116 +920,280 @@ export class BookOfSpellsViewer {
   }
 
   /**
-   * Scroll Sequence Driver:
-   * Progress in [0, 0.18]: Phase 1 - Front Cover Opens forward towards viewer (0 to -180 deg)
-   *                                  Book translates smoothly from X = -W/2 to 0
-   * Progress in [0.18, 1.0]: Phase 2 - Multi-spread page history:
-   *                                  - When Leaf N flips, its BACK face accurately rests on left stack
-   *                                  - Clamped at -180 deg, strictly visible, persistent stack
-   *                                  - Offsets resting Z-depth: z = halfP + 0.005 + k * 0.003
+   * Master Scrollytelling Sequence Progression:
+   * 1. [0% - 70%]: Book starts closed -> Opens -> Flips parchment pages sequentially
+   * 2. [70% - 85%]: Book smoothly swings closed back to the center grimoire state
+   * 3. [85% - 90%]: Glowing boundary box frame fades in (opacity: 0 -> 1)
+   * 4. [90% - 100%]: Container zooms out (scale: 1 -> 0.75) and glides out to the left (x: 0 -> -120vw)
+   * (The zoom-out and glide-out strictly execute ONLY when progress > 0.90, NEVER on initial load!)
    */
   updateScrollSequence(progress) {
-    const coverPhaseEnd = 0.18;
     const halfWidth = this.coverWidth / 2;
     const halfP = this.paperThickness / 2; // 0.11
 
-    if (progress <= coverPhaseEnd) {
-      // Phase 1: Front Cover swings open
-      const coverNorm = progress / coverPhaseEnd;
-      const easeT = gsap.parseEase('power2.inOut')(coverNorm);
+    // Clamp progress safely
+    const p = Math.max(0, Math.min(1, progress));
 
-      const coverAngle = -easeT * Math.PI;
+    // =========================================================================
+    // 1. [0% - 70%]: BOOK STARTS CLOSED -> OPENS -> FLIPS PARCHMENT PAGES
+    // =========================================================================
+    if (p <= 0.70) {
+      // Phase 1A: Cover Opening [0.00 -> 0.15]
+      if (p <= 0.15) {
+        const openNorm = p / 0.15;
+        const easeT = gsap.parseEase('power2.inOut')(openNorm);
+        const coverAngle = -easeT * Math.PI;
 
-      if (this.bookGroup) {
-        this.bookGroup.position.x = -halfWidth * (1 - easeT);
-      }
-
-      if (this.frontCoverGroup) {
-        this.frontCoverGroup.rotation.y = coverAngle;
-        this.frontCoverGroup.position.z = halfP + Math.sin(easeT * Math.PI) * 0.18;
-      }
-
-      // STRICT CLOSED-STATE HIERARCHY:
-      // When closed, internal pages are strictly hidden
-      const coverAngleDeg = Math.abs(coverAngle * (180 / Math.PI));
-      const isCoverOpening = coverAngleDeg > 5;
-
-      this.leafMeshes.forEach((leaf) => {
-        leaf.group.visible = isCoverOpening;
-        leaf.group.rotation.y = 0;
-        leaf.angle = 0;
-        this.deformLeafGeometry(leaf, 0);
-        leaf.group.position.z = leaf.restingZ;
-      });
-
-      if (this.baseLeftPage) {
-        this.baseLeftPage.visible = coverAngleDeg > 25;
-      }
-
-      this.isBookOpen = isCoverOpening;
-
-    } else {
-      // Phase 2: Front Cover is fully open on the left (-180 deg), book is centered at X = 0
-      if (this.bookGroup) {
-        this.bookGroup.position.x = 0;
-      }
-
-      if (this.frontCoverGroup) {
-        this.frontCoverGroup.rotation.y = -Math.PI;
-        this.frontCoverGroup.position.z = halfP;
-      }
-
-      if (this.baseLeftPage) {
-        this.baseLeftPage.visible = true;
-      }
-
-      this.isBookOpen = true;
-
-      // Multi-Page Progression: [0.18, 1.0] mapped across 4 leaves
-      const pageNorm = (progress - coverPhaseEnd) / (1.0 - coverPhaseEnd);
-      const totalFlips = this.leafMeshes.length;
-      const rawPageProg = pageNorm * totalFlips;
-      const clampedPageProg = Math.max(0, Math.min(totalFlips, rawPageProg));
-
-      for (let k = 0; k < totalFlips; k++) {
-        const leafItem = this.leafMeshes[k];
-        // ALWAYS VISIBLE while book is open (never unmounted or hidden!)
-        leafItem.group.visible = true;
-
-        let leafProgress = 0;
-        if (clampedPageProg >= k + 1) {
-          leafProgress = 1;
-        } else if (clampedPageProg <= k) {
-          leafProgress = 0;
-        } else {
-          leafProgress = clampedPageProg - k;
+        if (this.bookGroup) {
+          // Moves from -halfWidth (centering the closed book) to 0 (centering the open spine)
+          this.bookGroup.position.x = -halfWidth * (1 - easeT);
         }
 
-        const theta = leafProgress * Math.PI;
-        leafItem.angle = theta;
+        if (this.frontCoverGroup) {
+          this.frontCoverGroup.rotation.y = coverAngle;
+          this.frontCoverGroup.position.z = halfP + Math.sin(easeT * Math.PI) * 0.18;
+        }
 
-        if (leafProgress >= 0.999) {
-          // COMPLETELY TURNED: Clamp at exactly -180 deg resting on LEFT stack
-          // Stacking Z: strictly above baseLeftPage (halfP + 0.002) and earlier turned pages
-          leafItem.group.rotation.y = -Math.PI;
-          leafItem.group.position.z = halfP + 0.005 + k * 0.003;
-          this.deformLeafGeometry(leafItem, 0); // Flat when resting
-        } else if (leafProgress <= 0.001) {
-          // UNTURNED: Clamp at exactly 0 deg resting on RIGHT stack
+        const coverAngleDeg = Math.abs(coverAngle * (180 / Math.PI));
+        const isCoverOpening = coverAngleDeg > 5;
+
+        this.leafMeshes.forEach((leaf) => {
+          leaf.group.visible = isCoverOpening;
+          leaf.group.rotation.y = 0;
+          leaf.angle = 0;
+          this.deformLeafGeometry(leaf, 0);
+          leaf.group.position.z = leaf.restingZ;
+        });
+
+        if (this.baseLeftPage) {
+          this.baseLeftPage.visible = coverAngleDeg > 25;
+        }
+
+        this.isBookOpen = isCoverOpening;
+      }
+      // Phase 1B: Sequential Page Flipping [0.15 -> 0.70]
+      else {
+        if (this.bookGroup) {
+          this.bookGroup.position.x = 0;
+        }
+
+        if (this.frontCoverGroup) {
+          this.frontCoverGroup.rotation.y = -Math.PI;
+          this.frontCoverGroup.position.z = halfP;
+        }
+
+        if (this.baseLeftPage) {
+          this.baseLeftPage.visible = true;
+        }
+
+        this.isBookOpen = true;
+
+        const pageNorm = (p - 0.15) / (0.70 - 0.15);
+        const totalFlips = this.leafMeshes.length;
+        const rawPageProg = pageNorm * totalFlips;
+        const clampedPageProg = Math.max(0, Math.min(totalFlips, rawPageProg));
+
+        for (let k = 0; k < totalFlips; k++) {
+          const leafItem = this.leafMeshes[k];
+          leafItem.group.visible = true;
+
+          let leafProgress = 0;
+          if (clampedPageProg >= k + 1) {
+            leafProgress = 1;
+          } else if (clampedPageProg <= k) {
+            leafProgress = 0;
+          } else {
+            leafProgress = clampedPageProg - k;
+          }
+
+          const theta = leafProgress * Math.PI;
+          leafItem.angle = theta;
+
+          if (leafProgress >= 0.999) {
+            // Resting flat on LEFT stack with progressive Z-stacking
+            leafItem.group.rotation.y = -Math.PI;
+            leafItem.group.position.z = halfP + 0.005 + k * 0.003;
+            this.deformLeafGeometry(leafItem, 0);
+          } else if (leafProgress <= 0.001) {
+            // Resting flat on RIGHT stack
+            leafItem.group.rotation.y = 0;
+            leafItem.group.position.z = leafItem.restingZ;
+            this.deformLeafGeometry(leafItem, 0);
+          } else {
+            // In mid-flight: bend curvature & elevation
+            leafItem.group.rotation.y = -theta;
+            this.deformLeafGeometry(leafItem, theta);
+            leafItem.group.position.z = halfP + 0.12;
+          }
+        }
+
+        const activeIndex = Math.min(totalFlips, Math.round(clampedPageProg));
+        if (activeIndex !== this.currentSpreadIndex) {
+          this.currentSpreadIndex = activeIndex;
+        }
+      }
+
+      // Container is guaranteed at default scale: 1, xPercent: 0, opacity: 1
+      this.resetStageStyles();
+    }
+
+    // =========================================================================
+    // 2. [70% - 85%]: BOOK SMOOTHLY SWINGS CLOSED BACK TO CENTER GRIMOIRE STATE
+    // =========================================================================
+    else if (p > 0.70 && p <= 0.85) {
+      const closeNorm = (p - 0.70) / (0.85 - 0.70);
+      const easeC = gsap.parseEase('power2.inOut')(closeNorm);
+
+      // Closing angle goes from -PI to 0
+      const closingAngle = -Math.PI * (1 - easeC);
+
+      if (this.frontCoverGroup) {
+        this.frontCoverGroup.rotation.y = closingAngle;
+        this.frontCoverGroup.position.z = halfP + Math.sin((1 - easeC) * Math.PI) * 0.18;
+      }
+
+      const isNearClosed = easeC >= 0.98;
+
+      // Turned leaves swing smoothly closed inside the front cover
+      for (let k = 0; k < this.leafMeshes.length; k++) {
+        const leafItem = this.leafMeshes[k];
+        if (isNearClosed) {
+          leafItem.group.visible = false;
           leafItem.group.rotation.y = 0;
           leafItem.group.position.z = leafItem.restingZ;
-          this.deformLeafGeometry(leafItem, 0); // Flat when resting
+          this.deformLeafGeometry(leafItem, 0);
         } else {
-          // IN MID-FLIGHT: Curvature deformation & elevation above stacks to avoid clipping
-          leafItem.group.rotation.y = -theta;
-          this.deformLeafGeometry(leafItem, theta);
-          leafItem.group.position.z = halfP + 0.12;
+          leafItem.group.visible = true;
+          leafItem.group.rotation.y = closingAngle;
+          const currentZ = halfP + 0.005 + k * 0.003;
+          const targetZ = leafItem.restingZ;
+          leafItem.group.position.z = currentZ + (targetZ - currentZ) * easeC;
+          this.deformLeafGeometry(leafItem, Math.sin((1 - easeC) * Math.PI) * 0.18);
         }
       }
 
-      const activeIndex = Math.min(totalFlips, Math.round(clampedPageProg));
-      if (activeIndex !== this.currentSpreadIndex) {
-        this.currentSpreadIndex = activeIndex;
+      if (this.baseLeftPage) {
+        this.baseLeftPage.visible = !isNearClosed && (Math.abs(closingAngle * (180 / Math.PI)) > 25);
+      }
+
+      // Smoothly re-center the closed book volume
+      if (this.bookGroup) {
+        this.bookGroup.position.x = -halfWidth * easeC;
+      }
+
+      this.isBookOpen = !isNearClosed;
+
+      // Container remains at default scale: 1, xPercent: 0, opacity: 1
+      this.resetStageStyles();
+    }
+
+    // =========================================================================
+    // 3. [85% - 90%]: GLOWING BOUNDARY BOX FRAME FADES IN (opacity: 0 -> 1)
+    // =========================================================================
+    else if (p > 0.85 && p <= 0.90) {
+      // Book is fully locked in closed grimoire state in the center
+      if (this.frontCoverGroup) {
+        this.frontCoverGroup.rotation.y = 0;
+        this.frontCoverGroup.position.z = halfP;
+      }
+      if (this.bookGroup) {
+        this.bookGroup.position.x = -halfWidth;
+      }
+      if (this.baseLeftPage) {
+        this.baseLeftPage.visible = false;
+      }
+      this.leafMeshes.forEach((leaf) => {
+        leaf.group.visible = false;
+        leaf.group.rotation.y = 0;
+        leaf.group.position.z = leaf.restingZ;
+        this.deformLeafGeometry(leaf, 0);
+      });
+      this.isBookOpen = false;
+
+      const frameNorm = (p - 0.85) / (0.90 - 0.85);
+      const easeF = gsap.parseEase('power2.inOut')(frameNorm);
+
+      const borderAlpha = (0.35 * easeF).toFixed(3);
+      const shadowAlpha = (0.80 * easeF).toFixed(3);
+      const glowAlpha = (0.25 * easeF).toFixed(3);
+      const bgAlpha = (0.60 * easeF).toFixed(3);
+
+      if (this.stage) {
+        gsap.set(this.stage, {
+          scale: 1,
+          xPercent: 0,
+          opacity: 1,
+          visibility: 'visible',
+          display: 'flex',
+          filter: 'blur(0px)',
+          borderRadius: `${32 * easeF}px`,
+          border: `1px solid rgba(234, 179, 8, ${borderAlpha})`,
+          boxShadow: `0 0 ${30 * easeF}px rgba(0, 0, 0, ${shadowAlpha}), 0 0 ${25 * easeF}px rgba(234, 179, 8, ${glowAlpha})`,
+          background: `rgba(15, 6, 8, ${bgAlpha})`,
+          backdropFilter: `blur(${12 * easeF}px)`,
+          force3D: true
+        });
+      }
+
+      if (this.cornerAccents) {
+        this.cornerAccents.forEach((el) => {
+          el.style.opacity = easeF.toFixed(3);
+        });
+      }
+    }
+
+    // =========================================================================
+    // 4. [90% - 100%]: CONTAINER ZOOMS OUT (1 -> 0.75) & GLIDES LEFT (x: 0 -> -120vw)
+    // =========================================================================
+    else if (p > 0.90) {
+      // Book remains locked in closed grimoire state
+      if (this.frontCoverGroup) {
+        this.frontCoverGroup.rotation.y = 0;
+        this.frontCoverGroup.position.z = halfP;
+      }
+      if (this.bookGroup) {
+        this.bookGroup.position.x = -halfWidth;
+      }
+      if (this.baseLeftPage) {
+        this.baseLeftPage.visible = false;
+      }
+      this.leafMeshes.forEach((leaf) => {
+        leaf.group.visible = false;
+        leaf.group.rotation.y = 0;
+        leaf.group.position.z = leaf.restingZ;
+        this.deformLeafGeometry(leaf, 0);
+      });
+      this.isBookOpen = false;
+
+      const exitNorm = (p - 0.90) / (1.00 - 0.90);
+      const easeE = gsap.parseEase('power2.inOut')(exitNorm);
+
+      const scale = 1 - 0.25 * easeE; // 1.0 -> 0.75
+      const xPercent = -120 * easeE;  // 0 -> -120vw
+      const opacity = Math.max(0, 1 - easeE);
+      const blurPx = (8 * easeE).toFixed(2);
+
+      if (this.stage) {
+        gsap.set(this.stage, {
+          scale: scale,
+          xPercent: xPercent,
+          opacity: opacity,
+          visibility: 'visible',
+          display: 'flex',
+          filter: `blur(${blurPx}px)`,
+          borderRadius: '32px',
+          border: '1px solid rgba(234, 179, 8, 0.35)',
+          boxShadow: '0 0 30px rgba(0, 0, 0, 0.8), 0 0 25px rgba(234, 179, 8, 0.25)',
+          background: 'rgba(15, 6, 8, 0.60)',
+          backdropFilter: 'blur(12px)',
+          force3D: true
+        });
+      }
+
+      if (this.cornerAccents) {
+        this.cornerAccents.forEach((el) => {
+          el.style.opacity = opacity.toFixed(3);
+        });
       }
     }
   }
@@ -984,8 +1221,8 @@ export class BookOfSpellsViewer {
 
   handleResize() {
     if (!this.container || !this.renderer || !this.camera) return;
-    const width = this.container.clientWidth;
-    const height = this.container.clientHeight;
+    const width = this.container.clientWidth || window.innerWidth;
+    const height = this.container.clientHeight || window.innerHeight;
 
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
@@ -1011,9 +1248,10 @@ export class BookOfSpellsViewer {
 
   flipToSpread(index) {
     if (index < 0 || index >= 5) return;
-    const coverPhaseEnd = 0.18;
+    const openPhaseEnd = 0.15;
+    const flipsPhaseEnd = 0.70;
     const totalFlips = 4;
-    const targetProgress = coverPhaseEnd + (index / totalFlips) * (1.0 - coverPhaseEnd);
+    const targetProgress = openPhaseEnd + (index / totalFlips) * (flipsPhaseEnd - openPhaseEnd);
 
     if (this.scrollTrigger) {
       const scrollPos = this.scrollTrigger.start + targetProgress * (this.scrollTrigger.end - this.scrollTrigger.start);
@@ -1026,6 +1264,8 @@ export class BookOfSpellsViewer {
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
     }
+
+    this.resetStageStyles();
 
     window.removeEventListener('resize', this.onResize);
     window.removeEventListener('pointerup', this.onPointerUp);

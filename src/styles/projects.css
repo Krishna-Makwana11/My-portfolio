@@ -30,59 +30,15 @@
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Dynamic Ambient Glow Layer synced with Hogwarts House State */
+/* Section 3 Ambient Glow (Disabled so master global background flows seamlessly) */
 .section-3-ambient-glow {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-  transition: background 0.6s ease-in-out, filter 0.6s ease, opacity 0.6s ease;
-  filter: blur(60px);
-}
-
-/* House 1: Gryffindor
-   Deep charcoal canvas with subtle warm crimson / golden amber ambient gradients */
-body.theme-gryffindor .section-3-ambient-glow,
-body:not([class*="theme-"]) .section-3-ambient-glow {
-  background: 
-    radial-gradient(ellipse 1000px 700px at 50% 50%, rgba(185, 28, 28, 0.22) 0%, rgba(245, 197, 66, 0.14) 35%, rgba(139, 24, 27, 0.06) 65%, transparent 85%),
-    radial-gradient(circle 650px at 80% 35%, rgba(245, 197, 66, 0.10) 0%, transparent 60%),
-    radial-gradient(circle 550px at 20% 65%, rgba(185, 28, 28, 0.15) 0%, transparent 60%);
-}
-
-/* House 2: Slytherin
-   Deep charcoal with subtle emerald / silver ambient radial gradients */
-body.theme-slytherin .section-3-ambient-glow {
-  background: 
-    radial-gradient(ellipse 1000px 700px at 50% 50%, rgba(0, 255, 136, 0.18) 0%, rgba(22, 101, 52, 0.24) 35%, rgba(203, 213, 225, 0.08) 65%, transparent 85%),
-    radial-gradient(circle 650px at 80% 35%, rgba(203, 213, 225, 0.09) 0%, transparent 60%),
-    radial-gradient(circle 550px at 20% 65%, rgba(0, 255, 136, 0.14) 0%, transparent 60%);
-}
-
-/* House 3: Ravenclaw
-   Deep charcoal with sapphire blue / bronze ambient glow */
-body.theme-ravenclaw .section-3-ambient-glow {
-  background: 
-    radial-gradient(ellipse 1000px 700px at 50% 50%, rgba(56, 189, 248, 0.20) 0%, rgba(30, 64, 175, 0.24) 35%, rgba(205, 127, 50, 0.10) 65%, transparent 85%),
-    radial-gradient(circle 650px at 80% 35%, rgba(205, 127, 50, 0.10) 0%, transparent 60%),
-    radial-gradient(circle 550px at 20% 65%, rgba(56, 189, 248, 0.15) 0%, transparent 60%);
-}
-
-/* House 4: Hufflepuff
-   Deep charcoal with canary yellow / earthy amber glow */
-body.theme-hufflepuff .section-3-ambient-glow {
-  background: 
-    radial-gradient(ellipse 1000px 700px at 50% 50%, rgba(245, 197, 66, 0.22) 0%, rgba(236, 185, 57, 0.18) 35%, rgba(113, 63, 18, 0.14) 65%, transparent 85%),
-    radial-gradient(circle 650px at 80% 35%, rgba(236, 185, 57, 0.12) 0%, transparent 60%),
-    radial-gradient(circle 550px at 20% 65%, rgba(113, 63, 18, 0.16) 0%, transparent 60%);
+  display: none !important;
 }
 
 /* Book of Spells Mount Stage */
@@ -91,11 +47,60 @@ body.theme-hufflepuff .section-3-ambient-glow {
   z-index: 2;
   width: 100%;
   height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: auto;
   overflow: hidden;
+  box-sizing: border-box;
+  transform-origin: center center;
+  transform: scale(1) translateX(0);
+  opacity: 1;
+  visibility: visible;
+  will-change: transform, opacity, filter;
+}
+
+/* Thematic Corner Filigrees for Section 3 Exit Card Frame */
+.book-of-spells-stage .stage-corner-accent {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 10;
+}
+
+.book-of-spells-stage .stage-corner-tl {
+  top: 24px;
+  left: 24px;
+  border-top: 2px solid rgba(234, 179, 8, 0.7);
+  border-left: 2px solid rgba(234, 179, 8, 0.7);
+  border-top-left-radius: 12px;
+}
+
+.book-of-spells-stage .stage-corner-tr {
+  top: 24px;
+  right: 24px;
+  border-top: 2px solid rgba(234, 179, 8, 0.7);
+  border-right: 2px solid rgba(234, 179, 8, 0.7);
+  border-top-right-radius: 12px;
+}
+
+.book-of-spells-stage .stage-corner-bl {
+  bottom: 24px;
+  left: 24px;
+  border-bottom: 2px solid rgba(234, 179, 8, 0.7);
+  border-left: 2px solid rgba(234, 179, 8, 0.7);
+  border-bottom-left-radius: 12px;
+}
+
+.book-of-spells-stage .stage-corner-br {
+  bottom: 24px;
+  right: 24px;
+  border-bottom: 2px solid rgba(234, 179, 8, 0.7);
+  border-right: 2px solid rgba(234, 179, 8, 0.7);
+  border-bottom-right-radius: 12px;
 }
 
 /* Three.js Canvas Container */
@@ -103,18 +108,24 @@ body.theme-hufflepuff .section-3-ambient-glow {
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  min-height: 100vh;
   z-index: 1;
   pointer-events: auto;
+  display: block;
+  opacity: 1;
+  visibility: visible;
 }
 
 .book-of-spells-canvas-wrap canvas {
   width: 100% !important;
   height: 100% !important;
-  display: block;
+  display: block !important;
   outline: none;
   cursor: grab;
   touch-action: pan-y;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .book-of-spells-canvas-wrap canvas:active {

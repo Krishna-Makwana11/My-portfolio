@@ -1,9 +1,11 @@
 /* ==========================================================================
    INTERACTIVE 3D "BOOK OF SPELLS" (GRIMOIRE) COMPONENT
+   - Clean Slate for All Internal Pages (High-Resolution Blank Vintage Parchment)
+   - Zero Dummy Text, Headers, Badges, or UI Overlays on Internal Pages
    - Authentic Cinematic Hogwarts Front Cover Artwork (Magic (1)_3.jpg)
-   - Double-Sided Persistent Turned Pages with Non-Vanishing Left Stack
-   - Solid Integral Antique Leather Back Cover (Zero Floating / Detached Meshes)
-   - Watertight Continuous Parametric Spine Arch (Zero Gaps / Seamless Hinge at x = 0)
+   - Persistent Double-Sided Pages with Non-Vanishing Left Stack
+   - Solid Integral Antique Leather Back Cover (Zero Floating Meshes)
+   - Watertight Continuous Parametric Spine Arch (Zero Gaps / Seamless at x = 0)
    - Clean Uniform 0.05-Unit Leather Overhang (Top, Bottom, Right)
    - Anti-Z-Fighting PolygonOffset & Strict Closed-State Hierarchy
    - Unrestricted 360° OrbitControls & Smooth GSAP Scroll Scrubbing
@@ -17,142 +19,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 // ==========================================================================
-// 1. DATA: THE SPELLS & ENCHANTED WORKS (PORTFOLIO PROJECTS ARRAY)
-// ==========================================================================
-
-const SPELL_PAGES = [
-  // Page 0 (Front): Spread 0 Right Page - First Project
-  {
-    folio: 'FOLIO I',
-    type: 'INCANTATIO PRIMA',
-    spellTitle: 'LUMOS MAXIMA',
-    projectTitle: 'Bareilly Police AI Portal',
-    badge: 'Citizen Safety Platform',
-    desc: 'Official government citizen portal engineering online FIR registration, automated emergency dispatching, and AI-assisted crime analytics.',
-    metrics: [
-      { label: 'Citizen Reach', val: '50,000+' },
-      { label: 'Response Time', val: '< 2.4s' },
-      { label: 'Platform Uptime', val: '99.98%' }
-    ],
-    tech: ['React.js', 'Node.js', 'PostgreSQL', 'Python AI', 'REST API'],
-    incantation: '« In the darkest night, digital craft illuminates justice. »'
-  },
-  // Page 1 (Back of Leaf 0): Spread 1 Left Page - Project I Architecture Archive
-  {
-    folio: 'FOLIO II',
-    type: 'COGNITIO ARCHITECTURA',
-    spellTitle: 'SANCTUM CORE',
-    projectTitle: 'Citizen AI Engine Fabric',
-    badge: 'Security & Distributed Systems',
-    desc: 'Multi-tiered microservice backend featuring end-to-end encrypted citizen identity verification, threat detection, and audited officer dashboards.',
-    metrics: [
-      { label: 'Encrypted Records', val: '100,000+' },
-      { label: 'Threat Filter', val: '99.4%' },
-      { label: 'Network Latency', val: '12ms' }
-    ],
-    tech: ['Docker', 'Kubernetes', 'AES-256', 'OAuth2', 'Microservices'],
-    incantation: '« Fortified with cryptographic enchantments against breaches. »'
-  },
-  // Page 2 (Front of Leaf 1): Spread 1 Right Page - Second Project
-  {
-    folio: 'FOLIO III',
-    type: 'INCANTATIO SECUNDA',
-    spellTitle: 'ELECTRANAV',
-    projectTitle: 'Smart EV Navigation Grid',
-    badge: 'Real-Time Telemetry & Routing',
-    desc: 'Next-generation electric vehicle navigation engine computing energy-optimal routes with live charging station telemetry and elevation modeling.',
-    metrics: [
-      { label: 'Charging Hubs', val: '12,500+' },
-      { label: 'Range Accuracy', val: '98.2%' },
-      { label: 'Active Drivers', val: '8,200+' }
-    ],
-    tech: ['Next.js', 'Python', 'FastAPI', 'WebSockets', 'Graph Algorithms'],
-    incantation: '« Charting luminous paths across the electric frontier. »'
-  },
-  // Page 3 (Back of Leaf 1): Spread 2 Left Page - Project II Telemetry Archive
-  {
-    folio: 'FOLIO IV',
-    type: 'TELEMETRIA VIVIDA',
-    spellTitle: 'FLUX MATRIX',
-    projectTitle: 'Predictive Battery Analytics',
-    badge: 'Machine Learning Intelligence',
-    desc: 'Deep regression pipeline predicting battery discharge rates calibrated against ambient climate, driver velocity, and terrain gradients.',
-    metrics: [
-      { label: 'Data Throughput', val: '10K msg/s' },
-      { label: 'State Sync', val: 'Real-Time' },
-      { label: 'Energy Saved', val: '22.4%' }
-    ],
-    tech: ['Redis Pub/Sub', 'TensorFlow', 'TimescaleDB', 'Tailwind CSS'],
-    incantation: '« Taming volatile currents into predictive foresight. »'
-  },
-  // Page 4 (Front of Leaf 2): Spread 2 Right Page - Third Project
-  {
-    folio: 'FOLIO V',
-    type: 'INCANTATIO TERTIA',
-    spellTitle: 'VULCRUX ENGINE',
-    projectTitle: 'Autonomous Dev Tooling',
-    badge: 'Cloud Orchestration Platform',
-    desc: 'High-throughput developer platform accelerating automated container deployments, code refactoring workflows, and cloud observability.',
-    metrics: [
-      { label: 'Build Velocity', val: '4.2x Faster' },
-      { label: 'Pipelines Run', val: '250,000+' },
-      { label: 'Active Devs', val: '3,400+' }
-    ],
-    tech: ['Go (Golang)', 'Docker', 'gRPC', 'GraphQL', 'PostgreSQL'],
-    incantation: '« Forging autonomous sorcery for modern developer legions. »'
-  },
-  // Page 5 (Back of Leaf 2): Spread 3 Left Page - Project III Fabric Archive
-  {
-    folio: 'FOLIO VI',
-    type: 'FABRICA OBSERVABILIS',
-    spellTitle: 'AETHER SHIELD',
-    projectTitle: 'Microservice Cluster Mesh',
-    badge: 'High-Availability Infrastructure',
-    desc: 'Self-healing service mesh orchestrating multi-region Kubernetes pods with sub-second automated failover and dynamic load balancing.',
-    metrics: [
-      { label: 'Recovery Time', val: '< 10s' },
-      { label: 'Throughput', val: '50K req/s' },
-      { label: 'System Uptime', val: '99.99%' }
-    ],
-    tech: ['Prometheus', 'Grafana', 'OpenTelemetry', 'Linux Kernel'],
-    incantation: '« Vigilant guardians preserving ethereal digital architectures. »'
-  },
-  // Page 6 (Front of Leaf 3): Spread 3 Right Page - Fourth Project
-  {
-    folio: 'FOLIO VII',
-    type: 'INCANTATIO QUARTA',
-    spellTitle: 'PATRONUS AI',
-    projectTitle: 'Deep Vision & Research',
-    badge: 'Neural Vision & Generative AI',
-    desc: 'Multimodal computer vision research architecture recognizing fine-grained visual patterns, synthetic media artifacts, and medical imaging features.',
-    metrics: [
-      { label: 'Model Accuracy', val: '96.7%' },
-      { label: 'Inference Latency', val: '14ms' },
-      { label: 'Parameters', val: '1.2 Billion' }
-    ],
-    tech: ['PyTorch', 'Hugging Face', 'CUDA', 'FastAPI', 'React.js'],
-    incantation: '« Conjuring clarity from pure mathematical illumination. »'
-  },
-  // Page 7 (Back of Leaf 3): Spread 4 Left Page - Final Inscription & Summons
-  {
-    folio: 'FOLIO VIII',
-    type: 'INCANTATIO AETERNA',
-    spellTitle: 'EXPERTUS SUMMONS',
-    projectTitle: "Krishna's Grimoire Finalis",
-    badge: 'Open For Inquiries & Craft',
-    desc: 'Equipped with mastery in Full-Stack Engineering, Machine Learning, and Interactive 3D Real-Time Graphics. Ready to forge legendary digital products.',
-    metrics: [
-      { label: 'Full-Stack', val: 'React & Node' },
-      { label: 'AI Domain', val: 'Vision & NLP' },
-      { label: 'Availability', val: 'Active' }
-    ],
-    tech: ['React / Next.js', 'Python AI', 'Three.js / WebGL', 'Cloud Architecture'],
-    incantation: '« Mischief Managed — Inscribe your message on the Owl Post below! »'
-  }
-];
-
-// ==========================================================================
-// 2. PROCEDURAL HIGH-RESOLUTION TEXTURE GENERATORS
+// 1. PROCEDURAL HIGH-RESOLUTION TEXTURE GENERATORS
 // ==========================================================================
 
 /**
@@ -167,7 +34,7 @@ function generateLeatherBumpCanvas() {
   ctx.fillStyle = '#808080';
   ctx.fillRect(0, 0, 1024, 1400);
 
-  // Fine micro-grain
+  // Micro-grain
   ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
   for (let i = 0; i < 25000; i++) {
     ctx.fillRect(Math.random() * 1024, Math.random() * 1400, 2, 2);
@@ -275,7 +142,7 @@ function generateSpineCanvas() {
 }
 
 /**
- * Generates Florentine Marbled Endpaper with Ex Libris Bookplate
+ * Generates Florentine Marbled Endpaper for Inside Front Cover
  */
 function generateInsideCoverCanvas() {
   const canvas = document.createElement('canvas');
@@ -305,36 +172,6 @@ function generateInsideCoverCanvas() {
     }
     ctx.stroke();
   }
-  ctx.restore();
-
-  // Ex Libris Bookplate Frame
-  ctx.save();
-  ctx.fillStyle = 'rgba(252, 246, 235, 0.94)';
-  ctx.strokeStyle = 'rgba(160, 100, 30, 0.7)';
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.roundRect(240, 560, 720, 480, [18]);
-  ctx.fill();
-  ctx.stroke();
-
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#4a250a';
-  ctx.font = '900 42px "Cinzel", Georgia, serif';
-  ctx.letterSpacing = '6px';
-  ctx.fillText('EX LIBRIS', 600, 670);
-
-  ctx.font = '700 50px "Cinzel Decorative", Georgia, serif';
-  ctx.fillStyle = '#6e1a1e';
-  ctx.fillText('KRISHNA MAKWANA', 600, 770);
-
-  ctx.font = 'italic 24px "MedievalSharp", Georgia, serif';
-  ctx.fillStyle = '#5c3614';
-  ctx.fillText('Master of Full-Stack Sorcery & Machine Learning', 600, 840);
-
-  ctx.font = '600 20px "Space Grotesk", monospace';
-  ctx.fillStyle = '#8c5018';
-  ctx.letterSpacing = '3px';
-  ctx.fillText('HOGWARTS SCHOOL OF CODE & CRAFT', 600, 910);
   ctx.restore();
 
   return canvas;
@@ -375,14 +212,18 @@ function generatePageEdgesCanvas() {
 }
 
 /**
- * Generates Inscribed Medieval Parchment Texture for Specific Spell Page
+ * Generates Clean High-Resolution Blank Vintage Parchment Texture
+ * (PURE CLEAN SLATE: Zero dummy text, zero headers, zero titles, zero badges, zero overlays)
+ * Features natural aged parchment gradients, micro-fibers, delicate weathered margin rules,
+ * antique corner filigrees, and binding gutter shadow.
  */
-function generateInscribedSpellPageCanvas(pageData, isLeft) {
+function generateCleanBlankParchmentCanvas(isLeft) {
   const canvas = document.createElement('canvas');
   canvas.width = 1200;
   canvas.height = 1600;
   const ctx = canvas.getContext('2d');
 
+  // Rich antique parchment radial vignette
   const grad = ctx.createRadialGradient(600, 800, 180, 600, 800, 950);
   grad.addColorStop(0, '#fcf8ec');
   grad.addColorStop(0.4, '#f5e9ce');
@@ -391,12 +232,14 @@ function generateInscribedSpellPageCanvas(pageData, isLeft) {
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, 1200, 1600);
 
+  // Micro organic parchment fiber flecks
   ctx.fillStyle = 'rgba(95, 60, 20, 0.035)';
   for (let i = 0; i < 4000; i++) {
     ctx.fillRect(Math.random() * 1200, Math.random() * 1600, Math.random() * 3 + 1, Math.random() * 2 + 1);
   }
 
-  for (let i = 0; i < 5; i++) {
+  // Soft vintage age patina
+  for (let i = 0; i < 6; i++) {
     const rx = Math.random() * 1000 + 100;
     const ry = Math.random() * 1400 + 100;
     const spotGrad = ctx.createRadialGradient(rx, ry, 5, rx, ry, Math.random() * 120 + 60);
@@ -408,9 +251,9 @@ function generateInscribedSpellPageCanvas(pageData, isLeft) {
     ctx.fill();
   }
 
-  // Margin Border
+  // Delicate weathered double margin lines
   ctx.save();
-  ctx.strokeStyle = 'rgba(163, 116, 44, 0.45)';
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.42)';
   ctx.lineWidth = 2;
   ctx.strokeRect(50, 50, 1100, 1500);
 
@@ -418,17 +261,19 @@ function generateInscribedSpellPageCanvas(pageData, isLeft) {
   ctx.lineWidth = 1;
   ctx.strokeRect(62, 62, 1076, 1476);
 
-  // Corner Flourishes
+  // Vintage corner flourishes
   const drawCornerFlourish = (x, y, flipX, flipY) => {
     ctx.save();
     ctx.translate(x, y);
     ctx.scale(flipX ? -1 : 1, flipY ? -1 : 1);
     ctx.strokeStyle = 'rgba(163, 116, 44, 0.55)';
     ctx.lineWidth = 1.5;
+
     ctx.beginPath();
     ctx.moveTo(12, 35);
     ctx.quadraticCurveTo(12, 12, 35, 12);
     ctx.stroke();
+
     ctx.beginPath();
     ctx.arc(12, 12, 4, 0, Math.PI * 2);
     ctx.fillStyle = 'rgba(163, 116, 44, 0.6)';
@@ -441,146 +286,13 @@ function generateInscribedSpellPageCanvas(pageData, isLeft) {
   drawCornerFlourish(62, 1538, false, true);
   drawCornerFlourish(1138, 1538, true, true);
 
-  // Binding Gutter Shadow
+  // Soft binding gutter shadow on the spine side
   const gutterX = isLeft ? 1160 : 40;
   const shadowGrad = ctx.createLinearGradient(gutterX, 0, isLeft ? 1080 : 120, 0);
-  shadowGrad.addColorStop(0, 'rgba(60, 35, 12, 0.2)');
+  shadowGrad.addColorStop(0, 'rgba(60, 35, 12, 0.18)');
   shadowGrad.addColorStop(1, 'rgba(60, 35, 12, 0)');
   ctx.fillStyle = shadowGrad;
   ctx.fillRect(isLeft ? 1060 : 40, 50, 100, 1500);
-  ctx.restore();
-
-  // CONTENT INSCRIBING
-  const alignX = isLeft ? 560 : 640;
-
-  // 1. Folio Number & Type Header
-  ctx.save();
-  ctx.textAlign = 'center';
-  ctx.font = '700 18px "Cinzel", Georgia, serif';
-  ctx.letterSpacing = '5px';
-  ctx.fillStyle = '#8a5c28';
-  ctx.fillText(`${pageData.folio}  •  ${pageData.type}`, alignX, 130);
-
-  // 2. Spell Title (Calligraphic Incantation)
-  ctx.font = '900 48px "Cinzel", Georgia, serif';
-  ctx.letterSpacing = '6px';
-  ctx.fillStyle = '#421619';
-  ctx.shadowColor = 'rgba(212, 175, 55, 0.4)';
-  ctx.shadowBlur = 8;
-  ctx.fillText(pageData.spellTitle, alignX, 220);
-
-  // 3. Project Name & Badge
-  ctx.font = '700 36px "Cinzel Decorative", Georgia, serif';
-  ctx.fillStyle = '#220b0d';
-  ctx.shadowBlur = 0;
-  ctx.fillText(pageData.projectTitle, alignX, 290);
-
-  ctx.font = 'italic 20px "MedievalSharp", Georgia, serif';
-  ctx.fillStyle = '#78481d';
-  ctx.fillText(`— ${pageData.badge} —`, alignX, 335);
-
-  // 4. Runic Divider
-  ctx.strokeStyle = 'rgba(163, 116, 44, 0.4)';
-  ctx.lineWidth = 1.5;
-  ctx.beginPath();
-  ctx.moveTo(alignX - 250, 370);
-  ctx.lineTo(alignX - 40, 370);
-  ctx.moveTo(alignX + 40, 370);
-  ctx.lineTo(alignX + 250, 370);
-  ctx.stroke();
-
-  ctx.font = '22px serif';
-  ctx.fillStyle = '#a67c32';
-  ctx.fillText('⚡', alignX, 377);
-
-  // 5. Description Paragraph (Wrapped)
-  ctx.font = '500 24px "MedievalSharp", Georgia, serif';
-  ctx.fillStyle = '#3a2010';
-  ctx.textAlign = 'center';
-  const descWords = pageData.desc.split(' ');
-  let line = '';
-  let lineY = 440;
-  for (let n = 0; n < descWords.length; n++) {
-    const testLine = line + descWords[n] + ' ';
-    const metrics = ctx.measureText(testLine);
-    if (metrics.width > 760 && n > 0) {
-      ctx.fillText(line, alignX, lineY);
-      line = descWords[n] + ' ';
-      lineY += 38;
-    } else {
-      line = testLine;
-    }
-  }
-  ctx.fillText(line, alignX, lineY);
-
-  // 6. Tri-Column Metrics Box
-  const boxTop = lineY + 50;
-  ctx.fillStyle = 'rgba(255, 252, 245, 0.7)';
-  ctx.strokeStyle = 'rgba(163, 116, 44, 0.45)';
-  ctx.lineWidth = 1.5;
-  ctx.beginPath();
-  ctx.roundRect(alignX - 380, boxTop, 760, 160, [12]);
-  ctx.fill();
-  ctx.stroke();
-
-  const colWidth = 760 / 3;
-  pageData.metrics.forEach((m, idx) => {
-    const cx = (alignX - 380) + colWidth * idx + colWidth / 2;
-    ctx.textAlign = 'center';
-
-    ctx.font = '900 36px "Cinzel", Georgia, serif';
-    ctx.fillStyle = '#6b1c20';
-    ctx.fillText(m.val, cx, boxTop + 70);
-
-    ctx.font = '600 17px "Space Grotesk", sans-serif';
-    ctx.letterSpacing = '1px';
-    ctx.fillStyle = '#613812';
-    ctx.fillText(m.label, cx, boxTop + 115);
-
-    if (idx < 2) {
-      ctx.strokeStyle = 'rgba(163, 116, 44, 0.25)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo((alignX - 380) + colWidth * (idx + 1), boxTop + 20);
-      ctx.lineTo((alignX - 380) + colWidth * (idx + 1), boxTop + 140);
-      ctx.stroke();
-    }
-  });
-
-  // 7. Technology Rune Badges
-  const techTop = boxTop + 210;
-  ctx.textAlign = 'center';
-  ctx.font = '700 18px "Cinzel", Georgia, serif';
-  ctx.letterSpacing = '3px';
-  ctx.fillStyle = '#7a4a1c';
-  ctx.fillText('ANCIENT FORGINGS & RUNES', alignX, techTop);
-
-  const pills = pageData.tech;
-  const pillY = techTop + 45;
-  const pillTotalWidth = pills.length * 140;
-  let startPillX = alignX - (pillTotalWidth / 2) + 60;
-
-  pills.forEach((p) => {
-    ctx.fillStyle = 'rgba(235, 218, 185, 0.85)';
-    ctx.strokeStyle = 'rgba(163, 116, 44, 0.5)';
-    ctx.lineWidth = 1.2;
-    ctx.beginPath();
-    ctx.roundRect(startPillX - 60, pillY - 26, 120, 36, [18]);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.font = '600 16px "Space Grotesk", monospace';
-    ctx.letterSpacing = '0px';
-    ctx.fillStyle = '#381c08';
-    ctx.fillText(p, startPillX, pillY - 2);
-
-    startPillX += 140;
-  });
-
-  // 8. Latin Quote Incantation
-  ctx.font = 'italic 21px "MedievalSharp", Georgia, serif';
-  ctx.fillStyle = '#6e3810';
-  ctx.fillText(pageData.incantation, alignX, 1420);
 
   ctx.restore();
 
@@ -658,7 +370,7 @@ function createParametricSpineArchGeometry(Rout, Rin, H, segments = 36) {
 }
 
 // ==========================================================================
-// 3. THREE.JS 3D GRIMOIRE MODEL & RIGGING
+// 2. THREE.JS 3D GRIMOIRE MODEL & RIGGING (Clean Slate Pages + 360° Controls)
 // ==========================================================================
 
 export class BookOfSpellsViewer {
@@ -783,6 +495,7 @@ export class BookOfSpellsViewer {
    * - Front cover: Authentic high-def Magic (1)_3.jpg artwork (un-buried, clean on outer face)
    * - Back cover: Integral solid antique leather slab (zero floating / duplicate meshes)
    * - Spine: Watertight parametric semi-cylindrical arch with solid endcaps
+   * - All internal pages: Clean high-resolution blank vintage parchment slates (zero text/UI)
    * - Leaves: Double-sided rendering (THREE.DoubleSide), persistent left stacking, zero vanishing
    */
   buildVolumetricBookModel() {
@@ -870,7 +583,7 @@ export class BookOfSpellsViewer {
     this.frontCoverGroup.add(frontBoardMesh);
 
     // Front Face Panel: Full-resolution cinematic Magic (1)_3 artwork
-    // Placed at z = bT + 0.001 (0.081) so it sits cleanly on the outer front face without occlusion
+    // Placed cleanly on outer front face at z = bT + 0.001 (0.081)
     const artPlaneGeo = new THREE.PlaneGeometry(W, H);
     artPlaneGeo.translate(W / 2, 0, 0);
     artPlaneGeo.computeVertexNormals();
@@ -893,7 +606,6 @@ export class BookOfSpellsViewer {
     this.bookGroup.add(this.frontCoverGroup);
 
     // 3. Back Cover: SOLID INTEGRAL ANTIQUE LEATHER BOARD (Zero floating / duplicate meshes!)
-    // Inner face at z = -halfP (-0.11), outer face at z = -halfP - bT (-0.19)
     const backBoardGeo = createBevelledCoverBoard(W, H, cT, 0.06);
     const backBoardMesh = new THREE.Mesh(backBoardGeo, leatherMat);
     backBoardMesh.position.set(0, 0, -halfP - bT);
@@ -938,12 +650,17 @@ export class BookOfSpellsViewer {
       depthWrite: true
     });
 
-    const finalRightCanvas = generateInscribedSpellPageCanvas(SPELL_PAGES[6], false);
-    const finalRightTex = new THREE.CanvasTexture(finalRightCanvas);
-    finalRightTex.colorSpace = THREE.SRGBColorSpace;
+    // Clean blank parchment textures (Zero text/UI)
+    const blankRightCanvas = generateCleanBlankParchmentCanvas(false);
+    const blankRightTex = new THREE.CanvasTexture(blankRightCanvas);
+    blankRightTex.colorSpace = THREE.SRGBColorSpace;
+
+    const blankLeftCanvas = generateCleanBlankParchmentCanvas(true);
+    const blankLeftTex = new THREE.CanvasTexture(blankLeftCanvas);
+    blankLeftTex.colorSpace = THREE.SRGBColorSpace;
 
     const paperTopFaceMat = new THREE.MeshStandardMaterial({
-      map: finalRightTex,
+      map: blankRightTex,
       roughness: 0.88,
       metalness: 0.02,
       depthTest: true,
@@ -966,17 +683,13 @@ export class BookOfSpellsViewer {
     solidBlockMesh.receiveShadow = true;
     this.bookGroup.add(solidBlockMesh);
 
-    // 6. Base Left Page (Spread 0 Left: Ex Libris Frontispiece at z = halfP + 0.002)
-    const baseLeftCanvas = generateInsideCoverCanvas();
-    const baseLeftTex = new THREE.CanvasTexture(baseLeftCanvas);
-    baseLeftTex.colorSpace = THREE.SRGBColorSpace;
-
+    // 6. Base Left Page (Clean Slate Blank Parchment at z = halfP + 0.002)
     const baseLeftGeo = new THREE.PlaneGeometry(this.pageWidth, this.pageHeight);
     baseLeftGeo.translate(-0.02 - this.pageWidth / 2, 0, 0);
     baseLeftGeo.computeVertexNormals();
 
     const baseLeftMat = new THREE.MeshStandardMaterial({
-      map: baseLeftTex,
+      map: blankLeftTex,
       roughness: 0.88,
       metalness: 0.02,
       side: THREE.DoubleSide,
@@ -991,11 +704,8 @@ export class BookOfSpellsViewer {
     this.baseLeftPage.visible = false;
     this.bookGroup.add(this.baseLeftPage);
 
-    // 7. Dynamic Inscribed Flipping Leaves (Total: 4 double-sided leaves)
-    // Leaf 0: Front = Spell I (Bareilly Police), Back = Archive I (Citizen AI Engine)
-    // Leaf 1: Front = Spell II (ElectraNav), Back = Archive II (Predictive Battery)
-    // Leaf 2: Front = Spell III (Vulcrux Dev), Back = Archive III (Cluster Mesh)
-    // Leaf 3: Front = Spell IV (Patronus AI), Back = Archive IV (Krishna Workshop Finale)
+    // 7. Dynamic Blank Parchment Flipping Leaves (Total: 4 double-sided leaves)
+    // Pure clean slate: zero dummy text, zero headings, zero badges
     const totalFlips = 4;
     this.leafMeshes = [];
     const segmentsX = 32;
@@ -1009,14 +719,8 @@ export class BookOfSpellsViewer {
         origPositions: geo.attributes.position.array.slice()
       };
 
-      // Distinct Front Face Texture
-      const frontData = SPELL_PAGES[k * 2];
-      const frontCanvas = generateInscribedSpellPageCanvas(frontData, false);
-      const frontTex = new THREE.CanvasTexture(frontCanvas);
-      frontTex.colorSpace = THREE.SRGBColorSpace;
-
       const frontMat = new THREE.MeshStandardMaterial({
-        map: frontTex,
+        map: blankRightTex,
         roughness: 0.88,
         metalness: 0.02,
         side: THREE.DoubleSide,
@@ -1027,14 +731,8 @@ export class BookOfSpellsViewer {
         depthWrite: true
       });
 
-      // Distinct Back Face Texture
-      const backData = SPELL_PAGES[k * 2 + 1];
-      const backCanvas = generateInscribedSpellPageCanvas(backData, true);
-      const backTex = new THREE.CanvasTexture(backCanvas);
-      backTex.colorSpace = THREE.SRGBColorSpace;
-
       const backMat = new THREE.MeshStandardMaterial({
-        map: backTex,
+        map: blankLeftTex,
         roughness: 0.88,
         metalness: 0.02,
         side: THREE.DoubleSide,
@@ -1060,7 +758,6 @@ export class BookOfSpellsViewer {
       leafGroup.add(backMesh);
 
       // Stacked neatly on the right stack when closed
-      // Leaf 0 is at top (z = halfP - 0.008), subsequent leaves are underneath
       const zStack = halfP - 0.008 - k * 0.004;
       leafGroup.position.set(0, 0, zStack);
       leafGroup.visible = false;
@@ -1353,7 +1050,7 @@ export class BookOfSpellsViewer {
 }
 
 // ==========================================================================
-// 4. MODULE EXPORT INITIALIZER
+// 3. MODULE EXPORT INITIALIZER
 // ==========================================================================
 let activeBookInstance = null;
 

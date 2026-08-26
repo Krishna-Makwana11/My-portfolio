@@ -206,7 +206,7 @@ body {
 }
 
 /* ==========================================================================
-   TOP-LEFT RESUME BUTTON & TOP-RIGHT NAVIGATION BAR
+   TOP-LEFT HOME BUTTON & TOP-RIGHT NAVIGATION BAR
    ========================================================================== */
 .top-left-header {
   position: fixed;
@@ -233,6 +233,13 @@ body {
   -webkit-backdrop-filter: blur(20px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(245, 197, 66, 0.1);
   transition: all 0.3s var(--ease-magic);
+}
+
+.top-right-nav.nav-hidden {
+  transform: translateY(-130%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease !important;
 }
 
 .top-nav-btn {
@@ -349,7 +356,7 @@ body {
   }
 }
 
-.top-nav-resume-btn {
+.top-nav-home-btn {
   padding: 8px 18px;
   border-radius: 9999px;
   font-family: var(--font-mono);
@@ -358,23 +365,26 @@ body {
   letter-spacing: 0.5px;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   text-decoration: none;
-  background: linear-gradient(135deg, var(--house-primary), var(--house-primary-light));
+  background: rgba(14, 10, 20, 0.85);
   color: #fff !important;
-  border: 1px solid var(--house-secondary);
-  box-shadow: 0 0 15px var(--house-primary-glow), 0 8px 20px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--house-secondary, rgba(245, 197, 66, 0.4));
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 15px var(--house-secondary-glow, rgba(245, 197, 66, 0.35));
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   cursor: pointer;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
   transition: all 0.25s var(--ease-magic);
 }
 
-.top-nav-resume-btn:hover {
-  background: linear-gradient(135deg, var(--house-secondary), var(--house-secondary-light));
+.top-nav-home-btn:hover {
+  background: linear-gradient(135deg, var(--house-secondary), var(--house-secondary-light, #fde047));
   color: #000 !important;
-  box-shadow: 0 0 25px var(--house-secondary-glow), 0 10px 25px rgba(0, 0, 0, 0.6);
-  transform: translateY(-1px);
+  box-shadow: 0 0 25px var(--house-secondary-glow, rgba(245, 197, 66, 0.8)), 0 8px 24px rgba(0, 0, 0, 0.8);
+  transform: translateY(-2px);
 }
 
 @media (max-width: 768px) {

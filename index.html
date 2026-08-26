@@ -33,13 +33,9 @@
   <!-- ==========================================================================
        TOP-LEFT RESUME BUTTON & TOP-RIGHT NAVIGATION BAR
        ========================================================================== -->
-  <!-- 1. Top-Left Header: Resume & Floating Home Button -->
+  <!-- 1. Top-Left Header: Home Button -->
   <div class="top-left-header" id="top-left-header">
-    <a href="#contact" class="top-nav-btn top-nav-resume-btn" id="header-resume-btn">
-      <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
-      <span>Resume</span>
-    </a>
-    <a href="#hero-pin-wrapper" class="top-nav-btn top-nav-home-btn" id="header-home-btn">
+    <a href="#hero-pin-wrapper" class="top-nav-btn top-nav-home-btn" id="header-home-btn" aria-label="Home" title="Return to Top">
       <i data-lucide="home" style="width: 14px; height: 14px;"></i>
       <span>Home</span>
     </a>
@@ -297,76 +293,6 @@
       <div class="book-of-spells-stage" id="book-of-spells-stage">
         <!-- Floating Three.js 3D Grimoire Canvas Wrap -->
         <div class="book-of-spells-canvas-wrap" id="book-of-spells-canvas-wrap"></div>
-
-        <!-- Synchronized Floating Project HUD & Interaction Controls -->
-        <div class="spells-hud-overlay" id="spells-hud-overlay">
-          <!-- Top Tag & Navigation Helper -->
-          <div class="spells-hud-header">
-            <div class="spells-hud-badge">
-              <span class="hud-sparkle">✦</span>
-              <span id="spells-hud-folio">FOLIO I · CYBER DEFENSE</span>
-            </div>
-            <div class="spells-hud-scroll-hint">
-              <span>Scroll to Turn Pages</span>
-              <i data-lucide="chevrons-down" style="width: 14px; height: 14px;"></i>
-            </div>
-          </div>
-
-          <!-- Bottom Action Bar & Folio Switcher -->
-          <div class="spells-hud-footer">
-            <div class="spells-hud-info">
-              <span class="spells-hud-cat" id="spells-hud-category">Full Stack · Sanyogita AI</span>
-              <h3 class="spells-hud-project-title" id="spells-hud-title">Bareilly Police Portal</h3>
-            </div>
-
-            <div class="spells-hud-actions">
-              <!-- Live Project CTA -->
-              <a 
-                href="https://bareillypolice.up.gov.in" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                class="spells-btn spells-btn-live" 
-                id="spells-hud-btn-live"
-                title="Cast Spell - Open Live Project"
-              >
-                <i data-lucide="external-link" style="width: 15px; height: 15px;"></i>
-                <span>Cast Spell · Live Demo</span>
-              </a>
-
-              <!-- GitHub Code CTA -->
-              <a 
-                href="https://github.com/iaryasharma" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                class="spells-btn spells-btn-code" 
-                id="spells-hud-btn-code"
-                title="Inspect Source Scroll on GitHub"
-              >
-                <i data-lucide="github" style="width: 15px; height: 15px;"></i>
-                <span>Source</span>
-              </a>
-            </div>
-
-            <!-- Folio Pager Controls -->
-            <div class="spells-folio-nav">
-              <button class="spells-nav-arrow" id="spells-hud-prev" aria-label="Previous Folio" title="Previous Folio">
-                <i data-lucide="chevron-left" style="width: 16px; height: 16px;"></i>
-              </button>
-              
-              <div class="spells-folio-dots" aria-label="Project Folios">
-                <button class="spells-folio-dot active" data-index="0" aria-label="Folio 1: Bareilly Police" title="Folio 1"></button>
-                <button class="spells-folio-dot" data-index="1" aria-label="Folio 2: CineWhiz" title="Folio 2"></button>
-                <button class="spells-folio-dot" data-index="2" aria-label="Folio 3: SangamDrive" title="Folio 3"></button>
-                <button class="spells-folio-dot" data-index="3" aria-label="Folio 4: PassX" title="Folio 4"></button>
-                <button class="spells-folio-dot" data-index="4" aria-label="Folio 5: Distraction Detection" title="Folio 5"></button>
-              </div>
-
-              <button class="spells-nav-arrow" id="spells-hud-next" aria-label="Next Folio" title="Next Folio">
-                <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
 

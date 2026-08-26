@@ -559,13 +559,11 @@ function initStatementSwapScrollytelling() {
       onUpdate: (self) => {
         const p = self.progress;
 
-        // Navbar & Floating Home Button Toggle
-        if (p > 0.03 && p < 0.94) {
+        // Navbar Toggle: Hide navbar when scrolled into skills and forward into projects
+        if (p > 0.03) {
           if (topNav) topNav.classList.add('nav-hidden');
-          if (topLeftHeader) topLeftHeader.classList.add('home-active');
         } else {
           if (topNav) topNav.classList.remove('nav-hidden');
-          if (topLeftHeader) topLeftHeader.classList.remove('home-active');
         }
       },
       onLeaveBack: () => {
@@ -582,7 +580,6 @@ function initStatementSwapScrollytelling() {
         gsap.set(statement2, { yPercent: 120, opacity: 0, filter: 'blur(8px)' });
         gsap.set(statement3, { yPercent: 120, opacity: 0, filter: 'blur(8px)' });
         if (topNav) topNav.classList.remove('nav-hidden');
-        if (topLeftHeader) topLeftHeader.classList.remove('home-active');
       }
     }
   });

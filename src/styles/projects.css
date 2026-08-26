@@ -113,6 +113,12 @@ body.theme-hufflepuff .section-3-ambient-glow {
   height: 100% !important;
   display: block;
   outline: none;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.book-of-spells-canvas-wrap canvas:active {
+  cursor: grabbing;
 }
 
 /* Synchronized Floating Project HUD & Interaction Overlay */

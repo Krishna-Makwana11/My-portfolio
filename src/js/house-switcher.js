@@ -95,9 +95,7 @@ export function initHouseSwitcher() {
       
       // Update body theme class
       document.body.classList.remove('theme-slytherin', 'theme-ravenclaw', 'theme-hufflepuff', 'theme-gryffindor');
-      if (house !== 'gryffindor') {
-        document.body.classList.add(`theme-${house}`);
-      }
+      document.body.classList.add(`theme-${house}`);
 
       // Update active spotlight reveal image
       setSpotlightHouse(house);
@@ -135,7 +133,8 @@ export function initHouseSwitcher() {
   // Restore saved house on load
   try {
     const savedHouse = localStorage.getItem('hp_house_theme');
-    if (savedHouse && savedHouse !== 'gryffindor') {
+    if (savedHouse) {
+      document.body.classList.remove('theme-slytherin', 'theme-ravenclaw', 'theme-hufflepuff', 'theme-gryffindor');
       document.body.classList.add(`theme-${savedHouse}`);
       if (houseNameLabel) {
         houseNameLabel.textContent = savedHouse.charAt(0).toUpperCase() + savedHouse.slice(1);

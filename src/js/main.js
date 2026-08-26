@@ -10,6 +10,7 @@ import { initSkillsConstellation } from './skills-constellation.js';
 import { initHouseSwitcher } from './house-switcher.js';
 import { initSpotlightReveal } from './spotlight-reveal.js';
 import { initOwlPost } from './owl-post.js';
+import { initBookOfSpells } from './book-of-spells.js';
 import { magicalAudio } from './audio-synth.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroAvatarInteraction();
   initHeroScrollAnimation();
   initSkillsConstellation();
+  initBookOfSpells();
   initHouseSwitcher();
   initSpotlightReveal();
   initOwlPost();
@@ -47,28 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Project Filter Tabs (Marauder's Map)
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const projectCards = document.querySelectorAll('.project-card');
-
-  filterBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach((b) => b.classList.remove('active'));
-      btn.classList.add('active');
-      magicalAudio.playWandSpell();
-
-      const category = btn.getAttribute('data-filter');
-
-      projectCards.forEach((card) => {
-        const cardCat = card.getAttribute('data-category');
-        if (category === 'all' || cardCat === category) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    });
-  });
 
   // Smooth Section Nav Links
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {

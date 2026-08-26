@@ -287,239 +287,85 @@
     </section>
 
     <!-- ==========================================================================
-         MARAUDER'S MAP PROJECT SHOWCASE
+         SECTION 3: INTERACTIVE 3D BOOK OF SPELLS (PREPARED WRAPPER)
          ========================================================================== -->
-    <section id="projects" class="projects-section">
-      <div class="projects-map-backdrop"></div>
+    <section id="projects" class="section-3-wrapper spells-section bg-transparent min-h-screen w-full" aria-label="Book of Spells & Enchanted Works">
+      <!-- Dynamic Ambient House Lighting / Glow Layer -->
+      <div class="section-3-ambient-glow" id="section-3-ambient-glow" aria-hidden="true"></div>
 
-      <div class="projects-container">
-        <div class="map-oath-banner">
-          <p class="map-oath-quote">"I solemnly swear that I am up to no good."</p>
-        </div>
+      <!-- Interactive 3D Book of Spells Stage -->
+      <div class="book-of-spells-stage" id="book-of-spells-stage">
+        <!-- Floating Three.js 3D Grimoire Canvas Wrap -->
+        <div class="book-of-spells-canvas-wrap" id="book-of-spells-canvas-wrap"></div>
 
-        <div class="section-header">
-          <div class="section-tag">Marauder's Map Vault</div>
-          <h2 class="section-title">Selected <span class="text-gold">Enchanted Works</span></h2>
-          <p class="section-desc">
-            A curated grimoire of production-ready full-stack applications, intelligent AI platforms, and high-performance algorithms.
-          </p>
-        </div>
+        <!-- Synchronized Floating Project HUD & Interaction Controls -->
+        <div class="spells-hud-overlay" id="spells-hud-overlay">
+          <!-- Top Tag & Navigation Helper -->
+          <div class="spells-hud-header">
+            <div class="spells-hud-badge">
+              <span class="hud-sparkle">✦</span>
+              <span id="spells-hud-folio">FOLIO I · CYBER DEFENSE</span>
+            </div>
+            <div class="spells-hud-scroll-hint">
+              <span>Scroll to Turn Pages</span>
+              <i data-lucide="chevrons-down" style="width: 14px; height: 14px;"></i>
+            </div>
+          </div>
 
-        <!-- Filter Bar -->
-        <div class="project-filter-bar">
-          <button class="filter-btn active" data-filter="all">All Quests</button>
-          <button class="filter-btn" data-filter="fullstack">Full Stack & Web</button>
-          <button class="filter-btn" data-filter="ai">AI & Vision</button>
-          <button class="filter-btn" data-filter="security">Security & Tools</button>
-        </div>
+          <!-- Bottom Action Bar & Folio Switcher -->
+          <div class="spells-hud-footer">
+            <div class="spells-hud-info">
+              <span class="spells-hud-cat" id="spells-hud-category">Full Stack · Sanyogita AI</span>
+              <h3 class="spells-hud-project-title" id="spells-hud-title">Bareilly Police Portal</h3>
+            </div>
 
-        <!-- Projects Grid -->
-        <div class="projects-grid">
-          
-          <!-- Project 1: Bareilly Police -->
-          <article class="project-card" data-category="fullstack">
-            <div class="project-media-wrapper">
-              <span class="project-badge-tag">Next.js · AI Portal</span>
-              <img 
-                src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80" 
-                alt="Bareilly Police Website" 
-                class="project-media-img"
-              />
-              <div class="project-overlay-glow"></div>
-            </div>
-            <div class="project-card-body">
-              <span class="project-number">#01 · PRODUCTION DISPATCH</span>
-              <h3 class="project-title">Bareilly Police Official Portal</h3>
-              <p class="project-description">
-                Engineered the official Bareilly Police web platform with citizen incident tracking, online report dispatch, and integrated Sanyogita AI for instant natural-language query resolution.
-              </p>
-              <div class="project-tech-stack">
-                <span class="tech-tag">Next.js</span>
-                <span class="tech-tag">TypeScript</span>
-                <span class="tech-tag">Sanyogita AI</span>
-                <span class="tech-tag">PostgreSQL</span>
-              </div>
-              <div class="project-actions">
-                <a href="https://bareillypolice.up.gov.in" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-live">
-                  <i data-lucide="external-link" style="width: 14px; height: 14px;"></i> Live Portal
-                </a>
-                <a href="https://github.com/iaryasharma" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-code">
-                  <i data-lucide="github" style="width: 14px; height: 14px;"></i> Source
-                </a>
-              </div>
-            </div>
-          </article>
+            <div class="spells-hud-actions">
+              <!-- Live Project CTA -->
+              <a 
+                href="https://bareillypolice.up.gov.in" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="spells-btn spells-btn-live" 
+                id="spells-hud-btn-live"
+                title="Cast Spell - Open Live Project"
+              >
+                <i data-lucide="external-link" style="width: 15px; height: 15px;"></i>
+                <span>Cast Spell · Live Demo</span>
+              </a>
 
-          <!-- Project 2: CineWhiz -->
-          <article class="project-card" data-category="ai">
-            <div class="project-media-wrapper">
-              <span class="project-badge-tag">FastAPI · MongoDB</span>
-              <img 
-                src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=800&q=80" 
-                alt="CineWhiz Movie Platform" 
-                class="project-media-img"
-              />
-              <div class="project-overlay-glow"></div>
+              <!-- GitHub Code CTA -->
+              <a 
+                href="https://github.com/iaryasharma" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="spells-btn spells-btn-code" 
+                id="spells-hud-btn-code"
+                title="Inspect Source Scroll on GitHub"
+              >
+                <i data-lucide="github" style="width: 15px; height: 15px;"></i>
+                <span>Source</span>
+              </a>
             </div>
-            <div class="project-card-body">
-              <span class="project-number">#02 · AI RECOMMENDATION</span>
-              <h3 class="project-title">CineWhiz Movie Discovery</h3>
-              <p class="project-description">
-                Personalized cinema recommendation platform with Google OAuth watchlists, machine learning preference filtering, and responsive streaming catalogs.
-              </p>
-              <div class="project-tech-stack">
-                <span class="tech-tag">Next.js</span>
-                <span class="tech-tag">MongoDB</span>
-                <span class="tech-tag">FastAPI</span>
-                <span class="tech-tag">Python</span>
-              </div>
-              <div class="project-actions">
-                <a href="https://github.com/iaryasharma/CineWhiz" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-live">
-                  <i data-lucide="external-link" style="width: 14px; height: 14px;"></i> View Project
-                </a>
-                <a href="https://github.com/iaryasharma/CineWhiz" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-code">
-                  <i data-lucide="github" style="width: 14px; height: 14px;"></i> Source
-                </a>
-              </div>
-            </div>
-          </article>
 
-          <!-- Project 3: SangamDrive -->
-          <article class="project-card" data-category="fullstack">
-            <div class="project-media-wrapper">
-              <span class="project-badge-tag">Cloud Sync · OAuth</span>
-              <img 
-                src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80" 
-                alt="SangamDrive Web App" 
-                class="project-media-img"
-              />
-              <div class="project-overlay-glow"></div>
-            </div>
-            <div class="project-card-body">
-              <span class="project-number">#03 · PRODUCTIVITY WIZARDRY</span>
-              <h3 class="project-title">SangamDrive Multi-Account</h3>
-              <p class="project-description">
-                Unified multi-account Google Drive manager allowing users to seamlessly browse, search, and manage assets across accounts without switching browser profiles.
-              </p>
-              <div class="project-tech-stack">
-                <span class="tech-tag">Next.js</span>
-                <span class="tech-tag">Google Drive API</span>
-                <span class="tech-tag">OAuth 2.0</span>
-                <span class="tech-tag">Tailwind</span>
+            <!-- Folio Pager Controls -->
+            <div class="spells-folio-nav">
+              <button class="spells-nav-arrow" id="spells-hud-prev" aria-label="Previous Folio" title="Previous Folio">
+                <i data-lucide="chevron-left" style="width: 16px; height: 16px;"></i>
+              </button>
+              
+              <div class="spells-folio-dots" aria-label="Project Folios">
+                <button class="spells-folio-dot active" data-index="0" aria-label="Folio 1: Bareilly Police" title="Folio 1"></button>
+                <button class="spells-folio-dot" data-index="1" aria-label="Folio 2: CineWhiz" title="Folio 2"></button>
+                <button class="spells-folio-dot" data-index="2" aria-label="Folio 3: SangamDrive" title="Folio 3"></button>
+                <button class="spells-folio-dot" data-index="3" aria-label="Folio 4: PassX" title="Folio 4"></button>
+                <button class="spells-folio-dot" data-index="4" aria-label="Folio 5: Distraction Detection" title="Folio 5"></button>
               </div>
-              <div class="project-actions">
-                <a href="https://github.com/iaryasharma/SangamDrive" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-live">
-                  <i data-lucide="external-link" style="width: 14px; height: 14px;"></i> View Project
-                </a>
-                <a href="https://github.com/iaryasharma/SangamDrive" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-code">
-                  <i data-lucide="github" style="width: 14px; height: 14px;"></i> Source
-                </a>
-              </div>
-            </div>
-          </article>
 
-          <!-- Project 4: PassX -->
-          <article class="project-card" data-category="security">
-            <div class="project-media-wrapper">
-              <span class="project-badge-tag">Cryptography · Vault</span>
-              <img 
-                src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=800&q=80" 
-                alt="PassX Vault" 
-                class="project-media-img"
-              />
-              <div class="project-overlay-glow"></div>
+              <button class="spells-nav-arrow" id="spells-hud-next" aria-label="Next Folio" title="Next Folio">
+                <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+              </button>
             </div>
-            <div class="project-card-body">
-              <span class="project-number">#04 · ENCRYPTED VAULT</span>
-              <h3 class="project-title">PassX Credentials Safe</h3>
-              <p class="project-description">
-                Zero-knowledge encrypted password vault built with Node.js and MongoDB, providing multi-layered cipher security and biometric authentication support.
-              </p>
-              <div class="project-tech-stack">
-                <span class="tech-tag">Node.js</span>
-                <span class="tech-tag">Express.js</span>
-                <span class="tech-tag">MongoDB</span>
-                <span class="tech-tag">AES-256</span>
-              </div>
-              <div class="project-actions">
-                <a href="https://passwordx.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-live">
-                  <i data-lucide="external-link" style="width: 14px; height: 14px;"></i> Live Vault
-                </a>
-                <a href="https://github.com/iaryasharma" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-code">
-                  <i data-lucide="github" style="width: 14px; height: 14px;"></i> Source
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 5: Distraction Detection -->
-          <article class="project-card" data-category="ai">
-            <div class="project-media-wrapper">
-              <span class="project-badge-tag">Computer Vision · Python</span>
-              <img 
-                src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80" 
-                alt="Distraction Detection AI" 
-                class="project-media-img"
-              />
-              <div class="project-overlay-glow"></div>
-            </div>
-            <div class="project-card-body">
-              <span class="project-number">#05 · COMPUTER VISION</span>
-              <h3 class="project-title">Distraction Detection AI</h3>
-              <p class="project-description">
-                Real-time facial landmark and gaze monitoring system using OpenCV and MediaPipe to detect driver drowsiness and workplace distractions with audible alarm triggers.
-              </p>
-              <div class="project-tech-stack">
-                <span class="tech-tag">Python</span>
-                <span class="tech-tag">OpenCV</span>
-                <span class="tech-tag">MediaPipe</span>
-                <span class="tech-tag">TensorFlow</span>
-              </div>
-              <div class="project-actions">
-                <a href="https://github.com/iaryasharma" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-live">
-                  <i data-lucide="external-link" style="width: 14px; height: 14px;"></i> View AI Code
-                </a>
-                <a href="https://github.com/iaryasharma" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-code">
-                  <i data-lucide="github" style="width: 14px; height: 14px;"></i> Source
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 6: Nebula Assault -->
-          <article class="project-card" data-category="security">
-            <div class="project-media-wrapper">
-              <span class="project-badge-tag">Game Engine · Python</span>
-              <img 
-                src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80" 
-                alt="Nebula Assault Arcade" 
-                class="project-media-img"
-              />
-              <div class="project-overlay-glow"></div>
-            </div>
-            <div class="project-card-body">
-              <span class="project-number">#06 · ARCADE ENGINE</span>
-              <h3 class="project-title">Nebula Assault Game</h3>
-              <p class="project-description">
-                Retro-futuristic space combat arcade game built from scratch in Python featuring custom sprite physics, particle explosions, and dynamic wave scaling.
-              </p>
-              <div class="project-tech-stack">
-                <span class="tech-tag">Python</span>
-                <span class="tech-tag">Pygame</span>
-                <span class="tech-tag">Physics Engine</span>
-                <span class="tech-tag">Audio Synth</span>
-              </div>
-              <div class="project-actions">
-                <a href="https://github.com/iaryasharma" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-live">
-                  <i data-lucide="external-link" style="width: 14px; height: 14px;"></i> Play / Code
-                </a>
-                <a href="https://github.com/iaryasharma" target="_blank" rel="noopener noreferrer" class="btn-project-link btn-project-code">
-                  <i data-lucide="github" style="width: 14px; height: 14px;"></i> Source
-                </a>
-              </div>
-            </div>
-          </article>
-
+          </div>
         </div>
       </div>
     </section>

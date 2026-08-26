@@ -64,9 +64,23 @@
   --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* ==========================================================================
-   HOUSE THEMES
-   ========================================================================== */
+/* Gryffindor (Velvet Scarlet & Warm Gold) */
+body.theme-gryffindor {
+  --house-primary: #8b181b;
+  --house-primary-light: #b91c1c;
+  --house-primary-glow: rgba(185, 28, 28, 0.4);
+  --house-secondary: #f5c542;
+  --house-secondary-light: #fde047;
+  --house-secondary-glow: rgba(245, 197, 66, 0.25);
+  --house-crest-name: "Gryffindor";
+  --house-ambient-center: #1a1020;
+  --house-bg-shine-1: rgba(139, 24, 27, 0.32);
+  --house-bg-shine-2: rgba(185, 28, 28, 0.15);
+  --border-gold: rgba(245, 197, 66, 0.3);
+  --border-glow: rgba(245, 197, 66, 0.6);
+  --shadow-gold: 0 0 25px rgba(245, 197, 66, 0.3);
+  --shadow-crimson: 0 0 25px rgba(185, 28, 28, 0.4);
+}
 
 /* Slytherin (Emerald & Silver / Mystic Green) */
 body.theme-slytherin {

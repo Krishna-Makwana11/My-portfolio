@@ -310,19 +310,134 @@ section,
   gap: 8px;
   padding: 6px 10px;
   border-radius: 9999px;
-  background: rgba(12, 9, 18, 0.78);
-  border: 1px solid var(--border-gold);
+  background: rgba(12, 9, 18, 0.82);
+  border: 1px solid var(--house-secondary, rgba(245, 197, 66, 0.4));
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(245, 197, 66, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px var(--house-secondary-glow, rgba(245, 197, 66, 0.15));
+  transition: all 0.35s var(--ease-magic);
+}
+
+/* Full Navigation Links container (1st Page) */
+.nav-full-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* 4 Hogwarts House Crests Bar container (All Next Pages) */
+.nav-crests-bar {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 4px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Mode 1: Full Nav on 1st Page */
+.top-right-nav.is-full-nav .nav-full-links {
+  display: flex;
+  opacity: 1;
+  transform: translateX(0);
+}
+.top-right-nav.is-full-nav .nav-crests-bar {
+  display: none;
+  opacity: 0;
+}
+
+/* Mode 2: Crests Theme Bar on All Next Pages */
+.top-right-nav.is-crest-nav {
+  padding: 6px 12px;
+}
+.top-right-nav.is-crest-nav .nav-full-links {
+  display: none;
+  opacity: 0;
+}
+.top-right-nav.is-crest-nav .nav-crests-bar {
+  display: flex;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Individual Crest Theme Buttons */
+.crest-theme-btn {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 5px;
+  outline: none;
   transition: all 0.3s var(--ease-magic);
 }
 
-.top-right-nav.nav-hidden {
-  transform: translateY(-130%) !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease !important;
+.crest-btn-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
+  transition: transform 0.3s var(--ease-magic), filter 0.3s var(--ease-magic);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.crest-theme-btn:hover {
+  transform: translateY(-3px) scale(1.15);
+}
+
+.crest-theme-btn:hover .crest-btn-img {
+  transform: scale(1.15);
+}
+
+/* Gryffindor Theme Crest */
+.crest-theme-btn[data-house="gryffindor"]:hover,
+.crest-theme-btn[data-house="gryffindor"].is-active {
+  border-color: #f5c542;
+  box-shadow: 0 0 16px rgba(245, 197, 66, 0.7), 0 0 28px rgba(185, 28, 28, 0.5);
+  background: rgba(185, 28, 28, 0.35);
+}
+
+/* Slytherin Theme Crest */
+.crest-theme-btn[data-house="slytherin"]:hover,
+.crest-theme-btn[data-house="slytherin"].is-active {
+  border-color: #00ff88;
+  box-shadow: 0 0 16px rgba(0, 255, 136, 0.7), 0 0 28px rgba(22, 101, 52, 0.5);
+  background: rgba(22, 101, 52, 0.35);
+}
+
+/* Ravenclaw Theme Crest */
+.crest-theme-btn[data-house="ravenclaw"]:hover,
+.crest-theme-btn[data-house="ravenclaw"].is-active {
+  border-color: #38bdf8;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.7), 0 0 28px rgba(30, 64, 175, 0.5);
+  background: rgba(30, 64, 175, 0.35);
+}
+
+/* Hufflepuff Theme Crest */
+.crest-theme-btn[data-house="hufflepuff"]:hover,
+.crest-theme-btn[data-house="hufflepuff"].is-active {
+  border-color: #ecb939;
+  box-shadow: 0 0 16px rgba(236, 185, 57, 0.7), 0 0 28px rgba(113, 63, 18, 0.5);
+  background: rgba(113, 63, 18, 0.35);
+}
+
+.crest-theme-btn.is-active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--house-secondary, #f5c542);
+  box-shadow: 0 0 8px var(--house-secondary-glow, rgba(245, 197, 66, 0.9));
 }
 
 .top-nav-btn {
@@ -533,6 +648,16 @@ section,
   .top-nav-btn {
     padding: 6px 10px;
     font-size: 0.72rem;
+  }
+
+  .nav-crests-bar {
+    gap: 6px;
+  }
+
+  .crest-theme-btn {
+    width: 32px;
+    height: 32px;
+    padding: 3px;
   }
 }
 

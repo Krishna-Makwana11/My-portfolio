@@ -1030,34 +1030,12 @@ export class BookOfSpellsViewer {
       pin: true,
       scrub: 1.8,
       anticipatePin: 1,
-      onEnter: () => {
-        if (topNav) topNav.classList.add('nav-hidden');
-      },
-      onEnterBack: () => {
-        if (topNav) topNav.classList.add('nav-hidden');
-      },
-      onLeave: () => {
-        if (topNav) topNav.classList.remove('nav-hidden');
-      },
       onLeaveBack: () => {
         this.resetStageStyles();
         this.updateScrollSequence(0);
-        if (topNav) topNav.classList.remove('nav-hidden');
       },
       onUpdate: (self) => {
         const p = self.progress;
-
-        // Navbar management
-        if (p > 0.02 && p < 0.95) {
-          if (topNav && !topNav.classList.contains('nav-hidden')) {
-            topNav.classList.add('nav-hidden');
-          }
-        } else if (p <= 0.02 || p >= 0.95) {
-          if (topNav && topNav.classList.contains('nav-hidden')) {
-            topNav.classList.remove('nav-hidden');
-          }
-        }
-
         this.updateScrollSequence(p);
       }
     });

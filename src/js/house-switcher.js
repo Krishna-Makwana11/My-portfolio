@@ -66,13 +66,65 @@ export function triggerHouseMagicShower(house) {
   }, 120);
 }
 
+// Core House Switcher Function (Centralized for dropdown and crest buttons)
+export function applyHouseTheme(house, triggerShower = true) {
+  if (!house) return;
+
+  // Update body theme class
+  document.body.classList.remove('theme-slytherin', 'theme-ravenclaw', 'theme-hufflepuff', 'theme-gryffindor');
+  document.body.classList.add(`theme-${house}`);
+
+  // Update active spotlight reveal image
+  setSpotlightHouse(house);
+
+  // Update button label and house dot in full nav
+  const houseNameLabel = document.querySelector('.current-house-name');
+  if (houseNameLabel) {
+    houseNameLabel.textContent = house.charAt(0).toUpperCase() + house.slice(1);
+  }
+
+  const currentDot = document.querySelector('.house-select-btn .house-dot');
+  if (currentDot) {
+    currentDot.className = `house-dot ${house}`;
+  }
+
+  // Update active house crest icon in full nav
+  const houseCrestIcon = document.getElementById('house-crest-icon');
+  if (houseCrestIcon) {
+    houseCrestIcon.src = `/assets/crests/crest_${house}.png`;
+  }
+
+  // Update active state on 4 Crest Theme Buttons
+  const crestBtns = document.querySelectorAll('.crest-theme-btn');
+  crestBtns.forEach((btn) => {
+    if (btn.getAttribute('data-house') === house) {
+      btn.classList.add('is-active');
+    } else {
+      btn.classList.remove('is-active');
+    }
+  });
+
+  // Save preference
+  try {
+    localStorage.setItem('hp_house_theme', house);
+  } catch (err) {}
+
+  if (triggerShower) {
+    magicalAudio.playHedwigChime();
+    triggerHouseMagicShower(house);
+  }
+
+  // Dispatch custom event for 3D Cauldron and particle shaders
+  document.dispatchEvent(new CustomEvent('hp_house_changed', { detail: { house } }));
+}
+
 export function initHouseSwitcher() {
   const houseSelectBtn = document.querySelector('.house-select-btn');
   const houseDropdown = document.querySelector('.house-dropdown-menu');
   const houseOptions = document.querySelectorAll('.house-option');
+  const crestThemeBtns = document.querySelectorAll('.crest-theme-btn');
   const lumosBtn = document.getElementById('btn-toggle-lumos');
   const audioBtn = document.getElementById('btn-toggle-audio');
-  const houseNameLabel = document.querySelector('.current-house-name');
 
   // Toggle Dropdown
   if (houseSelectBtn && houseDropdown) {
@@ -87,64 +139,34 @@ export function initHouseSwitcher() {
     });
   }
 
-  // Select House
+  // Select House from Dropdown Options
   houseOptions.forEach((opt) => {
     opt.addEventListener('click', (e) => {
       e.stopPropagation();
       const house = opt.getAttribute('data-house');
-      
-      // Update body theme class
-      document.body.classList.remove('theme-slytherin', 'theme-ravenclaw', 'theme-hufflepuff', 'theme-gryffindor');
-      document.body.classList.add(`theme-${house}`);
-
-      // Update active spotlight reveal image
-      setSpotlightHouse(house);
-
-      // Update button label and house dot
-      if (houseNameLabel) {
-        houseNameLabel.textContent = opt.textContent.trim();
-      }
-
-      const currentDot = houseSelectBtn?.querySelector('.house-dot');
-      if (currentDot) {
-        currentDot.className = `house-dot ${house}`;
-      }
-
-      // Close dropdown
+      applyHouseTheme(house, true);
       if (houseDropdown) {
         houseDropdown.classList.remove('show');
       }
+    });
+  });
 
-      // Save preference
-      try {
-        localStorage.setItem('hp_house_theme', house);
-      } catch (err) {}
-
-      magicalAudio.playHedwigChime();
-
-      // Dispatch custom event for 3D Cauldron and particle shaders
-      document.dispatchEvent(new CustomEvent('hp_house_changed', { detail: { house } }));
-
-      // Trigger downward top-center magical confetti shower
-      triggerHouseMagicShower(house);
+  // Select House from 4 Crest Buttons
+  crestThemeBtns.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const house = btn.getAttribute('data-house');
+      applyHouseTheme(house, true);
     });
   });
 
   // Restore saved house on load
   try {
-    const savedHouse = localStorage.getItem('hp_house_theme');
-    if (savedHouse) {
-      document.body.classList.remove('theme-slytherin', 'theme-ravenclaw', 'theme-hufflepuff', 'theme-gryffindor');
-      document.body.classList.add(`theme-${savedHouse}`);
-      if (houseNameLabel) {
-        houseNameLabel.textContent = savedHouse.charAt(0).toUpperCase() + savedHouse.slice(1);
-      }
-      const currentDot = houseSelectBtn?.querySelector('.house-dot');
-      if (currentDot) {
-        currentDot.className = `house-dot ${savedHouse}`;
-      }
-    }
-  } catch (err) {}
+    const savedHouse = localStorage.getItem('hp_house_theme') || 'gryffindor';
+    applyHouseTheme(savedHouse, false);
+  } catch (err) {
+    applyHouseTheme('gryffindor', false);
+  }
 
   // Lumos / Nox Toggle
   if (lumosBtn) {

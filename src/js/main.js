@@ -99,6 +99,8 @@ function initDynamicHeaderNav() {
     actionBtn.style.opacity = '0.7';
 
     setTimeout(() => {
+      const topRightNav = document.getElementById('top-right-nav');
+
       if (newMode === 'home') {
         actionBtn.setAttribute('href', '#hero-pin-wrapper');
         actionBtn.removeAttribute('target');
@@ -110,6 +112,12 @@ function initDynamicHeaderNav() {
 
         iconWrap.innerHTML = '<img src="/assets/crests/hogwarts_crest.png" alt="Hogwarts Crest Logo" class="header-crest-img" />';
         textWrap.textContent = 'Home';
+
+        // Switch Top-Right Nav to 4 Hogwarts Crests Theme Bar
+        if (topRightNav) {
+          topRightNav.classList.remove('is-full-nav');
+          topRightNav.classList.add('is-crest-nav');
+        }
       } else {
         actionBtn.setAttribute('href', '/assets/Krishna_Makwana_Resume.pdf');
         actionBtn.setAttribute('target', '_blank');
@@ -121,6 +129,12 @@ function initDynamicHeaderNav() {
 
         iconWrap.innerHTML = '<i data-lucide="file-text" style="width: 14px; height: 14px;"></i>';
         textWrap.textContent = 'Resume';
+
+        // Switch Top-Right Nav to Full Navigation Bar
+        if (topRightNav) {
+          topRightNav.classList.remove('is-crest-nav');
+          topRightNav.classList.add('is-full-nav');
+        }
       }
 
       createIcons({ icons });

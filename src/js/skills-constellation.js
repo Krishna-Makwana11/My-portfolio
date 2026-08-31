@@ -556,16 +556,6 @@ function initStatementSwapScrollytelling() {
       scrub: 1,
       anticipatePin: 1,
       invalidateOnRefresh: true,
-      onUpdate: (self) => {
-        const p = self.progress;
-
-        // Navbar Toggle: Hide navbar when scrolled into skills and forward into projects
-        if (p > 0.03) {
-          if (topNav) topNav.classList.add('nav-hidden');
-        } else {
-          if (topNav) topNav.classList.remove('nav-hidden');
-        }
-      },
       onLeaveBack: () => {
         gsap.set(container, {
           scale: 1,

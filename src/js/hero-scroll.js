@@ -99,6 +99,7 @@ export function initHeroScrollAnimation() {
     touchMultiplier: 1.5,
   });
 
+  window.lenis = lenis;
   lenis.on('scroll', ScrollTrigger.update);
 
   gsap.ticker.add((time) => {

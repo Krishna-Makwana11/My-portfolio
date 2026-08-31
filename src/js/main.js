@@ -171,17 +171,59 @@ function initDynamicHeaderNav() {
   window.addEventListener('scroll', handleScroll, { passive: true });
   handleScroll(); // Initial check on load
 
-  // Click Handler for smooth interaction
+  // Click Handler for smooth interaction & Instant Clean Home Reset
   actionBtn.addEventListener('click', (e) => {
     if (currentMode === 'home') {
       e.preventDefault();
-      const heroWrapper = document.getElementById('hero-pin-wrapper');
-      if (heroWrapper) {
-        heroWrapper.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
       magicalAudio.playWandSpell();
+
+      // Get or create a seamless black transition veil
+      let veil = document.getElementById('hp-instant-reset-veil');
+      if (!veil) {
+        veil = document.createElement('div');
+        veil.id = 'hp-instant-reset-veil';
+        veil.style.cssText = `
+          position: fixed;
+          inset: 0;
+          background: #05060a;
+          z-index: 999999;
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+        `;
+        document.body.appendChild(veil);
+      }
+
+      // Step 1: Smoothly fade out the entire viewport to black (0.22s)
+      requestAnimationFrame(() => {
+        veil.style.opacity = '1';
+      });
+
+      // Step 2 & 3: While hidden, instantly jump to top & hard-reset timelines
+      setTimeout(() => {
+        if (window.lenis) {
+          window.lenis.scrollTo(0, { immediate: true });
+        }
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+        // Hard-reset all ScrollTriggers & scrub animations to initial 0% state
+        if (typeof ScrollTrigger !== 'undefined') {
+          ScrollTrigger.getAll().forEach((st) => {
+            if (st.animation) {
+              st.animation.progress(0);
+            }
+          });
+          ScrollTrigger.refresh();
+        }
+
+        // Reset nav states to 1st page
+        updateButtonMode('resume');
+
+        // Step 4: Smoothly fade viewport back in showing clean starting state
+        setTimeout(() => {
+          veil.style.opacity = '0';
+        }, 50);
+      }, 230);
     } else {
       magicalAudio.playWandSpell();
     }

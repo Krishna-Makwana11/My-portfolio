@@ -31,60 +31,80 @@
   <div class="wand-cursor-ring"></div>
 
   <!-- ==========================================================================
-       TOP-LEFT RESUME BUTTON & TOP-RIGHT NAVIGATION BAR
+       TOP-LEFT RESUME / HOME DYNAMIC ACTION BUTTON & TOP-RIGHT NAVIGATION BAR
        ========================================================================== -->
-  <!-- 1. Top-Left Header: Home Button -->
+  <!-- 1. Top-Left Header: Dynamic Action Button (Resume on Home / Home on Next Pages) -->
   <div class="top-left-header" id="top-left-header">
-    <a href="#hero-pin-wrapper" class="top-nav-btn top-nav-home-btn" id="header-home-btn" aria-label="Home" title="Return to Top">
-      <i data-lucide="home" style="width: 14px; height: 14px;"></i>
-      <span>Home</span>
+    <a href="/assets/Krishna_Makwana_Resume.pdf" target="_blank" rel="noopener noreferrer" class="top-nav-btn top-nav-action-btn is-resume" id="header-action-btn" aria-label="Resume" title="View Resume">
+      <span class="btn-icon-wrap" id="header-btn-icon">
+        <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
+      </span>
+      <span class="btn-text" id="header-btn-text">Resume</span>
     </a>
   </div>
 
-  <!-- 2. Top-Right Navigation Bar -->
-  <nav class="top-right-nav" id="top-right-nav" aria-label="Main Navigation">
-    <!-- About Button -->
-    <a href="#about" class="top-nav-btn">
-      <span>About</span>
-    </a>
+  <!-- 2. Top-Right Navigation Bar: Full Nav on 1st Page / 4 Hogwarts Crests on All Next Pages -->
+  <nav class="top-right-nav is-full-nav" id="top-right-nav" aria-label="Main Navigation">
+    <!-- Full Nav Elements (Visible on 1st Page) -->
+    <div class="nav-full-links" id="nav-full-links">
+      <a href="#about" class="top-nav-btn">
+        <span>About</span>
+      </a>
+      <a href="#projects" class="top-nav-btn">
+        <span>Projects</span>
+      </a>
+      <a href="#contact" class="top-nav-btn">
+        <span>Contact</span>
+      </a>
 
-    <!-- Projects Button -->
-    <a href="#projects" class="top-nav-btn">
-      <span>Projects</span>
-    </a>
-
-    <!-- Contact Button -->
-    <a href="#contact" class="top-nav-btn">
-      <span>Contact</span>
-    </a>
-
-    <!-- Interactive House Crest Button (Click-to-Toggle Full Image Lock) -->
-    <button class="house-crest-toggle-btn" id="house-crest-btn" aria-label="Toggle Full Wizard Reveal" title="Click to reveal full wizard persona">
-      <img src="/assets/crests/crest_gryffindor.png" alt="House Crest" class="house-crest-img" id="house-crest-icon" />
-      <span class="crest-pulse-ring"></span>
-    </button>
-
-    <!-- Hogwarts House Slide-Down Selector -->
-    <div class="house-selector-wrapper">
-      <button class="house-select-btn top-nav-btn top-nav-house-btn" aria-label="Select Hogwarts House">
-        <span class="house-dot gryffindor"></span>
-        <span class="current-house-name">Gryffindor</span>
-        <i data-lucide="chevron-down" style="width: 14px; height: 14px;"></i>
+      <!-- Interactive House Crest Button (Click-to-Toggle Full Image Lock) -->
+      <button class="house-crest-toggle-btn" id="house-crest-btn" aria-label="Toggle Full Wizard Reveal" title="Click to reveal full wizard persona">
+        <img src="/assets/crests/crest_gryffindor.png" alt="House Crest" class="house-crest-img" id="house-crest-icon" />
+        <span class="crest-pulse-ring"></span>
       </button>
-      <div class="house-dropdown-menu">
-        <button class="house-option" data-house="gryffindor">
-          <span class="house-dot gryffindor"></span> Gryffindor
+
+      <!-- Hogwarts House Slide-Down Selector -->
+      <div class="house-selector-wrapper">
+        <button class="house-select-btn top-nav-btn top-nav-house-btn" aria-label="Select Hogwarts House">
+          <span class="house-dot gryffindor"></span>
+          <span class="current-house-name">Gryffindor</span>
+          <i data-lucide="chevron-down" style="width: 14px; height: 14px;"></i>
         </button>
-        <button class="house-option" data-house="slytherin">
-          <span class="house-dot slytherin"></span> Slytherin
-        </button>
-        <button class="house-option" data-house="ravenclaw">
-          <span class="house-dot ravenclaw"></span> Ravenclaw
-        </button>
-        <button class="house-option" data-house="hufflepuff">
-          <span class="house-dot hufflepuff"></span> Hufflepuff
-        </button>
+        <div class="house-dropdown-menu">
+          <button class="house-option" data-house="gryffindor">
+            <span class="house-dot gryffindor"></span> Gryffindor
+          </button>
+          <button class="house-option" data-house="slytherin">
+            <span class="house-dot slytherin"></span> Slytherin
+          </button>
+          <button class="house-option" data-house="ravenclaw">
+            <span class="house-dot ravenclaw"></span> Ravenclaw
+          </button>
+          <button class="house-option" data-house="hufflepuff">
+            <span class="house-dot hufflepuff"></span> Hufflepuff
+          </button>
+        </div>
       </div>
+    </div>
+
+    <!-- 4 Hogwarts House Crests Bar (Visible on All Subsequent Pages for Direct Theme Change) -->
+    <div class="nav-crests-bar" id="nav-crests-bar" aria-label="Hogwarts House Theme Switcher">
+      <button class="crest-theme-btn is-active" data-house="gryffindor" title="Switch to Gryffindor Theme" aria-label="Gryffindor Theme">
+        <img src="/assets/crests/crest_gryffindor.png" alt="Gryffindor Crest" class="crest-btn-img" />
+        <span class="crest-glow-indicator"></span>
+      </button>
+      <button class="crest-theme-btn" data-house="slytherin" title="Switch to Slytherin Theme" aria-label="Slytherin Theme">
+        <img src="/assets/crests/crest_slytherin.png" alt="Slytherin Crest" class="crest-btn-img" />
+        <span class="crest-glow-indicator"></span>
+      </button>
+      <button class="crest-theme-btn" data-house="ravenclaw" title="Switch to Ravenclaw Theme" aria-label="Ravenclaw Theme">
+        <img src="/assets/crests/crest_ravenclaw.png" alt="Ravenclaw Crest" class="crest-btn-img" />
+        <span class="crest-glow-indicator"></span>
+      </button>
+      <button class="crest-theme-btn" data-house="hufflepuff" title="Switch to Hufflepuff Theme" aria-label="Hufflepuff Theme">
+        <img src="/assets/crests/crest_hufflepuff.png" alt="Hufflepuff Crest" class="crest-btn-img" />
+        <span class="crest-glow-indicator"></span>
+      </button>
     </div>
   </nav>
 

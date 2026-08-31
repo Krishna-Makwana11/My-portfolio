@@ -583,13 +583,132 @@ section,
               transform 0.25s var(--ease-magic);
 }
 
-.top-nav-action-btn:hover,
-.top-nav-home-btn:hover {
+/* ==========================================================================
+   THEME-SPECIFIC RESUME BUTTON STYLES
+   ========================================================================== */
+
+/* Gryffindor: Deep Velvet Scarlet / Crimson with Radiant Gold Text & Border */
+body.theme-gryffindor .top-nav-action-btn.is-resume,
+body:not([class*="theme-"]) .top-nav-action-btn.is-resume {
+  background: linear-gradient(135deg, #740001, #9e1418) !important;
+  color: #f5c542 !important;
+  border: 1.5px solid #f5c542 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 24px rgba(185, 28, 28, 0.8), 0 0 10px rgba(245, 197, 66, 0.4) !important;
+  font-weight: 700;
+}
+
+body.theme-gryffindor .top-nav-action-btn.is-resume .btn-icon-wrap,
+body:not([class*="theme-"]) .top-nav-action-btn.is-resume .btn-icon-wrap {
+  color: #f5c542 !important;
+}
+
+body.theme-gryffindor .top-nav-action-btn.is-resume .btn-text,
+body:not([class*="theme-"]) .top-nav-action-btn.is-resume .btn-text {
+  color: #f5c542 !important;
+  font-weight: 700;
+}
+
+body.theme-gryffindor .top-nav-action-btn.is-resume:hover,
+body:not([class*="theme-"]) .top-nav-action-btn.is-resume:hover {
+  background: linear-gradient(135deg, #8b181b, #b91c1c) !important;
+  box-shadow: 0 6px 26px rgba(0, 0, 0, 0.8), 0 0 32px rgba(185, 28, 28, 0.95), 0 0 16px rgba(245, 197, 66, 0.7) !important;
+  transform: translateY(-2px) scale(1.04);
+  filter: brightness(1.1);
+}
+
+/* Slytherin: Deep Mystic Emerald with Vibrant Green Text & Border */
+body.theme-slytherin .top-nav-action-btn.is-resume {
+  background: linear-gradient(135deg, #0d2818, #166534) !important;
+  color: #00ff88 !important;
+  border: 1.5px solid #00ff88 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 24px rgba(22, 101, 52, 0.8), 0 0 10px rgba(0, 255, 136, 0.4) !important;
+  font-weight: 700;
+}
+
+body.theme-slytherin .top-nav-action-btn.is-resume .btn-icon-wrap {
+  color: #00ff88 !important;
+}
+
+body.theme-slytherin .top-nav-action-btn.is-resume .btn-text {
+  color: #00ff88 !important;
+  font-weight: 700;
+}
+
+body.theme-slytherin .top-nav-action-btn.is-resume:hover {
+  background: linear-gradient(135deg, #12381f, #1e7e43) !important;
+  box-shadow: 0 6px 26px rgba(0, 0, 0, 0.8), 0 0 32px rgba(22, 101, 52, 0.95), 0 0 16px rgba(0, 255, 136, 0.7) !important;
+  transform: translateY(-2px) scale(1.04);
+  filter: brightness(1.1);
+}
+
+/* Ravenclaw: Deep Midnight Sapphire with Electric Astral Blue Text & Border */
+body.theme-ravenclaw .top-nav-action-btn.is-resume {
+  background: linear-gradient(135deg, #0a1329, #1e40af) !important;
+  color: #38bdf8 !important;
+  border: 1.5px solid #38bdf8 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 24px rgba(30, 64, 175, 0.8), 0 0 10px rgba(56, 189, 248, 0.4) !important;
+  font-weight: 700;
+}
+
+body.theme-ravenclaw .top-nav-action-btn.is-resume .btn-icon-wrap {
+  color: #38bdf8 !important;
+}
+
+body.theme-ravenclaw .top-nav-action-btn.is-resume .btn-text {
+  color: #38bdf8 !important;
+  font-weight: 700;
+}
+
+body.theme-ravenclaw .top-nav-action-btn.is-resume:hover {
+  background: linear-gradient(135deg, #0e1a40, #2563eb) !important;
+  box-shadow: 0 6px 26px rgba(0, 0, 0, 0.8), 0 0 32px rgba(30, 64, 175, 0.95), 0 0 16px rgba(56, 189, 248, 0.7) !important;
+  transform: translateY(-2px) scale(1.04);
+  filter: brightness(1.1);
+}
+
+/* Hufflepuff: Warm Canary Honey Gold with Deep Charcoal Text */
+body.theme-hufflepuff .top-nav-action-btn.is-resume {
+  background: linear-gradient(135deg, #ecb939, #fcd34d) !important;
+  color: #181206 !important;
+  border: 1.5px solid #fcd34d !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 24px rgba(236, 185, 57, 0.7) !important;
+  font-weight: 700;
+}
+
+body.theme-hufflepuff .top-nav-action-btn.is-resume .btn-icon-wrap {
+  color: #181206 !important;
+}
+
+body.theme-hufflepuff .top-nav-action-btn.is-resume .btn-text {
+  color: #181206 !important;
+  font-weight: 700;
+}
+
+body.theme-hufflepuff .top-nav-action-btn.is-resume:hover {
+  background: linear-gradient(135deg, #fcd34d, #ecb939) !important;
+  box-shadow: 0 6px 26px rgba(0, 0, 0, 0.8), 0 0 32px rgba(236, 185, 57, 0.9) !important;
+  transform: translateY(-2px) scale(1.04);
+  filter: brightness(1.06);
+}
+
+/* Home Button State (Dark Glassmorphic with Theme Accent) */
+.top-nav-action-btn.is-home {
+  background: rgba(12, 9, 18, 0.85) !important;
+  color: #fff !important;
+  border: 1px solid var(--house-secondary, rgba(245, 197, 66, 0.5)) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 16px var(--house-secondary-glow, rgba(245, 197, 66, 0.35)) !important;
+}
+
+.top-nav-action-btn.is-home:hover {
   background: linear-gradient(135deg, var(--house-secondary), var(--house-secondary-light, #fde047)) !important;
   color: #05060a !important;
   border-color: var(--house-secondary-light, #fde047) !important;
   box-shadow: 0 0 28px var(--house-secondary-glow, rgba(245, 197, 66, 0.8)), 0 8px 24px rgba(0, 0, 0, 0.8) !important;
   transform: translateY(-2px);
+}
+
+.top-nav-action-btn.is-home:hover .btn-text {
+  color: #05060a !important;
 }
 
 .top-nav-action-btn .btn-icon-wrap {
@@ -622,10 +741,6 @@ section,
 .top-nav-action-btn .btn-text {
   color: #fff;
   transition: color 0.3s ease, opacity 0.2s ease;
-}
-
-.top-nav-action-btn:hover .btn-text {
-  color: #05060a !important;
 }
 
 @media (max-width: 768px) {

@@ -339,34 +339,28 @@ function generatePageEdgesCanvas() {
 }
 
 /**
- * Generates Clean High-Resolution Blank Vintage Parchment Texture
- * (PURE CLEAN SLATE: Zero dummy text, zero headers, zero titles, zero badges, zero overlays)
+ * Draws Base High-Resolution Vintage Parchment (with fibers, age patina, double margins, and gutter shadow)
  */
-function generateCleanBlankParchmentCanvas(isLeft) {
-  const canvas = document.createElement('canvas');
-  canvas.width = 1200;
-  canvas.height = 1600;
-  const ctx = canvas.getContext('2d');
-
+function drawParchmentBase(ctx, width, height, isLeft) {
   // Rich antique parchment radial vignette
-  const grad = ctx.createRadialGradient(600, 800, 180, 600, 800, 950);
+  const grad = ctx.createRadialGradient(width / 2, height / 2, 180, width / 2, height / 2, 950);
   grad.addColorStop(0, '#fcf8ec');
   grad.addColorStop(0.4, '#f5e9ce');
   grad.addColorStop(0.75, '#e4d0a2');
   grad.addColorStop(1, '#be9d62');
   ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, 1200, 1600);
+  ctx.fillRect(0, 0, width, height);
 
   // Micro organic parchment fiber flecks
   ctx.fillStyle = 'rgba(95, 60, 20, 0.035)';
   for (let i = 0; i < 4000; i++) {
-    ctx.fillRect(Math.random() * 1200, Math.random() * 1600, Math.random() * 3 + 1, Math.random() * 2 + 1);
+    ctx.fillRect(Math.random() * width, Math.random() * height, Math.random() * 3 + 1, Math.random() * 2 + 1);
   }
 
   // Soft vintage age patina
   for (let i = 0; i < 6; i++) {
-    const rx = Math.random() * 1000 + 100;
-    const ry = Math.random() * 1400 + 100;
+    const rx = Math.random() * (width - 200) + 100;
+    const ry = Math.random() * (height - 200) + 100;
     const spotGrad = ctx.createRadialGradient(rx, ry, 5, rx, ry, Math.random() * 120 + 60);
     spotGrad.addColorStop(0, 'rgba(120, 75, 25, 0.045)');
     spotGrad.addColorStop(1, 'rgba(120, 75, 25, 0)');
@@ -380,11 +374,11 @@ function generateCleanBlankParchmentCanvas(isLeft) {
   ctx.save();
   ctx.strokeStyle = 'rgba(163, 116, 44, 0.42)';
   ctx.lineWidth = 2;
-  ctx.strokeRect(50, 50, 1100, 1500);
+  ctx.strokeRect(50, 50, width - 100, height - 100);
 
   ctx.strokeStyle = 'rgba(163, 116, 44, 0.2)';
   ctx.lineWidth = 1;
-  ctx.strokeRect(62, 62, 1076, 1476);
+  ctx.strokeRect(62, 62, width - 124, height - 124);
 
   // Vintage corner flourishes
   const drawCornerFlourish = (x, y, flipX, flipY) => {
@@ -407,18 +401,801 @@ function generateCleanBlankParchmentCanvas(isLeft) {
   };
 
   drawCornerFlourish(62, 62, false, false);
-  drawCornerFlourish(1138, 62, true, false);
-  drawCornerFlourish(62, 1538, false, true);
-  drawCornerFlourish(1138, 1538, true, true);
+  drawCornerFlourish(width - 62, 62, true, false);
+  drawCornerFlourish(62, height - 62, false, true);
+  drawCornerFlourish(width - 62, height - 62, true, true);
 
   // Soft binding gutter shadow on the spine side
-  const gutterX = isLeft ? 1160 : 40;
-  const shadowGrad = ctx.createLinearGradient(gutterX, 0, isLeft ? 1080 : 120, 0);
+  const gutterX = isLeft ? width - 40 : 40;
+  const shadowGrad = ctx.createLinearGradient(gutterX, 0, isLeft ? width - 120 : 120, 0);
   shadowGrad.addColorStop(0, 'rgba(60, 35, 12, 0.18)');
   shadowGrad.addColorStop(1, 'rgba(60, 35, 12, 0)');
   ctx.fillStyle = shadowGrad;
-  ctx.fillRect(isLeft ? 1060 : 40, 50, 100, 1500);
+  ctx.fillRect(isLeft ? width - 140 : 40, 50, 100, height - 100);
 
+  ctx.restore();
+}
+
+/**
+ * Generates Clean High-Resolution Blank Vintage Parchment Texture
+ * (PURE CLEAN SLATE: Zero dummy text, zero headers, zero titles, zero badges, zero overlays)
+ */
+function generateCleanBlankParchmentCanvas(isLeft, existingCanvas = null) {
+  const canvas = existingCanvas || document.createElement('canvas');
+  canvas.width = 1200;
+  canvas.height = 1600;
+  const ctx = canvas.getContext('2d');
+  drawParchmentBase(ctx, canvas.width, canvas.height, isLeft);
+  return canvas;
+}
+
+/**
+ * Generates First Right-Hand Page with Elegant Wizarding Intro Profile Card Typography
+ * Features:
+ * - Base parchment matching blank parchment (radial vignette, fiber flecks, patina, margins, filigrees)
+ * - Large wizarding profile card container with subtle antique gilded borders & corner filigrees
+ * - Large header kicker "PORTFOLIO OF ENCHANTED WORKS"
+ * - Prominent Primary Name "KRISHNA MAKWANA" in large bold Cinzel Decorative with antique sepia-gold ink
+ * - Delicate ornamental gold divider flourish
+ * - Specializations in matching bold Cinzel with rich leather ink & gold luster:
+ *     "AI ENTHUSIAST"
+ *     "DATA ANALYTICS   •   DATA SCIENCE"
+ *     "FULLSTACK WEB DEVELOPER"
+ * - Bottom magical seal & Latin motto "• MAGIA ET SCIENTIA •"
+ */
+function generateIntroRightPageCanvas(existingCanvas = null) {
+  const canvas = existingCanvas || document.createElement('canvas');
+  canvas.width = 1200;
+  canvas.height = 1600;
+  const ctx = canvas.getContext('2d');
+
+  // 1. Draw base authentic vintage parchment with gutter on the left (spine side)
+  drawParchmentBase(ctx, canvas.width, canvas.height, false);
+
+  const cx = canvas.width / 2; // 600
+
+  // 2. Wizarding Profile Card Container Frame
+  ctx.save();
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.35)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(90, 180, canvas.width - 180, 1240);
+
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.18)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(104, 194, canvas.width - 208, 1212);
+
+  // Card corner flourishes
+  drawFiligreeCorner(ctx, 90, 180, 56, false, false);
+  drawFiligreeCorner(ctx, canvas.width - 90, 180, 56, true, false);
+  drawFiligreeCorner(ctx, 90, 1420, 56, false, true);
+  drawFiligreeCorner(ctx, canvas.width - 90, 1420, 56, true, true);
+  ctx.restore();
+
+  // 3. Top Header Emblem & Kicker
+  ctx.save();
+  ctx.translate(cx, 290);
+  ctx.strokeStyle = 'rgba(184, 134, 11, 0.6)';
+  ctx.fillStyle = 'rgba(212, 175, 55, 0.25)';
+  ctx.lineWidth = 1.8;
+
+  // 8-pointed star crest
+  ctx.beginPath();
+  for (let i = 0; i < 8; i++) {
+    const r = i % 2 === 0 ? 18 : 8;
+    const a = (i * Math.PI) / 4;
+    const px = Math.cos(a) * r;
+    const py = Math.sin(a) * r;
+    if (i === 0) ctx.moveTo(px, py);
+    else ctx.lineTo(px, py);
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  // Flourish wings
+  ctx.beginPath();
+  ctx.moveTo(-24, 0);
+  ctx.quadraticCurveTo(-65, -16, -110, 0);
+  ctx.quadraticCurveTo(-65, 10, -32, 3);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(24, 0);
+  ctx.quadraticCurveTo(65, -16, 110, 0);
+  ctx.quadraticCurveTo(65, 10, 32, 3);
+  ctx.stroke();
+  ctx.restore();
+
+  // Top Kicker (Centered "PORTFOLIO")
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#543214';
+  ctx.font = '700 30px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.35em';
+  ctx.fillText('PORTFOLIO', cx, 380);
+  ctx.restore();
+
+  // 4. Primary Title (Name): "KRISHNA MAKWANA" (Increased size: 76px)
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#1c0d05';
+  ctx.font = 'bold 76px "Cinzel Decorative", "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.15em';
+  ctx.shadowColor = 'rgba(212, 175, 55, 0.55)';
+  ctx.shadowBlur = 8;
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 2;
+  ctx.fillText('KRISHNA MAKWANA', cx, 500);
+  ctx.restore();
+
+  // 5. Subtle Decorative Gilded Divider
+  ctx.save();
+  const divY = 575;
+  const lineHalfW = 270;
+
+  const gradLeft = ctx.createLinearGradient(cx - lineHalfW, divY, cx - 45, divY);
+  gradLeft.addColorStop(0, 'rgba(184, 134, 11, 0)');
+  gradLeft.addColorStop(1, 'rgba(184, 134, 11, 0.9)');
+  ctx.strokeStyle = gradLeft;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(cx - lineHalfW, divY);
+  ctx.lineTo(cx - 45, divY);
+  ctx.stroke();
+
+  const gradRight = ctx.createLinearGradient(cx + 45, divY, cx + lineHalfW, divY);
+  gradRight.addColorStop(0, 'rgba(184, 134, 11, 0.9)');
+  gradRight.addColorStop(1, 'rgba(184, 134, 11, 0)');
+  ctx.strokeStyle = gradRight;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(cx + 45, divY);
+  ctx.lineTo(cx + lineHalfW, divY);
+  ctx.stroke();
+
+  // Center diamond & dots
+  ctx.fillStyle = '#b8860b';
+  ctx.strokeStyle = '#d4af37';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(cx, divY - 14);
+  ctx.lineTo(cx + 14, divY);
+  ctx.lineTo(cx, divY + 14);
+  ctx.lineTo(cx - 14, divY);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(cx - 28, divY, 4, 0, Math.PI * 2);
+  ctx.arc(cx + 28, divY, 4, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  // 6. Subtitle & Specializations (Unified bold Cinzel styling matching Fullstack Web Developer, increased sizes)
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#221006';
+  ctx.shadowColor = 'rgba(212, 175, 55, 0.35)';
+  ctx.shadowBlur = 5;
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 1;
+
+  // "AI ENTHUSIAST"
+  ctx.font = '700 46px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.14em';
+  ctx.fillText('AI ENTHUSIAST', cx, 685);
+
+  // "DATA ANALYTICS   •   DATA SCIENCE"
+  ctx.font = '700 40px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.10em';
+  ctx.fillText('DATA ANALYTICS   •   DATA SCIENCE', cx, 780);
+
+  // Decorative separator ornament
+  ctx.save();
+  ctx.fillStyle = '#b8860b';
+  ctx.strokeStyle = '#d4af37';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(cx, 845 - 8);
+  ctx.lineTo(cx + 8, 845);
+  ctx.lineTo(cx, 845 + 8);
+  ctx.lineTo(cx - 8, 845);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(cx - 20, 845, 2.5, 0, Math.PI * 2);
+  ctx.arc(cx + 20, 845, 2.5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  // "FULLSTACK WEB DEVELOPER"
+  ctx.font = '700 46px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.14em';
+  ctx.fillText('FULLSTACK WEB DEVELOPER', cx, 930);
+  ctx.restore();
+
+  // 7. Bottom Seal (Scaled up, without motto line)
+  ctx.save();
+  ctx.translate(cx, 1170);
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.4)';
+  ctx.lineWidth = 2;
+
+  ctx.beginPath();
+  ctx.arc(0, 0, 58, 0, Math.PI * 2);
+  ctx.stroke();
+
+  ctx.setLineDash([5, 5]);
+  ctx.beginPath();
+  ctx.arc(0, 0, 48, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#8b181b';
+  ctx.font = 'bold 36px "MedievalSharp", cursive, serif';
+  ctx.fillText('KM', 0, 12);
+  ctx.restore();
+
+  return canvas;
+}
+
+/**
+ * Multiline Text Wrapping Helper for Canvas
+ */
+function drawWrappedText(ctx, text, x, y, maxWidth, lineHeight, align = 'center') {
+  const words = text.split(' ');
+  let line = '';
+  let currentY = y;
+  const lines = [];
+
+  for (let n = 0; n < words.length; n++) {
+    const testLine = line + words[n] + ' ';
+    const metrics = ctx.measureText(testLine);
+    if (metrics.width > maxWidth && n > 0) {
+      lines.push(line.trim());
+      line = words[n] + ' ';
+    } else {
+      line = testLine;
+    }
+  }
+  lines.push(line.trim());
+
+  ctx.save();
+  ctx.textAlign = align;
+  lines.forEach((l) => {
+    ctx.fillText(l, x, currentY);
+    currentY += lineHeight;
+  });
+  ctx.restore();
+  return currentY;
+}
+
+/**
+ * Rounded Rectangle Path Helper for Canvas
+ */
+function drawRoundedRect(ctx, x, y, width, height, radius) {
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + width - radius, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+  ctx.lineTo(x + width, y + height - radius);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  ctx.lineTo(x + radius, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
+  ctx.closePath();
+}
+
+/**
+ * Asynchronous Video Preloader for VS Pharma Academy
+ * Directly streams local public asset /videos/vs-pharma-preview.mp4 mounted in DOM with hardware decoding
+ */
+let vsPharmaVideo = null;
+function getVsPharmaVideo(onReady) {
+  if (vsPharmaVideo) {
+    if (onReady && vsPharmaVideo.readyState >= 2) onReady(vsPharmaVideo);
+    return vsPharmaVideo;
+  }
+
+  let video = document.getElementById('vs-pharma-video-element');
+  if (!video) {
+    video = document.createElement('video');
+    video.id = 'vs-pharma-video-element';
+    video.src = '/videos/vs-pharma-preview.mp4';
+    video.crossOrigin = 'anonymous';
+    video.playsInline = true;
+    video.muted = true;
+    video.defaultMuted = true;
+    video.loop = true;
+    video.autoplay = true;
+    video.preload = 'auto';
+    video.setAttribute('webkit-playsinline', 'true');
+    video.setAttribute('playsinline', 'true');
+    video.style.position = 'fixed';
+    video.style.top = '0';
+    video.style.left = '0';
+    video.style.width = '1px';
+    video.style.height = '1px';
+    video.style.opacity = '0.001';
+    video.style.pointerEvents = 'none';
+    video.style.zIndex = '-9999';
+    document.body.appendChild(video);
+  }
+
+  const tryPlay = () => {
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        const onFirstGesture = () => {
+          video.play().catch(() => {});
+          window.removeEventListener('pointerdown', onFirstGesture);
+          window.removeEventListener('scroll', onFirstGesture);
+          window.removeEventListener('keydown', onFirstGesture);
+          window.removeEventListener('touchstart', onFirstGesture);
+        };
+        window.addEventListener('pointerdown', onFirstGesture, { once: true });
+        window.addEventListener('scroll', onFirstGesture, { once: true });
+        window.addEventListener('keydown', onFirstGesture, { once: true });
+        window.addEventListener('touchstart', onFirstGesture, { once: true });
+      });
+    }
+  };
+
+  const notifyReady = () => {
+    tryPlay();
+    if (onReady) onReady(video);
+  };
+
+  video.addEventListener('canplay', notifyReady);
+  video.addEventListener('canplaythrough', notifyReady);
+  video.addEventListener('loadeddata', notifyReady);
+  video.addEventListener('loadedmetadata', notifyReady);
+
+  video.load();
+  tryPlay();
+
+  vsPharmaVideo = video;
+  return video;
+}
+
+let vsPharmaPreviewImage = null;
+function loadVsPharmaPreviewImage(callback) {
+  if (vsPharmaPreviewImage && vsPharmaPreviewImage.complete && vsPharmaPreviewImage.naturalWidth > 0) {
+    if (callback) callback(vsPharmaPreviewImage);
+    return vsPharmaPreviewImage;
+  }
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.src = '/assets/vs_pharma_preview.jpg';
+  img.onload = () => {
+    vsPharmaPreviewImage = img;
+    if (callback) callback(img);
+  };
+  return img;
+}
+
+// Preload assets early
+if (typeof window !== 'undefined') {
+  loadVsPharmaPreviewImage();
+}
+
+/**
+ * Generates Project 1 Left Page Canvas (VS Pharma Academy Overview, Lore & Capabilities)
+ */
+function generateProject1LeftPageCanvas(existingCanvas = null) {
+  const canvas = existingCanvas || document.createElement('canvas');
+  canvas.width = 1200;
+  canvas.height = 1600;
+  const ctx = canvas.getContext('2d');
+
+  // Draw base authentic vintage parchment with spine gutter on right (isLeft = true)
+  drawParchmentBase(ctx, canvas.width, canvas.height, true);
+
+  const cx = canvas.width / 2; // 600
+
+  // Profile Card Outer Frame
+  ctx.save();
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.40)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(80, 140, canvas.width - 160, 1320);
+
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.22)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(94, 154, canvas.width - 188, 1292);
+
+  drawFiligreeCorner(ctx, 80, 140, 56, false, false);
+  drawFiligreeCorner(ctx, canvas.width - 80, 140, 56, true, false);
+  drawFiligreeCorner(ctx, 80, 1460, 56, false, true);
+  drawFiligreeCorner(ctx, canvas.width - 80, 1460, 56, true, true);
+  ctx.restore();
+
+  // 1. Header Kicker
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#543214';
+  ctx.font = '700 28px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.32em';
+  ctx.fillText('FOLIO I • ALCHEMICAL EDIFICATION', cx, 215);
+  ctx.restore();
+
+  // 2. Primary Title: "VS PHARMA ACADEMY" (Scaled to match Page 1 intro title at 76px!)
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#1c0d05';
+  ctx.font = 'bold 76px "Cinzel Decorative", "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.12em';
+  ctx.shadowColor = 'rgba(212, 175, 55, 0.55)';
+  ctx.shadowBlur = 8;
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 2;
+  ctx.fillText('VS PHARMA ACADEMY', cx, 305);
+  ctx.restore();
+
+  // 3. Domain / Category Subtitle
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#3d200e';
+  ctx.font = '700 32px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.10em';
+  ctx.fillText('EDUCATIONAL PLATFORM • PHARMACEUTICAL SCIENCES', cx, 365);
+  ctx.restore();
+
+  // 4. Subtle Decorative Gilded Divider
+  ctx.save();
+  const divY = 412;
+  const lineHalfW = 280;
+
+  const gradLeft = ctx.createLinearGradient(cx - lineHalfW, divY, cx - 45, divY);
+  gradLeft.addColorStop(0, 'rgba(184, 134, 11, 0)');
+  gradLeft.addColorStop(1, 'rgba(184, 134, 11, 0.9)');
+  ctx.strokeStyle = gradLeft;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(cx - lineHalfW, divY);
+  ctx.lineTo(cx - 45, divY);
+  ctx.stroke();
+
+  const gradRight = ctx.createLinearGradient(cx + 45, divY, cx + lineHalfW, divY);
+  gradRight.addColorStop(0, 'rgba(184, 134, 11, 0.9)');
+  gradRight.addColorStop(1, 'rgba(184, 134, 11, 0)');
+  ctx.strokeStyle = gradRight;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(cx + 45, divY);
+  ctx.lineTo(cx + lineHalfW, divY);
+  ctx.stroke();
+
+  // Center diamond & dots
+  ctx.fillStyle = '#b8860b';
+  ctx.strokeStyle = '#d4af37';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(cx, divY - 12);
+  ctx.lineTo(cx + 12, divY);
+  ctx.lineTo(cx, divY + 12);
+  ctx.lineTo(cx - 12, divY);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(cx - 25, divY, 3.5, 0, Math.PI * 2);
+  ctx.arc(cx + 25, divY, 3.5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  // 5. Description Paragraph (Generous width to fit cleanly without overlapping next section)
+  ctx.save();
+  ctx.fillStyle = '#1c0d05';
+  ctx.font = '600 32px "EB Garamond", Georgia, serif';
+  const descText = 'A bespoke digital learning platform crafted for an academic educator specializing in B.Pharm & M.Pharm curriculums. Designed for seamless distribution of comprehensive study notes, syllabus roadmaps, and centralized lecture resources for pharmacy students.';
+  drawWrappedText(ctx, descText, cx, 465, 960, 42, 'center');
+  ctx.restore();
+
+  // 6. Key Highlights Section
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#4a2c14';
+  ctx.font = '700 28px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.25em';
+  ctx.fillText('KEY SYSTEM CAPABILITIES', cx, 645);
+  ctx.restore();
+
+  const highlights = [
+    '✦  B.PHARM & M.PHARM NOTES ARCHIVE',
+    '✦  RESPONSIVE UI & CLOUD HOSTED',
+    '✦  CLIENT PRODUCTION BUILD'
+  ];
+
+  highlights.forEach((h, i) => {
+    const cardY = 685 + i * 80;
+    const cardH = 64;
+    ctx.save();
+    ctx.fillStyle = 'rgba(163, 116, 44, 0.14)';
+    ctx.strokeStyle = 'rgba(163, 116, 44, 0.60)';
+    ctx.lineWidth = 2;
+    drawRoundedRect(ctx, 140, cardY, 920, cardH, 14);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#1c0d05';
+    ctx.font = '700 28px "Cinzel", Georgia, serif';
+    ctx.letterSpacing = '0.08em';
+    ctx.fillText(h, cx, cardY + 42);
+    ctx.restore();
+  });
+
+  // 7. Tech Badges Section (2x2 Grid for generous width and large legible font)
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#4a2c14';
+  ctx.font = '700 28px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.25em';
+  ctx.fillText('FORGED WITH ARTIFACTS & SPELLS', cx, 960);
+  ctx.restore();
+
+  const techBadges = [
+    { name: 'Next.js', x: 150, y: 995 },
+    { name: 'React', x: 630, y: 995 },
+    { name: 'Tailwind CSS', x: 150, y: 1062 },
+    { name: 'Vercel Deployment', x: 630, y: 1062 }
+  ];
+  const badgeW = 420;
+  const badgeH = 52;
+
+  techBadges.forEach((badge) => {
+    ctx.save();
+    ctx.fillStyle = 'rgba(139, 24, 27, 0.10)';
+    ctx.strokeStyle = 'rgba(184, 134, 11, 0.65)';
+    ctx.lineWidth = 2;
+    drawRoundedRect(ctx, badge.x, badge.y, badgeW, badgeH, 26);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#1c0d05';
+    ctx.font = '700 26px "Cinzel", Georgia, serif';
+    ctx.letterSpacing = '0.08em';
+    ctx.fillText(badge.name, badge.x + badgeW / 2, badge.y + 35);
+    ctx.restore();
+  });
+
+  // 8. Bottom Folio Marker
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#5c3818';
+  ctx.font = '700 26px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.3em';
+  ctx.fillText('—  FOLIO I  /  IV  —', cx, 1205);
+  ctx.restore();
+
+  return canvas;
+}
+
+/**
+ * Generates Project 1 Right Page Canvas (VS Pharma Academy Autoplaying Video Viewport & Clickable Link)
+ */
+function generateProject1RightPageCanvas(existingCanvas = null) {
+  const canvas = existingCanvas || document.createElement('canvas');
+  canvas.width = 1200;
+  canvas.height = 1600;
+  const ctx = canvas.getContext('2d');
+
+  // Draw base authentic vintage parchment with spine gutter on left (isLeft = false)
+  drawParchmentBase(ctx, canvas.width, canvas.height, false);
+
+  const cx = canvas.width / 2; // 600
+
+  // Profile Card Frame
+  ctx.save();
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.40)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(80, 150, canvas.width - 160, 1300);
+
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.22)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(94, 164, canvas.width - 188, 1272);
+
+  drawFiligreeCorner(ctx, 80, 150, 56, false, false);
+  drawFiligreeCorner(ctx, canvas.width - 80, 150, 56, true, false);
+  drawFiligreeCorner(ctx, 80, 1450, 56, false, true);
+  drawFiligreeCorner(ctx, canvas.width - 80, 1450, 56, true, true);
+  ctx.restore();
+
+  // 1. Header Kicker
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#543214';
+  ctx.font = '700 28px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.35em';
+  ctx.fillText('LIVE PORTAL VIEWPORT', cx, 225);
+  ctx.restore();
+
+  // 2. Viewport Frame (Browser mockup frame)
+  const viewX = 120;
+  const viewY = 265;
+  const viewW = 960;
+  const viewH = 710;
+  const headerH = 56;
+
+  ctx.save();
+  // Outer frame shadow
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.30)';
+  ctx.shadowBlur = 20;
+  ctx.shadowOffsetY = 8;
+
+  // Browser Header Background
+  ctx.fillStyle = '#140c18';
+  ctx.beginPath();
+  ctx.moveTo(viewX + 16, viewY);
+  ctx.lineTo(viewX + viewW - 16, viewY);
+  ctx.quadraticCurveTo(viewX + viewW, viewY, viewX + viewW, viewY + 16);
+  ctx.lineTo(viewX + viewW, viewY + headerH);
+  ctx.lineTo(viewX, viewY + headerH);
+  ctx.lineTo(viewX, viewY + 16);
+  ctx.quadraticCurveTo(viewX, viewY, viewX + 16, viewY);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+
+  // 3 Traffic Light Dots
+  const dotY = viewY + headerH / 2;
+  const dots = ['#ef4444', '#f59e0b', '#10b981'];
+  dots.forEach((c, idx) => {
+    ctx.save();
+    ctx.fillStyle = c;
+    ctx.beginPath();
+    ctx.arc(viewX + 28 + idx * 22, dotY, 6, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  });
+
+  // URL Bar Container
+  ctx.save();
+  const urlX = viewX + 110;
+  const urlY = viewY + 12;
+  const urlW = viewW - 140;
+  const urlH = 32;
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+  ctx.strokeStyle = 'rgba(212, 175, 55, 0.40)';
+  ctx.lineWidth = 1;
+  drawRoundedRect(ctx, urlX, urlY, urlW, urlH, 16);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#fef3c7';
+  ctx.font = '500 16px "Space Grotesk", monospace';
+  ctx.fillText('🔒  https://vs-pharma-academy.vercel.app/', urlX + 18, urlY + 22);
+  ctx.restore();
+
+  // 3. Website Live Video Stream / Snapshot Fallback inside Viewport
+  const imgX = viewX;
+  const imgY = viewY + headerH;
+  const imgW = viewW;
+  const imgH = viewH - headerH;
+
+  ctx.save();
+  ctx.beginPath();
+  // Rounded bottom corners for screen area
+  ctx.moveTo(imgX, imgY);
+  ctx.lineTo(imgX + imgW, imgY);
+  ctx.lineTo(imgX + imgW, imgY + imgH - 16);
+  ctx.quadraticCurveTo(imgX + imgW, imgY + imgH, imgX + imgW - 16, imgY + imgH);
+  ctx.lineTo(imgX + 16, imgY + imgH);
+  ctx.quadraticCurveTo(imgX, imgY + imgH, imgX, imgY + imgH - 16);
+  ctx.closePath();
+  ctx.clip();
+
+  const video = getVsPharmaVideo();
+  if (video && video.readyState >= 2 && !video.seeking) {
+    ctx.drawImage(video, imgX, imgY, imgW, imgH);
+  } else if (vsPharmaPreviewImage && vsPharmaPreviewImage.complete && vsPharmaPreviewImage.naturalWidth > 0) {
+    ctx.drawImage(vsPharmaPreviewImage, imgX, imgY, imgW, imgH);
+  } else {
+    // Cinematic dark theme placeholder while video streams in
+    const bgGrad = ctx.createLinearGradient(imgX, imgY, imgX + imgW, imgY + imgH);
+    bgGrad.addColorStop(0, '#09081E');
+    bgGrad.addColorStop(0.5, '#0e0b2a');
+    bgGrad.addColorStop(1, '#050038');
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(imgX, imgY, imgW, imgH);
+
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#FFD02F';
+    ctx.font = 'bold 36px "Cinzel", Georgia, serif';
+    ctx.fillText('VS PHARMA ACADEMY', cx, imgY + imgH / 2 - 20);
+
+    ctx.fillStyle = 'rgba(254, 240, 138, 0.85)';
+    ctx.font = '600 22px "Cinzel", Georgia, serif';
+    ctx.fillText('⚡ STREAMING LIVE SYSTEM PREVIEW...', cx, imgY + imgH / 2 + 25);
+  }
+  ctx.restore();
+
+  // Browser Window Outer Gilded Border & Corner Brackets
+  ctx.save();
+  ctx.strokeStyle = 'rgba(184, 134, 11, 0.65)';
+  ctx.lineWidth = 2.5;
+  drawRoundedRect(ctx, viewX, viewY, viewW, viewH, 16);
+  ctx.stroke();
+  ctx.restore();
+
+  // 4. Interactive Action Button: "VISIT ACADEMY PORTAL ↗"
+  const btnX = 160;
+  const btnY = 1030;
+  const btnW = 880;
+  const btnH = 96;
+
+  ctx.save();
+  ctx.shadowColor = 'rgba(139, 24, 27, 0.45)';
+  ctx.shadowBlur = 20;
+  ctx.shadowOffsetY = 6;
+
+  const btnGrad = ctx.createLinearGradient(btnX, btnY, btnX + btnW, btnY + btnH);
+  btnGrad.addColorStop(0, '#4a1014');
+  btnGrad.addColorStop(0.3, '#78151c');
+  btnGrad.addColorStop(0.7, '#8b181b');
+  btnGrad.addColorStop(1, '#4a1014');
+  ctx.fillStyle = btnGrad;
+  drawRoundedRect(ctx, btnX, btnY, btnW, btnH, 24);
+  ctx.fill();
+  ctx.restore();
+
+  // Gilded Button Double Border
+  ctx.save();
+  ctx.strokeStyle = 'rgba(245, 197, 66, 0.85)';
+  ctx.lineWidth = 2.5;
+  drawRoundedRect(ctx, btnX, btnY, btnW, btnH, 24);
+  ctx.stroke();
+
+  ctx.strokeStyle = 'rgba(245, 197, 66, 0.40)';
+  ctx.lineWidth = 1;
+  drawRoundedRect(ctx, btnX + 5, btnY + 5, btnW - 10, btnH - 10, 20);
+  ctx.stroke();
+
+  // Button Typography
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#fef08a';
+  ctx.font = 'bold 36px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.12em';
+  ctx.shadowColor = 'rgba(245, 197, 66, 0.8)';
+  ctx.shadowBlur = 8;
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 1;
+  ctx.fillText('VISIT ACADEMY PORTAL ↗', cx, btnY + 60);
+  ctx.restore();
+
+  // 5. Interaction Hint Label
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#543214';
+  ctx.font = '700 20px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.18em';
+  ctx.fillText('⚡ CLICK VIEWPORT OR BUTTON TO OPEN LIVE PLATFORM', cx, 1180);
+  ctx.restore();
+
+  // 6. Bottom Flourish Accent
+  ctx.save();
+  ctx.translate(cx, 1240);
+  ctx.strokeStyle = 'rgba(184, 134, 11, 0.50)';
+  ctx.fillStyle = 'rgba(212, 175, 55, 0.25)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(-60, 0);
+  ctx.lineTo(-12, 0);
+  ctx.moveTo(12, 0);
+  ctx.lineTo(60, 0);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(0, 0, 4, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
   ctx.restore();
 
   return canvas;
@@ -507,7 +1284,7 @@ export class BookOfSpellsViewer {
     this.currentSpreadIndex = 0;
     this.isBookOpen = false;
 
-    // Three.js Core
+    // Three.js Core & Interaction Raycaster
     this.scene = null;
     this.camera = null;
     this.renderer = null;
@@ -517,6 +1294,13 @@ export class BookOfSpellsViewer {
     this.backCoverGroup = null;
     this.baseLeftPage = null;
     this.leafMeshes = [];
+
+    this.raycaster = new THREE.Raycaster();
+    this.pointer = new THREE.Vector2();
+    this.pointerDownPos = { x: 0, y: 0 };
+    this.pointerDownTime = 0;
+    this.isPointerDown = false;
+    this.isHoveringLink = false;
 
     // Unified Proportions
     this.pageWidth = 2.38;
@@ -823,13 +1607,135 @@ export class BookOfSpellsViewer {
     const blankLeftTex = new THREE.CanvasTexture(blankLeftCanvas);
     blankLeftTex.colorSpace = THREE.SRGBColorSpace;
 
-    const paperTopFaceMat = new THREE.MeshStandardMaterial({
-      map: blankRightTex,
+    // First Right-Hand Page Intro Typography Canvas & Texture
+    const introRightCanvas = generateIntroRightPageCanvas();
+    const introRightTex = new THREE.CanvasTexture(introRightCanvas);
+    introRightTex.colorSpace = THREE.SRGBColorSpace;
+    introRightTex.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+
+    // Project 1 (VS Pharma Academy) Spread Textures
+    const project1LeftCanvas = generateProject1LeftPageCanvas();
+    const project1LeftTex = new THREE.CanvasTexture(project1LeftCanvas);
+    project1LeftTex.colorSpace = THREE.SRGBColorSpace;
+    project1LeftTex.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+    // Counteract horizontal reflection caused by 180-degree page flip
+    project1LeftTex.wrapS = THREE.RepeatWrapping;
+    project1LeftTex.repeat.x = -1;
+    project1LeftTex.offset.x = 1;
+
+    const project1RightCanvas = generateProject1RightPageCanvas();
+    const project1RightTex = new THREE.CanvasTexture(project1RightCanvas);
+    project1RightTex.colorSpace = THREE.SRGBColorSpace;
+    project1RightTex.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+
+    this.project1RightCanvas = project1RightCanvas;
+    this.project1RightTex = project1RightTex;
+
+    // Initialize Autoplaying Video Preview for VS Pharma Academy
+    this.vsPharmaVideo = getVsPharmaVideo(() => {
+      generateProject1RightPageCanvas(project1RightCanvas);
+      project1RightTex.needsUpdate = true;
+    });
+
+    // Also trigger instant redraw when static fallback image loads
+    loadVsPharmaPreviewImage(() => {
+      generateProject1RightPageCanvas(project1RightCanvas);
+      project1RightTex.needsUpdate = true;
+    });
+
+    // Re-draw all dynamic page canvases when web fonts finish loading
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        generateIntroRightPageCanvas(introRightCanvas);
+        introRightTex.needsUpdate = true;
+        generateProject1LeftPageCanvas(project1LeftCanvas);
+        project1LeftTex.needsUpdate = true;
+        generateProject1RightPageCanvas(project1RightCanvas);
+        project1RightTex.needsUpdate = true;
+      });
+    }
+
+    const introPageMat = new THREE.MeshStandardMaterial({
+      map: introRightTex,
       roughness: 0.88,
       metalness: 0.02,
+      side: THREE.DoubleSide,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1,
       depthTest: true,
       depthWrite: true
     });
+
+    const project1LeftMat = new THREE.MeshStandardMaterial({
+      map: project1LeftTex,
+      roughness: 0.88,
+      metalness: 0.02,
+      side: THREE.DoubleSide,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1,
+      depthTest: true,
+      depthWrite: true
+    });
+
+    const project1RightMat = new THREE.MeshStandardMaterial({
+      map: project1RightTex,
+      roughness: 0.88,
+      metalness: 0.02,
+      side: THREE.DoubleSide,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1,
+      depthTest: true,
+      depthWrite: true
+    });
+
+    const blankRightMat = new THREE.MeshStandardMaterial({
+      map: blankRightTex,
+      roughness: 0.88,
+      metalness: 0.02,
+      side: THREE.DoubleSide,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1,
+      depthTest: true,
+      depthWrite: true
+    });
+
+    // Clean blank parchment texture for unflipped base left page
+    const blankLeftMat = new THREE.MeshStandardMaterial({
+      map: blankLeftTex,
+      roughness: 0.88,
+      metalness: 0.02,
+      side: THREE.DoubleSide,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1,
+      depthTest: true,
+      depthWrite: true
+    });
+
+    // Clean blank parchment texture for flipped leaf backsides (horizontally counteracted)
+    const leafBackBlankTex = new THREE.CanvasTexture(blankLeftCanvas);
+    leafBackBlankTex.colorSpace = THREE.SRGBColorSpace;
+    leafBackBlankTex.wrapS = THREE.RepeatWrapping;
+    leafBackBlankTex.repeat.x = -1;
+    leafBackBlankTex.offset.x = 1;
+
+    const leafBackBlankMat = new THREE.MeshStandardMaterial({
+      map: leafBackBlankTex,
+      roughness: 0.88,
+      metalness: 0.02,
+      side: THREE.DoubleSide,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1,
+      depthTest: true,
+      depthWrite: true
+    });
+
+    const paperTopFaceMat = blankRightMat;
 
     const solidBlockGeo = new THREE.BoxGeometry(this.pageWidth, this.pageHeight, pT);
     solidBlockGeo.translate(0.02 + this.pageWidth / 2, 0, 0);
@@ -855,18 +1761,7 @@ export class BookOfSpellsViewer {
     baseLeftGeo.translate(-0.02 - this.pageWidth / 2, 0, 0);
     baseLeftGeo.computeVertexNormals();
 
-    const baseLeftMat = new THREE.MeshStandardMaterial({
-      map: blankLeftTex,
-      roughness: 0.88,
-      metalness: 0.02,
-      side: THREE.DoubleSide,
-      polygonOffset: true,
-      polygonOffsetFactor: -1,
-      polygonOffsetUnits: -1,
-      depthTest: true,
-      depthWrite: true
-    });
-    this.baseLeftPage = new THREE.Mesh(baseLeftGeo, baseLeftMat);
+    this.baseLeftPage = new THREE.Mesh(baseLeftGeo, blankLeftMat);
     this.baseLeftPage.position.set(0, 0, halfP + 0.002);
     this.baseLeftPage.visible = false;
     this.bookGroup.add(this.baseLeftPage);
@@ -878,6 +1773,8 @@ export class BookOfSpellsViewer {
     const segmentsY = 16;
 
     for (let k = 0; k < totalFlips; k++) {
+      const leafGroup = new THREE.Group();
+
       const geo = new THREE.PlaneGeometry(this.pageWidth, this.pageHeight, segmentsX, segmentsY);
       geo.translate(0.02 + this.pageWidth / 2, 0, 0);
       geo.computeVertexNormals();
@@ -885,31 +1782,57 @@ export class BookOfSpellsViewer {
         origPositions: geo.attributes.position.array.slice()
       };
 
-      const frontMat = new THREE.MeshStandardMaterial({
-        map: blankRightTex,
-        roughness: 0.88,
-        metalness: 0.02,
-        side: THREE.DoubleSide,
-        polygonOffset: true,
-        polygonOffsetFactor: -1,
-        polygonOffsetUnits: -1,
-        depthTest: true,
-        depthWrite: true
-      });
+      // Leaf 0: Front = Intro (Page 1), Back = Project 1 Details (Spread 1 Left Page)
+      // Leaf 1: Front = Project 1 Live Viewport & Link (Spread 1 Right Page), Back = Blank Left
+      // Leaves 2 & 3: Blank parchment
+      let frontMat = blankRightMat;
+      let backMat = leafBackBlankMat;
 
-      const backMat = new THREE.MeshStandardMaterial({
-        map: blankLeftTex,
-        roughness: 0.88,
-        metalness: 0.02,
-        side: THREE.DoubleSide,
-        polygonOffset: true,
-        polygonOffsetFactor: -1,
-        polygonOffsetUnits: -1,
-        depthTest: true,
-        depthWrite: true
-      });
+      let videoScreenMesh = null;
+      if (k === 0) {
+        frontMat = introPageMat;
+        backMat = project1LeftMat;
+      } else if (k === 1) {
+        frontMat = project1RightMat;
+        backMat = leafBackBlankMat;
 
-      const leafGroup = new THREE.Group();
+        // Dedicated Video Screen Mesh powered by THREE.VideoTexture (direct hardware decoding)
+        const screenW = this.pageWidth * (960 / 1200);
+        const screenH = this.pageHeight * (654 / 1600);
+        const screenGeo = new THREE.PlaneGeometry(screenW, screenH, segmentsX, segmentsY);
+        screenGeo.translate(0.02 + this.pageWidth / 2, 0.095 * this.pageHeight, 0);
+        screenGeo.computeVertexNormals();
+        screenGeo.userData = {
+          origPositions: screenGeo.attributes.position.array.slice()
+        };
+
+        const video = getVsPharmaVideo();
+        try {
+          const videoTex = new THREE.VideoTexture(video);
+          videoTex.colorSpace = THREE.SRGBColorSpace;
+          videoTex.minFilter = THREE.LinearFilter;
+          videoTex.magFilter = THREE.LinearFilter;
+          videoTex.generateMipmaps = false;
+
+          const videoMat = new THREE.MeshBasicMaterial({
+            map: videoTex,
+            toneMapped: false,
+            side: THREE.FrontSide,
+            depthTest: true,
+            depthWrite: true,
+            polygonOffset: true,
+            polygonOffsetFactor: -2,
+            polygonOffsetUnits: -2
+          });
+
+          videoScreenMesh = new THREE.Mesh(screenGeo, videoMat);
+          videoScreenMesh.position.z = 0.003;
+          videoScreenMesh.visible = false; // Initially hidden until video frames stream
+        } catch (err) {
+          console.warn('VideoTexture initialization error handled safely:', err);
+        }
+      }
+
       const frontMesh = new THREE.Mesh(geo, frontMat);
       frontMesh.position.z = 0.001;
       frontMesh.castShadow = true;
@@ -922,6 +1845,9 @@ export class BookOfSpellsViewer {
 
       leafGroup.add(frontMesh);
       leafGroup.add(backMesh);
+      if (videoScreenMesh) {
+        leafGroup.add(videoScreenMesh);
+      }
 
       // Stacked neatly on the right stack when closed
       const zStack = halfP - 0.008 - k * 0.004;
@@ -934,6 +1860,7 @@ export class BookOfSpellsViewer {
         geometry: geo,
         frontMesh,
         backMesh,
+        videoScreenMesh,
         angle: 0,
         restingZ: zStack,
         index: k
@@ -974,6 +1901,33 @@ export class BookOfSpellsViewer {
 
     pos.needsUpdate = true;
     geo.computeVertexNormals();
+
+    if (leafItem.videoScreenMesh) {
+      const sGeo = leafItem.videoScreenMesh.geometry;
+      const sPos = sGeo.attributes.position;
+      const sOrig = sGeo.userData.origPositions;
+      for (let i = 0; i < sPos.count; i++) {
+        const idx = i * 3;
+        const ox = sOrig[idx];
+        const oy = sOrig[idx + 1];
+        const u = Math.max(0, Math.min(1, (ox - 0.02) / W));
+
+        if (!isTurning) {
+          sPos.array[idx] = ox;
+          sPos.array[idx + 1] = oy;
+          sPos.array[idx + 2] = 0;
+        } else {
+          const lift = Math.sin(theta) * 0.28 * Math.sin(u * Math.PI);
+          const curl = Math.sin(theta) * 0.08 * Math.pow(u, 2);
+
+          sPos.array[idx] = ox - Math.sin(theta) * 0.05 * u;
+          sPos.array[idx + 1] = oy;
+          sPos.array[idx + 2] = lift + curl;
+        }
+      }
+      sPos.needsUpdate = true;
+      sGeo.computeVertexNormals();
+    }
   }
 
   /**
@@ -1412,19 +2366,81 @@ export class BookOfSpellsViewer {
     this.onResize = this.handleResize.bind(this);
     window.addEventListener('resize', this.onResize);
 
-    this.onPointerDown = () => {
+    this.onPointerDown = (e) => {
+      this.isPointerDown = true;
+      this.pointerDownPos = { x: e.clientX, y: e.clientY };
+      this.pointerDownTime = performance.now();
       if (this.renderer && this.renderer.domElement) {
         this.renderer.domElement.style.cursor = 'grabbing';
       }
     };
-    this.onPointerUp = () => {
-      if (this.renderer && this.renderer.domElement) {
+
+    this.onPointerMove = (e) => {
+      if (!this.renderer || !this.camera || this.leafMeshes.length < 2) return;
+
+      const rect = this.renderer.domElement.getBoundingClientRect();
+      this.pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      this.pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+      // Check if Spread 1 (Project 1) is currently visible and active
+      const leaf0 = this.leafMeshes[0];
+      const leaf1 = this.leafMeshes[1];
+      const isSpread1Visible = leaf0.angle > 0.4 && leaf1.angle < Math.PI * 0.7 && this.isBookOpen;
+
+      if (isSpread1Visible && !this.isPointerDown) {
+        this.raycaster.setFromCamera(this.pointer, this.camera);
+        const targets = [leaf1.frontMesh, leaf1.videoScreenMesh].filter(Boolean);
+        const hits = this.raycaster.intersectObjects(targets, true);
+        if (hits.length > 0) {
+          this.renderer.domElement.style.cursor = 'pointer';
+          this.isHoveringLink = true;
+          return;
+        }
+      }
+
+      this.isHoveringLink = false;
+      if (!this.isPointerDown && this.renderer && this.renderer.domElement) {
         this.renderer.domElement.style.cursor = 'grab';
+      }
+    };
+
+    this.onPointerUp = (e) => {
+      const wasPointerDown = this.isPointerDown;
+      this.isPointerDown = false;
+
+      if (wasPointerDown && this.renderer && this.camera && this.leafMeshes.length >= 2) {
+        const dist = Math.hypot(e.clientX - this.pointerDownPos.x, e.clientY - this.pointerDownPos.y);
+        const duration = performance.now() - this.pointerDownTime;
+
+        // Clean click detection (not a camera drag/rotation)
+        if (dist < 8 && duration < 350) {
+          const rect = this.renderer.domElement.getBoundingClientRect();
+          this.pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+          this.pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+          const leaf0 = this.leafMeshes[0];
+          const leaf1 = this.leafMeshes[1];
+          const isSpread1Visible = leaf0.angle > 0.4 && leaf1.angle < Math.PI * 0.7 && this.isBookOpen;
+
+          if (isSpread1Visible) {
+            this.raycaster.setFromCamera(this.pointer, this.camera);
+            const targets = [leaf1.frontMesh, leaf1.videoScreenMesh].filter(Boolean);
+            const hits = this.raycaster.intersectObjects(targets, true);
+            if (hits.length > 0) {
+              window.open('https://vs-pharma-academy.vercel.app/', '_blank', 'noopener,noreferrer');
+            }
+          }
+        }
+      }
+
+      if (this.renderer && this.renderer.domElement) {
+        this.renderer.domElement.style.cursor = this.isHoveringLink ? 'pointer' : 'grab';
       }
     };
 
     if (this.renderer && this.renderer.domElement) {
       this.renderer.domElement.addEventListener('pointerdown', this.onPointerDown);
+      this.renderer.domElement.addEventListener('pointermove', this.onPointerMove);
     }
     window.addEventListener('pointerup', this.onPointerUp);
   }
@@ -1443,17 +2459,44 @@ export class BookOfSpellsViewer {
     if (this.isDisposed) return;
     this.animationFrameId = requestAnimationFrame(this.animate.bind(this));
 
-    if (this.controls) {
-      this.controls.update();
+    try {
+      if (this.controls) {
+        this.controls.update();
+      }
+
+      const time = this.clock.getElapsedTime();
+
+      if (this.bookGroup) {
+        this.bookGroup.position.y = Math.sin(time * 1.4) * 0.025;
+      }
+
+      // Live Video Preview update loop for Spread 1 (VS Pharma Academy)
+      if (this.leafMeshes && this.leafMeshes.length >= 2) {
+        const leaf0 = this.leafMeshes[0];
+        const leaf1 = this.leafMeshes[1];
+        const isSpread1Visible = leaf0.angle > 0.4 && leaf1.angle < Math.PI * 0.7 && this.isBookOpen;
+
+        if (isSpread1Visible && this.vsPharmaVideo) {
+          if (this.vsPharmaVideo.paused) {
+            this.vsPharmaVideo.play().catch(() => {});
+          }
+          if (leaf1.videoScreenMesh) {
+            leaf1.videoScreenMesh.visible = (this.vsPharmaVideo.readyState >= 2 && !this.vsPharmaVideo.paused);
+          }
+        } else if (this.vsPharmaVideo && !this.vsPharmaVideo.paused && !isSpread1Visible) {
+          this.vsPharmaVideo.pause();
+          if (leaf1 && leaf1.videoScreenMesh) {
+            leaf1.videoScreenMesh.visible = false;
+          }
+        }
+      }
+
+      if (this.renderer && this.scene && this.camera) {
+        this.renderer.render(this.scene, this.camera);
+      }
+    } catch (err) {
+      console.warn('Animation loop render warning:', err);
     }
-
-    const time = this.clock.getElapsedTime();
-
-    if (this.bookGroup) {
-      this.bookGroup.position.y = Math.sin(time * 1.4) * 0.025;
-    }
-
-    this.renderer.render(this.scene, this.camera);
   }
 
   flipToSpread(index) {
@@ -1477,11 +2520,17 @@ export class BookOfSpellsViewer {
 
     this.resetStageStyles();
 
+    if (this.vsPharmaVideo) {
+      this.vsPharmaVideo.pause();
+      this.vsPharmaVideo = null;
+    }
+
     window.removeEventListener('resize', this.onResize);
     window.removeEventListener('pointerup', this.onPointerUp);
 
     if (this.renderer && this.renderer.domElement) {
       this.renderer.domElement.removeEventListener('pointerdown', this.onPointerDown);
+      this.renderer.domElement.removeEventListener('pointermove', this.onPointerMove);
     }
 
     if (this.controls) {

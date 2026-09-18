@@ -54,21 +54,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: auto;
+  pointer-events: none;
   overflow: hidden;
   box-sizing: border-box;
   transform-origin: center center;
   transform-style: preserve-3d;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  transform: scale(1) translateX(0);
-  opacity: 1;
-  visibility: visible;
+  transform: scale(0.88) translateX(0);
+  opacity: 0;
+  visibility: hidden;
   border-radius: 1.25rem;
   border: 1px solid transparent;
   box-shadow: none;
   background: transparent;
-  will-change: transform;
+  will-change: transform, opacity, filter;
 }
 
 /* Thematic Corner Filigrees for Section 3 Exit Card Frame */

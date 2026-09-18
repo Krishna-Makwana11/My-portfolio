@@ -516,8 +516,11 @@ function initOrbitalSkills() {
 }
 
 /**
- * 3. Pinned Single-Line Scrollytelling Swap & Clean Exit Transition
- *    Smoothly swaps statements with slide-up, blur & fade, then scales down and glides left off-screen into the next section
+ * 3. Pinned Single-Line Scrollytelling Swap, Exit Transition & "MY PROJECTS" Bridge Reveal
+ *    - Seamlessly swaps statements 1 -> 2 -> 3
+ *    - Glides Skills split container left off-screen
+ *    - Concurrently triggers "MY PROJECTS" golden text stagger reveal in center of viewport
+ *    - Seamlessly lifts & fades out "MY PROJECTS" right before Section 3 takes over (Zero Dead Air)
  */
 function initStatementSwapScrollytelling() {
   const section = document.getElementById('about');
@@ -526,112 +529,227 @@ function initStatementSwapScrollytelling() {
   const statement2 = document.getElementById('statement-2');
   const statement3 = document.getElementById('statement-3');
   const topNav = document.getElementById('top-right-nav');
-  const topLeftHeader = document.getElementById('top-left-header');
+
+  // "MY PROJECTS" Bridge Elements
+  const bridgeContainer = document.getElementById('projects-bridge-container');
+  const bridgeGlow = document.getElementById('projects-bridge-glow');
+  const wordMy = document.getElementById('bridge-word-my');
+  const wordProjects = document.getElementById('bridge-word-projects');
+  const bridgeSubline = document.getElementById('bridge-word-subline');
 
   if (!section || !container || !statement1 || !statement2 || !statement3) return;
 
-  // Set pristine initial stacked states
-  gsap.set(container, {
-    scale: 1,
-    xPercent: 0,
-    opacity: 1,
-    filter: 'blur(0px)',
-    borderRadius: '0px',
-    border: '1px solid transparent',
-    boxShadow: 'none',
-    force3D: true
-  });
-  gsap.set(statement1, { yPercent: 0, opacity: 1, filter: 'blur(0px)', force3D: true });
-  gsap.set(statement2, { yPercent: 120, opacity: 0, filter: 'blur(8px)', force3D: true });
-  gsap.set(statement3, { yPercent: 120, opacity: 0, filter: 'blur(8px)', force3D: true });
+  // Helper function to restore clean pristine starting state
+  const resetAllPristine = () => {
+    gsap.set(container, {
+      scale: 1,
+      xPercent: 0,
+      opacity: 1,
+      filter: 'none',
+      borderRadius: '0px',
+      border: '1px solid transparent',
+      boxShadow: 'none',
+      force3D: true
+    });
+    gsap.set(statement1, { yPercent: 0, opacity: 1, filter: 'none', force3D: true });
+    gsap.set(statement2, { yPercent: 120, opacity: 0, filter: 'blur(8px)', force3D: true });
+    gsap.set(statement3, { yPercent: 120, opacity: 0, filter: 'blur(8px)', force3D: true });
 
-  // Master GSAP ScrollTrigger Pinned Timeline
+    if (bridgeContainer) {
+      gsap.set(bridgeContainer, { visibility: 'visible', pointerEvents: 'none' });
+    }
+    if (wordMy) {
+      gsap.set(wordMy, { opacity: 0, y: 25, letterSpacing: '0.10em', filter: 'blur(8px)', force3D: true });
+    }
+    if (wordProjects) {
+      gsap.set(wordProjects, { opacity: 0, y: 25, letterSpacing: '0.10em', filter: 'blur(8px)', force3D: true });
+    }
+    if (bridgeSubline) {
+      gsap.set(bridgeSubline, { opacity: 0, y: 15, letterSpacing: '0.15em', filter: 'blur(4px)', force3D: true });
+    }
+    if (bridgeGlow) {
+      gsap.set(bridgeGlow, { opacity: 0, scale: 0.82, force3D: true });
+    }
+  };
+
+  resetAllPristine();
+
+  // Master GSAP ScrollTrigger Pinned Timeline for Section 2 + Bridge
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: section,
       start: 'top top',
-      end: '+=350%',
-      pin: container,
+      end: '+=420%',
+      pin: section,
       pinSpacing: true,
-      scrub: 1,
+      scrub: 1.1,
       anticipatePin: 1,
       invalidateOnRefresh: true,
       onLeaveBack: () => {
-        gsap.set(container, {
-          scale: 1,
-          xPercent: 0,
-          opacity: 1,
-          filter: 'blur(0px)',
-          borderRadius: '0px',
-          border: '1px solid transparent',
-          boxShadow: 'none'
-        });
-        gsap.set(statement1, { yPercent: 0, opacity: 1, filter: 'blur(0px)' });
-        gsap.set(statement2, { yPercent: 120, opacity: 0, filter: 'blur(8px)' });
-        gsap.set(statement3, { yPercent: 120, opacity: 0, filter: 'blur(8px)' });
+        resetAllPristine();
         if (topNav) topNav.classList.remove('nav-hidden');
       }
     }
   });
 
   // =========================================================================
-  // Scrollytelling Sequence: Statement 1 -> 2 -> 3
+  // 1. Scrollytelling Sequence: Statement 1 -> 2 -> 3 (0.00 -> 0.58)
   // =========================================================================
-  // Transition 1 -> 2
+  // Statement 1 -> 2
   tl.to(statement1, {
     yPercent: -120,
     opacity: 0,
     filter: 'blur(8px)',
-    duration: 0.22,
+    duration: 0.08,
     ease: 'power2.inOut'
-  }, 0.20);
+  }, 0.16);
 
   tl.to(statement2, {
     yPercent: 0,
     opacity: 1,
     filter: 'blur(0px)',
-    duration: 0.22,
+    duration: 0.08,
     ease: 'power2.inOut'
-  }, 0.24);
+  }, 0.19);
 
-  // Transition 2 -> 3
+  // Statement 2 -> 3
   tl.to(statement2, {
     yPercent: -120,
     opacity: 0,
     filter: 'blur(8px)',
-    duration: 0.22,
+    duration: 0.08,
     ease: 'power2.inOut'
-  }, 0.54);
+  }, 0.38);
 
   tl.to(statement3, {
     yPercent: 0,
     opacity: 1,
     filter: 'blur(0px)',
-    duration: 0.22,
+    duration: 0.08,
     ease: 'power2.inOut'
-  }, 0.58);
+  }, 0.41);
 
   // =========================================================================
-  // Clean Scroll-Driven Exit Transition (After Statement 3 completes):
-  // Phase 1: Smoothly zoom out / scale down with rounded glassmorphism borders
-  // Phase 2: Glide smoothly left off-screen into the next section
+  // 2. Skills Exit Phase: Card zooms out & glides left off-screen (0.56 -> 0.70)
   // =========================================================================
   tl.to(container, {
     scale: 0.78,
     borderRadius: '32px',
     border: '1px solid rgba(245, 197, 66, 0.28)',
     boxShadow: '0 25px 70px rgba(0, 0, 0, 0.85), 0 0 30px rgba(245, 197, 66, 0.12)',
-    duration: 0.14,
+    duration: 0.06,
     ease: 'power2.inOut'
-  }, 0.82);
+  }, 0.56);
 
   tl.to(container, {
     xPercent: -120,
     opacity: 0,
     filter: 'blur(8px)',
-    duration: 0.18,
+    duration: 0.10,
     ease: 'power2.in'
-  }, 0.90);
+  }, 0.60);
+
+  // =========================================================================
+  // 3. Bridge Phase: Concurrently brings in "MY PROJECTS" (0.64 -> 0.84)
+  // Zero Dead Space - animates immediately as Skills clears the screen
+  // =========================================================================
+  if (bridgeGlow) {
+    tl.to(bridgeGlow, {
+      opacity: 0.85,
+      scale: 1.15,
+      duration: 0.14,
+      ease: 'power2.out'
+    }, 0.64);
+  }
+
+  if (wordMy) {
+    tl.to(wordMy, {
+      opacity: 1,
+      y: 0,
+      letterSpacing: '0.25em',
+      filter: 'blur(0px)',
+      duration: 0.12,
+      ease: 'power2.out'
+    }, 0.64);
+  }
+
+  if (wordProjects) {
+    tl.to(wordProjects, {
+      opacity: 1,
+      y: 0,
+      letterSpacing: '0.22em',
+      filter: 'blur(0px)',
+      duration: 0.12,
+      ease: 'power2.out'
+    }, 0.70);
+  }
+
+  if (bridgeSubline) {
+    tl.to(bridgeSubline, {
+      opacity: 1,
+      y: 0,
+      letterSpacing: '0.28em',
+      filter: 'blur(0px)',
+      duration: 0.10,
+      ease: 'power2.out'
+    }, 0.74);
+  }
+
+  // =========================================================================
+  // 4. Brief Readability Pause & Ambient Glow Shimmer (0.84 -> 0.90)
+  // =========================================================================
+  if (bridgeGlow) {
+    tl.to(bridgeGlow, {
+      scale: 1.25,
+      duration: 0.06,
+      ease: 'sine.inOut'
+    }, 0.84);
+  }
+
+  // =========================================================================
+  // 5. Book Reveal Preparation: "MY PROJECTS" Lifts Up & Fades Out (0.90 -> 1.00)
+  // Finishes completely before Section 3 pins with 3D Book Reveal
+  // =========================================================================
+  if (wordMy) {
+    tl.to(wordMy, {
+      y: -50,
+      opacity: 0,
+      letterSpacing: '0.30em',
+      filter: 'blur(10px)',
+      duration: 0.08,
+      ease: 'power2.in'
+    }, 0.90);
+  }
+
+  if (wordProjects) {
+    tl.to(wordProjects, {
+      y: -50,
+      opacity: 0,
+      letterSpacing: '0.28em',
+      filter: 'blur(10px)',
+      duration: 0.08,
+      ease: 'power2.in'
+    }, 0.92);
+  }
+
+  if (bridgeSubline) {
+    tl.to(bridgeSubline, {
+      y: -35,
+      opacity: 0,
+      filter: 'blur(6px)',
+      duration: 0.07,
+      ease: 'power2.in'
+    }, 0.91);
+  }
+
+  if (bridgeGlow) {
+    tl.to(bridgeGlow, {
+      opacity: 0,
+      scale: 1.45,
+      duration: 0.08,
+      ease: 'power2.in'
+    }, 0.91);
+  }
 }
 
 /**

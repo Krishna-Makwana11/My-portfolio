@@ -977,19 +977,21 @@ export class BookOfSpellsViewer {
   }
 
   /**
-   * Resets Section 3 Stage Container to Full-Bleed Default State (scale: 1, translateX: 0, opacity: 1)
+   * Resets Section 3 Stage Container to Pristine Hidden State
+   * Guaranteed opacity: 0, visibility: hidden, pointer-events: none during Section 2 & Phase A
    */
   resetStageStyles() {
     if (this.stage) {
       gsap.set(this.stage, {
-        scale: 1,
+        scale: 0.88,
         x: 0,
         y: 0,
         xPercent: 0,
-        opacity: 1,
-        visibility: 'visible',
+        opacity: 0,
+        visibility: 'hidden',
+        pointerEvents: 'none',
         display: 'flex',
-        filter: 'none',
+        filter: 'blur(8px)',
         borderRadius: '1.25rem',
         border: '1px solid transparent',
         boxShadow: 'none',
@@ -1007,6 +1009,31 @@ export class BookOfSpellsViewer {
   }
 
   /**
+   * Sets Section 3 Stage Container to Full-Bleed Standard Active State
+   */
+  setFullStageStyles() {
+    if (this.stage) {
+      gsap.set(this.stage, {
+        scale: 1,
+        x: 0,
+        y: 0,
+        xPercent: 0,
+        opacity: 1,
+        visibility: 'visible',
+        pointerEvents: 'auto',
+        display: 'flex',
+        filter: 'none',
+        borderRadius: '1.25rem',
+        border: '1px solid transparent',
+        boxShadow: 'none',
+        background: 'transparent',
+        backdropFilter: 'none',
+        force3D: true
+      });
+    }
+  }
+
+  /**
    * Setup GSAP ScrollTrigger Sequence & Pinning:
    * - Pin Section 3 cleanly (pin: true, scrub: 1.8, start: "top top", end: "+=6000")
    * - Expanded 6000px scroll track for natural paper weight, steady deliberate reading, and calm velocity
@@ -1018,9 +1045,7 @@ export class BookOfSpellsViewer {
     this.stage = document.getElementById('book-of-spells-stage');
     this.cornerAccents = this.stage ? this.stage.querySelectorAll('.stage-corner-accent') : [];
 
-    const topNav = document.getElementById('top-right-nav');
-
-    // Pristine initial reset
+    // Pristine initial reset (100% hidden until Section 3 triggers)
     this.resetStageStyles();
 
     const trigger = ScrollTrigger.create({
@@ -1045,7 +1070,8 @@ export class BookOfSpellsViewer {
 
   /**
    * Master Scrollytelling Sequence Progression (Matching Skills Section Pacing):
-   * 1. [0% - 75%]: Dedicated to steady, deliberate page turns -> Book closes naturally to back cover.
+   * 0. [0% - 8%]: Phase B Entrance - 3D Grimoire fades & scales smoothly into center stage (0 -> 1)
+   * 1. [8% - 75%]: Dedicated to steady, deliberate page turns -> Book closes naturally to back cover.
    * 2. [75% - 82%]: Section border card frame fades in smoothly (opacity: 0 -> 1).
    * 3. [82% - 100%]: Controlled, steady zoom-out (scale: 1 -> 0.60) and parallel left glide (x: 0 -> -130vw).
    */
@@ -1058,18 +1084,74 @@ export class BookOfSpellsViewer {
     const p = Math.max(0, Math.min(1, progress));
 
     // =========================================================================
-    // 1. [0% - 75%]: STEADY DELIBERATE PAGE TURNS -> BOOK CLOSES TO BACK COVER
+    // 1. [0% - 75%]: ENTRANCE & STEADY DELIBERATE PAGE TURNS -> BOOK CLOSES TO BACK COVER
     // =========================================================================
     if (p <= 0.75) {
-      // Sub-Phase 1A: Front Cover Opening [0.00 -> 0.08]
+      // Sub-Phase 0: Phase B Entrance - Closed Book Smooth Fade-in & Scale-in [0.00 -> 0.08]
       if (p <= 0.08) {
+        const easeIn = gsap.parseEase('power2.out')(p / 0.08);
+        const stageScale = 0.88 + 0.12 * easeIn;
+        const stageOpacity = easeIn;
+        const blurPx = (8 * (1 - easeIn)).toFixed(1);
+
+        if (this.stage) {
+          gsap.set(this.stage, {
+            scale: stageScale,
+            x: 0,
+            y: 0,
+            xPercent: 0,
+            opacity: stageOpacity,
+            visibility: stageOpacity > 0.01 ? 'visible' : 'hidden',
+            pointerEvents: stageOpacity > 0.5 ? 'auto' : 'none',
+            display: 'flex',
+            filter: blurPx > 0.1 ? `blur(${blurPx}px)` : 'none',
+            borderRadius: '1.25rem',
+            border: '1px solid transparent',
+            boxShadow: 'none',
+            background: 'transparent',
+            backdropFilter: 'none',
+            force3D: true
+          });
+        }
+
+        // Keep book closed on front cover in center during entrance
+        if (this.backCoverGroup) {
+          this.backCoverGroup.rotation.y = 0;
+          this.backCoverGroup.position.set(0, 0, -halfP);
+        }
+        if (this.frontCoverGroup) {
+          this.frontCoverGroup.rotation.y = 0;
+          this.frontCoverGroup.position.z = halfP;
+        }
+        if (this.bookGroup) {
+          this.bookGroup.position.x = -halfWidth;
+        }
+
+        this.leafMeshes.forEach((leaf) => {
+          leaf.group.visible = false;
+          leaf.group.rotation.y = 0;
+          leaf.angle = 0;
+          this.deformLeafGeometry(leaf, 0);
+          leaf.group.position.z = leaf.restingZ;
+        });
+
+        if (this.baseLeftPage) {
+          this.baseLeftPage.visible = false;
+        }
+
+        this.isBookOpen = false;
+      }
+      // Sub-Phase 1A: Front Cover Opening [0.08 -> 0.16]
+      else if (p > 0.08 && p <= 0.16) {
+        this.setFullStageStyles();
+
         // Ensure back cover group is resting flat in open position
         if (this.backCoverGroup) {
           this.backCoverGroup.rotation.y = 0;
           this.backCoverGroup.position.set(0, 0, -halfP);
         }
 
-        const openNorm = p / 0.08;
+        const openNorm = (p - 0.08) / (0.16 - 0.08);
         const easeT = gsap.parseEase('power1.inOut')(openNorm);
         const coverAngle = -easeT * Math.PI;
 
@@ -1100,8 +1182,10 @@ export class BookOfSpellsViewer {
 
         this.isBookOpen = isCoverOpening;
       }
-      // Sub-Phase 1B: Sequential Page Flipping [0.08 -> 0.60] (Generous 3100px track for 4 leaves)
-      else if (p > 0.08 && p <= 0.60) {
+      // Sub-Phase 1B: Sequential Page Flipping [0.16 -> 0.62] (Generous track for 4 leaves)
+      else if (p > 0.16 && p <= 0.62) {
+        this.setFullStageStyles();
+
         if (this.backCoverGroup) {
           this.backCoverGroup.rotation.y = 0;
           this.backCoverGroup.position.set(0, 0, -halfP);
@@ -1122,7 +1206,7 @@ export class BookOfSpellsViewer {
 
         this.isBookOpen = true;
 
-        const pageNorm = (p - 0.08) / (0.60 - 0.08);
+        const pageNorm = (p - 0.16) / (0.62 - 0.16);
         const totalFlips = this.leafMeshes.length;
         const rawPageProg = pageNorm * totalFlips;
         const clampedPageProg = Math.max(0, Math.min(totalFlips, rawPageProg));
@@ -1168,9 +1252,11 @@ export class BookOfSpellsViewer {
           this.currentSpreadIndex = activeIndex;
         }
       }
-      // Sub-Phase 1C: Book Closes Naturally to Back Cover [0.60 -> 0.75]
+      // Sub-Phase 1C: Book Closes Naturally to Back Cover [0.62 -> 0.75]
       else {
-        const closeNorm = (p - 0.60) / (0.75 - 0.60);
+        this.setFullStageStyles();
+
+        const closeNorm = (p - 0.62) / (0.75 - 0.62);
         const easeC = gsap.parseEase('power1.inOut')(closeNorm);
 
         // Back cover pivots leftward: 0 -> -PI
@@ -1208,9 +1294,6 @@ export class BookOfSpellsViewer {
 
         this.isBookOpen = easeC < 0.98;
       }
-
-      // Container is guaranteed at default scale: 1, x: 0, opacity: 1
-      this.resetStageStyles();
     }
 
     // =========================================================================

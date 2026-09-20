@@ -1013,7 +1013,7 @@ function generateProject1RightPageCanvas(existingCanvas = null) {
   ctx.fillStyle = '#543214';
   ctx.font = '700 28px "Cinzel", Georgia, serif';
   ctx.letterSpacing = '0.35em';
-  ctx.fillText('LIVE PORTAL VIEWPORT', cx, 225);
+  ctx.fillText('PROJECT PREVIEW', cx, 225);
   ctx.restore();
 
   // 2. Viewport Frame (Browser mockup frame)
@@ -1125,7 +1125,7 @@ function generateProject1RightPageCanvas(existingCanvas = null) {
   ctx.stroke();
   ctx.restore();
 
-  // 4. Interactive Action Button: "VISIT ACADEMY PORTAL ↗"
+  // 4. Interactive Action Button: "VISIT VS PHARMA WEBSITE ↗"
   const btnX = 160;
   const btnY = 1030;
   const btnW = 880;
@@ -1167,16 +1167,20 @@ function generateProject1RightPageCanvas(existingCanvas = null) {
   ctx.shadowBlur = 8;
   ctx.shadowOffsetX = 1;
   ctx.shadowOffsetY = 1;
-  ctx.fillText('VISIT ACADEMY PORTAL ↗', cx, btnY + 60);
+  ctx.fillText('VISIT VS PHARMA WEBSITE ↗', cx, btnY + 60);
   ctx.restore();
 
   // 5. Interaction Hint Label
   ctx.save();
   ctx.textAlign = 'center';
-  ctx.fillStyle = '#543214';
-  ctx.font = '700 20px "Cinzel", Georgia, serif';
-  ctx.letterSpacing = '0.18em';
-  ctx.fillText('⚡ CLICK VIEWPORT OR BUTTON TO OPEN LIVE PLATFORM', cx, 1180);
+  ctx.fillStyle = '#1c0d05';
+  ctx.font = '800 24px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.14em';
+  ctx.shadowColor = 'rgba(212, 175, 55, 0.45)';
+  ctx.shadowBlur = 4;
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 1;
+  ctx.fillText('⚡ CLICK PREVIEW OR BUTTON TO OPEN PLATFORM', cx, 1180);
   ctx.restore();
 
   // 6. Bottom Flourish Accent

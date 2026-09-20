@@ -64,7 +64,7 @@ export default async function handler(req, res) {
     const sanitizedMessage = message.trim().slice(0, 5000);
 
     const resend = new Resend(apiKey);
-    const recipientEmail = process.env.CONTACT_EMAIL || 'krishnamakwana1110@gmail.com';
+    const recipientEmail = process.env.CONTACT_EMAIL || 'krismak1110@gmail.com';
     const fromEmail = process.env.FROM_EMAIL || 'Portfolio Contact <onboarding@resend.dev>';
 
     const { data, error } = await resend.emails.send({

@@ -2097,6 +2097,186 @@ function generateProject3RightPageCanvas(existingCanvas = null) {
 }
 
 /**
+ * Generates Project 4 / Spread 5 Left Page Canvas (Page 8 - Clean Blank Vintage Parchment)
+ */
+function generateProject4LeftPageCanvas(existingCanvas = null) {
+  const canvas = existingCanvas || document.createElement('canvas');
+  canvas.width = 1200;
+  canvas.height = 1600;
+  const ctx = canvas.getContext('2d');
+
+  // Draw base authentic vintage parchment with spine gutter on right (isLeft = true)
+  drawParchmentBase(ctx, canvas.width, canvas.height, true);
+
+  return canvas;
+}
+
+/**
+ * Generates Project 4 / Spread 5 Right Page Canvas (Page 9 - Bold Minimalist "More Enchantments in the Forge")
+ */
+function generateProject4RightPageCanvas(existingCanvas = null) {
+  const canvas = existingCanvas || document.createElement('canvas');
+  canvas.width = 1200;
+  canvas.height = 1600;
+  const ctx = canvas.getContext('2d');
+
+  // Draw base authentic vintage parchment with spine gutter on left (isLeft = false)
+  drawParchmentBase(ctx, canvas.width, canvas.height, false);
+
+  const cx = canvas.width / 2; // 600
+
+  // Profile Card Outer Frame & Corner Filigrees
+  ctx.save();
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.55)';
+  ctx.lineWidth = 2.5;
+  ctx.strokeRect(80, 140, canvas.width - 160, 1320);
+
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.35)';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(94, 154, canvas.width - 188, 1292);
+
+  drawFiligreeCorner(ctx, 80, 140, 56, false, false);
+  drawFiligreeCorner(ctx, canvas.width - 80, 140, 56, true, false);
+  drawFiligreeCorner(ctx, 80, 1460, 56, false, true);
+  drawFiligreeCorner(ctx, canvas.width - 80, 1460, 56, true, true);
+  ctx.restore();
+
+  // 1. Status Badge / Pill: [ IN DEVELOPMENT • COMING SOON ]
+  const badgeW = 620;
+  const badgeH = 56;
+  const badgeX = cx - badgeW / 2;
+  const badgeY = 220;
+
+  ctx.save();
+  ctx.fillStyle = 'rgba(184, 134, 11, 0.16)';
+  ctx.strokeStyle = 'rgba(140, 85, 10, 0.85)';
+  ctx.lineWidth = 2;
+  drawRoundedRect(ctx, badgeX, badgeY, badgeW, badgeH, 28);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#1f0c02';
+  ctx.font = '800 20px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.15em';
+  ctx.fillText('IN DEVELOPMENT  •  COMING SOON', cx, badgeY + 36);
+  ctx.restore();
+
+  // 2. Main Large Headline: "MORE ENCHANTMENTS IN THE FORGE"
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#0f0501';
+  ctx.font = '900 68px "Cinzel Decorative", "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.12em';
+  ctx.shadowColor = 'rgba(184, 134, 11, 0.55)';
+  ctx.shadowBlur = 10;
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 2;
+  ctx.fillText('MORE ENCHANTMENTS', cx, 400);
+  ctx.fillText('IN THE FORGE', cx, 485);
+  ctx.restore();
+
+  // 3. Elegant Gilded Spellbook Divider
+  ctx.save();
+  const divY = 565;
+  const lineHalfW = 320;
+
+  const gradLeft = ctx.createLinearGradient(cx - lineHalfW, divY, cx - 40, divY);
+  gradLeft.addColorStop(0, 'rgba(163, 116, 44, 0.15)');
+  gradLeft.addColorStop(1, 'rgba(140, 85, 10, 0.95)');
+  ctx.strokeStyle = gradLeft;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(cx - lineHalfW, divY);
+  ctx.lineTo(cx - 40, divY);
+  ctx.stroke();
+
+  const gradRight = ctx.createLinearGradient(cx + 40, divY, cx + lineHalfW, divY);
+  gradRight.addColorStop(0, 'rgba(140, 85, 10, 0.95)');
+  gradRight.addColorStop(1, 'rgba(163, 116, 44, 0.15)');
+  ctx.strokeStyle = gradRight;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(cx + 40, divY);
+  ctx.lineTo(cx + lineHalfW, divY);
+  ctx.stroke();
+
+  // Center diamond & accent beads
+  ctx.fillStyle = '#8b5a14';
+  ctx.strokeStyle = '#b8860b';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(cx, divY - 12);
+  ctx.lineTo(cx + 12, divY);
+  ctx.lineTo(cx, divY + 12);
+  ctx.lineTo(cx - 12, divY);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(cx - 26, divY, 3.5, 0, Math.PI * 2);
+  ctx.arc(cx + 26, divY, 3.5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  // 4. Short Punchy Subtext (Single Line)
+  ctx.save();
+  ctx.fillStyle = '#5a4228';
+  ctx.font = 'bold italic 34px "EB Garamond", Georgia, serif';
+  ctx.letterSpacing = '0.03em';
+  const subtext = "Currently engineering new AI systems, fullstack platforms, and data-driven solutions.";
+  const nextSubY = drawWrappedText(ctx, subtext, cx, 660, 940, 52, 'center');
+  ctx.restore();
+
+  // 5. Minimalist Focus Badges / Research Pillars
+  const pillars = [
+    { num: '01', title: 'Autonomous Multi-Agent Architectures' },
+    { num: '02', title: 'Real-Time Multimodal Diagnostic Pipelines' },
+    { num: '03', title: 'High-Performance 3D Web & Interactive Systems' }
+  ];
+
+  let pillarY = nextSubY + 60;
+  pillars.forEach((p) => {
+    ctx.save();
+    const cardW = 860;
+    const cardH = 76;
+    const cardX = cx - cardW / 2;
+    ctx.fillStyle = 'rgba(184, 134, 11, 0.08)';
+    ctx.strokeStyle = 'rgba(163, 116, 44, 0.45)';
+    ctx.lineWidth = 1.5;
+    drawRoundedRect(ctx, cardX, pillarY, cardW, cardH, 16);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#b8860b';
+    ctx.font = '800 24px "Cinzel", Georgia, serif';
+    ctx.fillText(`✦   ${p.num}`, cardX + 32, pillarY + 48);
+
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#120501';
+    ctx.font = '700 28px "EB Garamond", Georgia, serif';
+    ctx.letterSpacing = '0.02em';
+    ctx.fillText(p.title, cardX + 130, pillarY + 48);
+    ctx.restore();
+
+    pillarY += 102;
+  });
+
+  // 6. Bottom Clean Sign-Off
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#78521a';
+  ctx.font = '700 22px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.25em';
+  ctx.fillText('✦   ARCHIVES EXPANDING CONTINUOUSLY   ✦', cx, 1380);
+  ctx.restore();
+
+  return canvas;
+}
+
+/**
  * Creates Bevelled Cover Board Geometry (inner face at z = 0, outer face at z = cD + 2*bevelThickness = 0.08)
  */
 function createBevelledCoverBoard(W, H, cD, r) {
@@ -2560,6 +2740,23 @@ export class BookOfSpellsViewer {
     this.project3RightCanvas = project3RightCanvas;
     this.project3RightTex = project3RightTex;
 
+    // Project 4 (More Projects in Progress / Closing) Spread Textures
+    const project4LeftCanvas = generateProject4LeftPageCanvas();
+    const project4LeftTex = new THREE.CanvasTexture(project4LeftCanvas);
+    project4LeftTex.colorSpace = THREE.SRGBColorSpace;
+    project4LeftTex.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+    project4LeftTex.wrapS = THREE.RepeatWrapping;
+    project4LeftTex.repeat.x = -1;
+    project4LeftTex.offset.x = 1;
+
+    const project4RightCanvas = generateProject4RightPageCanvas();
+    const project4RightTex = new THREE.CanvasTexture(project4RightCanvas);
+    project4RightTex.colorSpace = THREE.SRGBColorSpace;
+    project4RightTex.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+
+    this.project4RightCanvas = project4RightCanvas;
+    this.project4RightTex = project4RightTex;
+
     // Initialize Autoplaying Video Preview for VS Pharma Academy
     this.vsPharmaVideo = getVsPharmaVideo(() => {
       generateProject1RightPageCanvas(project1RightCanvas);
@@ -2601,6 +2798,10 @@ export class BookOfSpellsViewer {
         project3LeftTex.needsUpdate = true;
         generateProject3RightPageCanvas(project3RightCanvas);
         project3RightTex.needsUpdate = true;
+        generateProject4LeftPageCanvas(project4LeftCanvas);
+        project4LeftTex.needsUpdate = true;
+        generateProject4RightPageCanvas(project4RightCanvas);
+        project4RightTex.needsUpdate = true;
       });
     }
 
@@ -2688,6 +2889,30 @@ export class BookOfSpellsViewer {
       depthWrite: true
     });
 
+    const project4LeftMat = new THREE.MeshStandardMaterial({
+      map: project4LeftTex,
+      roughness: 0.88,
+      metalness: 0.02,
+      side: THREE.DoubleSide,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1,
+      depthTest: true,
+      depthWrite: true
+    });
+
+    const project4RightMat = new THREE.MeshStandardMaterial({
+      map: project4RightTex,
+      roughness: 0.88,
+      metalness: 0.02,
+      side: THREE.DoubleSide,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1,
+      depthTest: true,
+      depthWrite: true
+    });
+
     const blankRightMat = new THREE.MeshStandardMaterial({
       map: blankRightTex,
       roughness: 0.88,
@@ -2763,8 +2988,8 @@ export class BookOfSpellsViewer {
     this.baseLeftPage.visible = false;
     this.bookGroup.add(this.baseLeftPage);
 
-    // 7. Dynamic Blank Parchment Flipping Leaves (Total: 4 double-sided leaves)
-    const totalFlips = 4;
+    // 7. Dynamic Blank Parchment Flipping Leaves (Total: 5 double-sided leaves)
+    const totalFlips = 5;
     this.leafMeshes = [];
     const segmentsX = 32;
     const segmentsY = 16;
@@ -2782,7 +3007,8 @@ export class BookOfSpellsViewer {
       // Leaf 0: Front = Intro (Page 1), Back = Project 1 Details (Spread 1 Left Page, Page 2)
       // Leaf 1: Front = Project 1 Viewport (Spread 1 Right Page, Page 3), Back = Project 2 Details (Spread 2 Left Page, Page 4)
       // Leaf 2: Front = Project 2 Viewport (Spread 2 Right Page, Page 5), Back = Project 3 Details (Spread 3 Left Page, Page 6)
-      // Leaf 3: Front = Project 3 Viewport (Spread 3 Right Page, Page 7), Back = Blank Left
+      // Leaf 3: Front = Project 3 Viewport (Spread 3 Right Page, Page 7), Back = Project 4 Closing (Spread 4 Left Page, Page 8)
+      // Leaf 4: Front = Project 4 Vault (Spread 4 Right Page, Page 9), Back = Blank Left
       let frontMat = blankRightMat;
       let backMat = leafBackBlankMat;
 
@@ -2870,7 +3096,7 @@ export class BookOfSpellsViewer {
         }
       } else if (k === 3) {
         frontMat = project3RightMat;
-        backMat = leafBackBlankMat;
+        backMat = project4LeftMat;
 
         // Dedicated Video Screen Mesh powered by THREE.VideoTexture for VedaCure
         const screenW = this.pageWidth * (960 / 1200);
@@ -2907,6 +3133,9 @@ export class BookOfSpellsViewer {
         } catch (err) {
           console.warn('VedaCure VideoTexture initialization error:', err);
         }
+      } else if (k === 4) {
+        frontMat = project4RightMat;
+        backMat = leafBackBlankMat;
       }
 
       const frontMesh = new THREE.Mesh(geo, frontMat);
@@ -3452,7 +3681,7 @@ export class BookOfSpellsViewer {
     };
 
     this.onPointerMove = (e) => {
-      if (!this.renderer || !this.camera || this.leafMeshes.length < 4) return;
+      if (!this.renderer || !this.camera || this.leafMeshes.length < 5) return;
 
       const rect = this.renderer.domElement.getBoundingClientRect();
       this.pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
@@ -3462,10 +3691,12 @@ export class BookOfSpellsViewer {
       const leaf1 = this.leafMeshes[1];
       const leaf2 = this.leafMeshes[2];
       const leaf3 = this.leafMeshes[3];
+      const leaf4 = this.leafMeshes[4];
 
       const isSpread1Visible = leaf0.angle > 0.4 && leaf1.angle < Math.PI * 0.7 && this.isBookOpen;
       const isSpread2Visible = leaf1.angle > 0.4 && leaf2.angle < Math.PI * 0.7 && this.isBookOpen;
       const isSpread3Visible = leaf2.angle > 0.4 && leaf3.angle < Math.PI * 0.7 && this.isBookOpen;
+      const isSpread4Visible = leaf3.angle > 0.4 && leaf4.angle < Math.PI * 0.7 && this.isBookOpen;
 
       if (isSpread1Visible && !this.isPointerDown) {
         this.raycaster.setFromCamera(this.pointer, this.camera);
@@ -3510,7 +3741,7 @@ export class BookOfSpellsViewer {
       const wasPointerDown = this.isPointerDown;
       this.isPointerDown = false;
 
-      if (wasPointerDown && this.renderer && this.camera && this.leafMeshes.length >= 4) {
+      if (wasPointerDown && this.renderer && this.camera && this.leafMeshes.length >= 5) {
         const dist = Math.hypot(e.clientX - this.pointerDownPos.x, e.clientY - this.pointerDownPos.y);
         const duration = performance.now() - this.pointerDownTime;
 
@@ -3592,11 +3823,12 @@ export class BookOfSpellsViewer {
       }
 
       // Live Video Preview update loop for Spread 1 (VS Pharma), Spread 2 (AeroPulse AI) & Spread 3 (VedaCure)
-      if (this.leafMeshes && this.leafMeshes.length >= 4) {
+      if (this.leafMeshes && this.leafMeshes.length >= 5) {
         const leaf0 = this.leafMeshes[0];
         const leaf1 = this.leafMeshes[1];
         const leaf2 = this.leafMeshes[2];
         const leaf3 = this.leafMeshes[3];
+        const leaf4 = this.leafMeshes[4];
 
         // Spread 1: VS Pharma Academy (Page 2 & 3)
         const isSpread1Visible = leaf0.angle > 0.4 && leaf1.angle < Math.PI * 0.7 && this.isBookOpen;
@@ -3656,10 +3888,10 @@ export class BookOfSpellsViewer {
   }
 
   flipToSpread(index) {
-    if (index < 0 || index >= 5) return;
+    if (index < 0 || index >= 6) return;
     const openPhaseEnd = 0.15;
     const flipsPhaseEnd = 0.70;
-    const totalFlips = 4;
+    const totalFlips = 5;
     const targetProgress = openPhaseEnd + (index / totalFlips) * (flipsPhaseEnd - openPhaseEnd);
 
     if (this.scrollTrigger) {

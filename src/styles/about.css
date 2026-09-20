@@ -29,7 +29,7 @@
   padding: 48px;
   position: relative;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 35px var(--house-secondary-glow);
-  margin-bottom: 80px;
+  margin-bottom: 0;
 }
 
 .daily-prophet-header {
@@ -129,92 +129,4 @@
   font-family: var(--font-rune);
   font-size: 1.15rem;
   color: var(--house-secondary-light);
-}
-
-/* Hogwarts Timeline (Experience / Journey) */
-.timeline-heading {
-  text-align: center;
-  margin-bottom: 48px;
-}
-
-.timeline-track {
-  position: relative;
-  max-width: 860px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 36px;
-}
-
-.timeline-track::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 28px;
-  width: 2px;
-  background: linear-gradient(180deg, var(--house-secondary) 0%, var(--house-primary) 100%);
-}
-
-.timeline-item {
-  position: relative;
-  padding-left: 72px;
-}
-
-.timeline-node {
-  position: absolute;
-  left: 17px;
-  top: 6px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--bg-deep);
-  border: 3px solid var(--house-secondary);
-  box-shadow: 0 0 15px var(--house-secondary-glow);
-  z-index: 2;
-}
-
-.timeline-content {
-  background: rgba(14, 18, 28, 0.85);
-  border: 1px solid var(--border-subtle);
-  border-radius: 16px;
-  padding: 24px;
-  backdrop-filter: blur(8px);
-  transition: all 0.3s;
-}
-
-.timeline-content:hover {
-  border-color: var(--house-secondary);
-  transform: translateX(6px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-}
-
-.timeline-time-badge {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--house-secondary);
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  margin-bottom: 6px;
-}
-
-.timeline-role {
-  font-family: var(--font-magic-serif);
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 4px;
-}
-
-.timeline-org {
-  font-size: 0.95rem;
-  color: var(--text-dim);
-  margin-bottom: 12px;
-}
-
-.timeline-desc {
-  font-size: 0.92rem;
-  color: var(--text-muted);
-  line-height: 1.6;
 }

@@ -116,22 +116,41 @@
   box-shadow: 0 0 30px var(--house-primary-glow);
 }
 
-.btn-owl-send:hover {
-  background: linear-gradient(135deg, var(--house-secondary) 0%, var(--house-secondary-light) 100%);
-  color: #000;
-  box-shadow: 0 0 40px var(--house-secondary-glow);
-  transform: translateY(-3px) scale(1.02);
+.btn-owl-send:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none !important;
+}
+
+/* Inline Error Message */
+.owl-error-msg {
+  display: none;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: 10px;
+  padding: 12px 18px;
+  text-align: center;
+  line-height: 1.4;
+  animation: successFade 0.3s ease;
+}
+
+.owl-error-msg.show {
+  display: block;
 }
 
 /* Success Message Overlay */
 .owl-success-msg {
   display: none;
   text-align: center;
-  padding: 30px;
-  background: rgba(16, 185, 129, 0.1);
+  padding: 36px 30px;
+  background: rgba(16, 185, 129, 0.08);
   border: 1px solid var(--potion-green);
   border-radius: 16px;
-  margin-top: 20px;
+  margin-top: 10px;
   animation: successFade 0.4s ease;
 }
 
@@ -146,9 +165,16 @@
 
 .owl-success-msg h4 {
   font-family: var(--font-magic-serif);
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   color: var(--potion-green);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+}
+
+.owl-success-msg p {
+  font-family: var(--font-rune);
+  font-size: 1.1rem;
+  color: var(--text-dim);
+  line-height: 1.6;
 }
 
 /* Magical Footer */

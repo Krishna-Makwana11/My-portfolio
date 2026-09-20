@@ -423,15 +423,17 @@
               <textarea id="sender-message" class="form-textarea" placeholder="Write your message or project requirements here..." required></textarea>
             </div>
 
-            <button type="submit" class="btn-owl-send">
+            <div id="owl-error-msg" class="owl-error-msg" role="alert"></div>
+
+            <button type="submit" id="btn-dispatch" class="btn-owl-send">
               <i data-lucide="send"></i>
-              <span>Dispatch</span>
+              <span id="btn-dispatch-text">Dispatch</span>
             </button>
           </form>
 
           <div id="owl-success-msg" class="owl-success-msg">
-            <h4>🦉 Hedwig Has Taken Flight!</h4>
-            <p>Your parchment has been enchanted and dispatched. I will reply by owl shortly.</p>
+            <h4>📜 Message Dispatched Successfully!</h4>
+            <p>Your message has been delivered to Krishna. I will review and reply to your email shortly.</p>
           </div>
         </div>
 

@@ -80,13 +80,14 @@
   }
 }
 
-/* Moving Portrait Frame */
+/* Profile Portrait Frame */
 .moving-portrait-wrapper {
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 5;
   border-radius: 16px;
   overflow: hidden;
+  background: #000000;
   border: 3px solid var(--border-gold);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), inset 0 0 30px rgba(0, 0, 0, 0.8);
 }
@@ -95,27 +96,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: contrast(1.1) brightness(0.95);
-  animation: subtlePortraitDrift 8s ease-in-out infinite alternate;
-}
-
-@keyframes subtlePortraitDrift {
-  0% { transform: scale(1) translate(0, 0); }
-  50% { transform: scale(1.04) translate(-4px, -2px); }
-  100% { transform: scale(1.02) translate(3px, -4px); }
-}
-
-.portrait-caption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 16px;
-  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.9) 100%);
-  font-family: var(--font-rune);
-  font-size: 0.95rem;
-  color: var(--text-gold);
-  text-align: center;
+  object-position: center top;
+  display: block;
 }
 
 /* Story Columns */

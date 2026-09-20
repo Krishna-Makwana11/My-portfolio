@@ -799,12 +799,12 @@ function generateProject1LeftPageCanvas(existingCanvas = null) {
 
   // Profile Card Outer Frame
   ctx.save();
-  ctx.strokeStyle = 'rgba(163, 116, 44, 0.40)';
-  ctx.lineWidth = 2;
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.55)';
+  ctx.lineWidth = 2.5;
   ctx.strokeRect(80, 140, canvas.width - 160, 1320);
 
-  ctx.strokeStyle = 'rgba(163, 116, 44, 0.22)';
-  ctx.lineWidth = 1;
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.35)';
+  ctx.lineWidth = 1.5;
   ctx.strokeRect(94, 154, canvas.width - 188, 1292);
 
   drawFiligreeCorner(ctx, 80, 140, 56, false, false);
@@ -813,165 +813,135 @@ function generateProject1LeftPageCanvas(existingCanvas = null) {
   drawFiligreeCorner(ctx, canvas.width - 80, 1460, 56, true, true);
   ctx.restore();
 
-  // 1. Header Kicker
+  // 1. Header Pill / Tag: [ CLIENT PROJECT • LIVE PRODUCTION ] (Wider area with generous horizontal padding)
+  const badgeW = 680;
+  const badgeH = 56;
+  const badgeX = cx - badgeW / 2;
+  const badgeY = 190;
+
   ctx.save();
+  ctx.fillStyle = 'rgba(184, 134, 11, 0.16)';
+  ctx.strokeStyle = 'rgba(140, 85, 10, 0.85)';
+  ctx.lineWidth = 2;
+  drawRoundedRect(ctx, badgeX, badgeY, badgeW, badgeH, 28);
+  ctx.fill();
+  ctx.stroke();
+
   ctx.textAlign = 'center';
-  ctx.fillStyle = '#543214';
-  ctx.font = '700 28px "Cinzel", Georgia, serif';
-  ctx.letterSpacing = '0.32em';
-  ctx.fillText('FOLIO I • ALCHEMICAL EDIFICATION', cx, 215);
+  ctx.fillStyle = '#1f0c02';
+  ctx.font = '800 21px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.12em';
+  ctx.fillText('CLIENT PROJECT  •  LIVE PRODUCTION', cx, badgeY + 36);
   ctx.restore();
 
-  // 2. Primary Title: "VS PHARMA ACADEMY" (Scaled to match Page 1 intro title at 76px!)
+  // 2. Primary Title: "VS PHARMA ACADEMY" (Font size preserved at 76px)
   ctx.save();
   ctx.textAlign = 'center';
-  ctx.fillStyle = '#1c0d05';
-  ctx.font = 'bold 76px "Cinzel Decorative", "Cinzel", Georgia, serif';
-  ctx.letterSpacing = '0.12em';
-  ctx.shadowColor = 'rgba(212, 175, 55, 0.55)';
+  ctx.fillStyle = '#0f0501';
+  ctx.font = '900 76px "Cinzel Decorative", "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.10em';
+  ctx.shadowColor = 'rgba(184, 134, 11, 0.55)';
   ctx.shadowBlur = 8;
   ctx.shadowOffsetX = 1;
   ctx.shadowOffsetY = 2;
-  ctx.fillText('VS PHARMA ACADEMY', cx, 305);
+  ctx.fillText('VS PHARMA ACADEMY', cx, 325);
   ctx.restore();
 
-  // 3. Domain / Category Subtitle
+  // 3. Subtitle: "Educational Learning Portal for B.Pharm & M.Pharm" (Increased font size & spaced out)
   ctx.save();
   ctx.textAlign = 'center';
-  ctx.fillStyle = '#3d200e';
-  ctx.font = '700 32px "Cinzel", Georgia, serif';
-  ctx.letterSpacing = '0.10em';
-  ctx.fillText('EDUCATIONAL PLATFORM • PHARMACEUTICAL SCIENCES', cx, 365);
+  ctx.fillStyle = '#260f03';
+  ctx.font = 'bold italic 36px "EB Garamond", Georgia, serif';
+  ctx.letterSpacing = '0.04em';
+  ctx.fillText('Educational Learning Portal for B.Pharm & M.Pharm', cx, 395);
   ctx.restore();
 
-  // 4. Subtle Decorative Gilded Divider
+  // 4. Clearly Visible Gilded Divider
   ctx.save();
-  const divY = 412;
-  const lineHalfW = 280;
+  const divY = 445;
+  const lineHalfW = 300;
 
-  const gradLeft = ctx.createLinearGradient(cx - lineHalfW, divY, cx - 45, divY);
-  gradLeft.addColorStop(0, 'rgba(184, 134, 11, 0)');
-  gradLeft.addColorStop(1, 'rgba(184, 134, 11, 0.9)');
+  const gradLeft = ctx.createLinearGradient(cx - lineHalfW, divY, cx - 40, divY);
+  gradLeft.addColorStop(0, 'rgba(163, 116, 44, 0.15)');
+  gradLeft.addColorStop(1, 'rgba(140, 85, 10, 0.95)');
   ctx.strokeStyle = gradLeft;
   ctx.lineWidth = 2.5;
   ctx.beginPath();
   ctx.moveTo(cx - lineHalfW, divY);
-  ctx.lineTo(cx - 45, divY);
+  ctx.lineTo(cx - 40, divY);
   ctx.stroke();
 
-  const gradRight = ctx.createLinearGradient(cx + 45, divY, cx + lineHalfW, divY);
-  gradRight.addColorStop(0, 'rgba(184, 134, 11, 0.9)');
-  gradRight.addColorStop(1, 'rgba(184, 134, 11, 0)');
+  const gradRight = ctx.createLinearGradient(cx + 40, divY, cx + lineHalfW, divY);
+  gradRight.addColorStop(0, 'rgba(140, 85, 10, 0.95)');
+  gradRight.addColorStop(1, 'rgba(163, 116, 44, 0.15)');
   ctx.strokeStyle = gradRight;
   ctx.lineWidth = 2.5;
   ctx.beginPath();
-  ctx.moveTo(cx + 45, divY);
+  ctx.moveTo(cx + 40, divY);
   ctx.lineTo(cx + lineHalfW, divY);
   ctx.stroke();
 
-  // Center diamond & dots
-  ctx.fillStyle = '#b8860b';
-  ctx.strokeStyle = '#d4af37';
+  // Center diamond & accent dots
+  ctx.fillStyle = '#8b5a14';
+  ctx.strokeStyle = '#b8860b';
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(cx, divY - 12);
-  ctx.lineTo(cx + 12, divY);
-  ctx.lineTo(cx, divY + 12);
-  ctx.lineTo(cx - 12, divY);
+  ctx.moveTo(cx, divY - 11);
+  ctx.lineTo(cx + 11, divY);
+  ctx.lineTo(cx, divY + 11);
+  ctx.lineTo(cx - 11, divY);
   ctx.closePath();
   ctx.fill();
   ctx.stroke();
 
   ctx.beginPath();
-  ctx.arc(cx - 25, divY, 3.5, 0, Math.PI * 2);
-  ctx.arc(cx + 25, divY, 3.5, 0, Math.PI * 2);
+  ctx.arc(cx - 24, divY, 3, 0, Math.PI * 2);
+  ctx.arc(cx + 24, divY, 3, 0, Math.PI * 2);
   ctx.fill();
   ctx.restore();
 
-  // 5. Description Paragraph (Generous width to fit cleanly without overlapping next section)
+  // 5. Clear & Punchy Description (Increased font size 36px & generous line-height)
   ctx.save();
-  ctx.fillStyle = '#1c0d05';
-  ctx.font = '600 32px "EB Garamond", Georgia, serif';
-  const descText = 'A bespoke digital learning platform crafted for an academic educator specializing in B.Pharm & M.Pharm curriculums. Designed for seamless distribution of comprehensive study notes, syllabus roadmaps, and centralized lecture resources for pharmacy students.';
-  drawWrappedText(ctx, descText, cx, 465, 960, 42, 'center');
+  ctx.fillStyle = '#120501';
+  ctx.font = '700 36px "EB Garamond", Georgia, serif';
+  const descText = 'Commissioned by an educator to streamline pharmacy studies. Developed as a centralized learning hub where students easily access semester-wise notes, curriculum roadmaps, and subject-specific lecture resources.';
+  const nextY = drawWrappedText(ctx, descText, cx, 515, 960, 56, 'center');
   ctx.restore();
 
-  // 6. Key Highlights Section
-  ctx.save();
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#4a2c14';
-  ctx.font = '700 28px "Cinzel", Georgia, serif';
-  ctx.letterSpacing = '0.25em';
-  ctx.fillText('KEY SYSTEM CAPABILITIES', cx, 645);
-  ctx.restore();
-
+  // 6. Core Highlights (Increased font size 36px & spacious line separation)
   const highlights = [
-    '✦  B.PHARM & M.PHARM NOTES ARCHIVE',
-    '✦  RESPONSIVE UI & CLOUD HOSTED',
-    '✦  CLIENT PRODUCTION BUILD'
+    '✦   Built for client note distribution & academic indexing',
+    '✦   Fully responsive mobile-friendly student interface',
+    '✦   Instant cloud delivery and optimized document access'
   ];
 
-  highlights.forEach((h, i) => {
-    const cardY = 685 + i * 80;
-    const cardH = 64;
-    ctx.save();
-    ctx.fillStyle = 'rgba(163, 116, 44, 0.14)';
-    ctx.strokeStyle = 'rgba(163, 116, 44, 0.60)';
-    ctx.lineWidth = 2;
-    drawRoundedRect(ctx, 140, cardY, 920, cardH, 14);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#1c0d05';
-    ctx.font = '700 28px "Cinzel", Georgia, serif';
-    ctx.letterSpacing = '0.08em';
-    ctx.fillText(h, cx, cardY + 42);
-    ctx.restore();
-  });
-
-  // 7. Tech Badges Section (2x2 Grid for generous width and large legible font)
   ctx.save();
   ctx.textAlign = 'center';
-  ctx.fillStyle = '#4a2c14';
-  ctx.font = '700 28px "Cinzel", Georgia, serif';
-  ctx.letterSpacing = '0.25em';
-  ctx.fillText('FORGED WITH ARTIFACTS & SPELLS', cx, 960);
+  ctx.fillStyle = '#0a0301';
+  ctx.font = 'bold 36px "EB Garamond", Georgia, serif';
+  ctx.letterSpacing = '0.02em';
+
+  const bulletStartY = nextY + 70;
+  highlights.forEach((h, i) => {
+    ctx.fillText(h, cx, bulletStartY + i * 76);
+  });
   ctx.restore();
 
-  const techBadges = [
-    { name: 'Next.js', x: 150, y: 995 },
-    { name: 'React', x: 630, y: 995 },
-    { name: 'Tailwind CSS', x: 150, y: 1062 },
-    { name: 'Vercel Deployment', x: 630, y: 1062 }
-  ];
-  const badgeW = 420;
-  const badgeH = 52;
-
-  techBadges.forEach((badge) => {
-    ctx.save();
-    ctx.fillStyle = 'rgba(139, 24, 27, 0.10)';
-    ctx.strokeStyle = 'rgba(184, 134, 11, 0.65)';
-    ctx.lineWidth = 2;
-    drawRoundedRect(ctx, badge.x, badge.y, badgeW, badgeH, 26);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#1c0d05';
-    ctx.font = '700 26px "Cinzel", Georgia, serif';
-    ctx.letterSpacing = '0.08em';
-    ctx.fillText(badge.name, badge.x + badgeW / 2, badge.y + 35);
-    ctx.restore();
-  });
-
-  // 8. Bottom Folio Marker
+  // 7. Tech Stack (Increased font size 28px, ample breathing space & visible divider)
   ctx.save();
+  const techDivY = bulletStartY + highlights.length * 76 + 35;
+  ctx.strokeStyle = 'rgba(140, 85, 10, 0.70)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(cx - 240, techDivY);
+  ctx.lineTo(cx + 240, techDivY);
+  ctx.stroke();
+
   ctx.textAlign = 'center';
-  ctx.fillStyle = '#5c3818';
-  ctx.font = '700 26px "Cinzel", Georgia, serif';
-  ctx.letterSpacing = '0.3em';
-  ctx.fillText('—  FOLIO I  /  IV  —', cx, 1205);
+  ctx.fillStyle = '#140601';
+  ctx.font = '800 28px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.14em';
+  ctx.fillText('Next.js   •   React   •   Supabase   •   Vercel', cx, techDivY + 58);
   ctx.restore();
 
   return canvas;

@@ -715,6 +715,9 @@ function getVsPharmaVideo(onReady) {
     video.preload = 'auto';
     video.setAttribute('webkit-playsinline', 'true');
     video.setAttribute('playsinline', 'true');
+    video.setAttribute('muted', '');
+    video.setAttribute('autoplay', '');
+    video.setAttribute('loop', '');
     video.style.position = 'fixed';
     video.style.top = '0';
     video.style.left = '0';
@@ -736,11 +739,13 @@ function getVsPharmaVideo(onReady) {
           window.removeEventListener('scroll', onFirstGesture);
           window.removeEventListener('keydown', onFirstGesture);
           window.removeEventListener('touchstart', onFirstGesture);
+          window.removeEventListener('wheel', onFirstGesture);
         };
         window.addEventListener('pointerdown', onFirstGesture, { once: true });
         window.addEventListener('scroll', onFirstGesture, { once: true });
         window.addEventListener('keydown', onFirstGesture, { once: true });
         window.addEventListener('touchstart', onFirstGesture, { once: true });
+        window.addEventListener('wheel', onFirstGesture, { once: true });
       });
     }
   };
@@ -750,15 +755,184 @@ function getVsPharmaVideo(onReady) {
     if (onReady) onReady(video);
   };
 
-  video.addEventListener('canplay', notifyReady);
-  video.addEventListener('canplaythrough', notifyReady);
-  video.addEventListener('loadeddata', notifyReady);
-  video.addEventListener('loadedmetadata', notifyReady);
+  video.addEventListener('canplay', () => { tryPlay(); notifyReady(); });
+  video.addEventListener('canplaythrough', () => { tryPlay(); notifyReady(); });
+  video.addEventListener('loadeddata', () => { tryPlay(); notifyReady(); });
+  video.addEventListener('loadedmetadata', () => { tryPlay(); notifyReady(); });
+  video.addEventListener('error', (e) => {
+    console.error('Failed to load /videos/vs-pharma-preview.mp4. Check filename and path in /public folder.', e);
+  });
 
   video.load();
   tryPlay();
 
   vsPharmaVideo = video;
+  return video;
+}
+
+/**
+ * Asynchronous Video Preloader for AeroPulse AI
+ * Directly streams local public asset /videos/AeropulseAI.mp4 mounted in DOM with hardware decoding
+ */
+let aeroPulseVideo = null;
+function getAeroPulseVideo(onReady) {
+  if (aeroPulseVideo) {
+    if (onReady && aeroPulseVideo.readyState >= 2) onReady(aeroPulseVideo);
+    return aeroPulseVideo;
+  }
+
+  let video = document.getElementById('aeropulse-video-element');
+  if (!video) {
+    video = document.createElement('video');
+    video.id = 'aeropulse-video-element';
+    video.src = '/videos/AeropulseAI.mp4';
+    video.crossOrigin = 'anonymous';
+    video.playsInline = true;
+    video.muted = true;
+    video.defaultMuted = true;
+    video.loop = true;
+    video.autoplay = true;
+    video.preload = 'auto';
+    video.setAttribute('webkit-playsinline', 'true');
+    video.setAttribute('playsinline', 'true');
+    video.setAttribute('muted', '');
+    video.setAttribute('autoplay', '');
+    video.setAttribute('loop', '');
+    video.style.position = 'fixed';
+    video.style.top = '0';
+    video.style.left = '0';
+    video.style.width = '1px';
+    video.style.height = '1px';
+    video.style.opacity = '0.001';
+    video.style.pointerEvents = 'none';
+    video.style.zIndex = '-9999';
+    document.body.appendChild(video);
+  }
+
+  const tryPlay = () => {
+    video.muted = true;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch((err) => {
+        console.warn('AeroPulse autoplay waiting for user interaction:', err);
+        const onFirstGesture = () => {
+          video.muted = true;
+          video.play().catch(() => {});
+          window.removeEventListener('pointerdown', onFirstGesture);
+          window.removeEventListener('scroll', onFirstGesture);
+          window.removeEventListener('keydown', onFirstGesture);
+          window.removeEventListener('touchstart', onFirstGesture);
+          window.removeEventListener('wheel', onFirstGesture);
+        };
+        window.addEventListener('pointerdown', onFirstGesture, { once: true });
+        window.addEventListener('scroll', onFirstGesture, { once: true });
+        window.addEventListener('keydown', onFirstGesture, { once: true });
+        window.addEventListener('touchstart', onFirstGesture, { once: true });
+        window.addEventListener('wheel', onFirstGesture, { once: true });
+      });
+    }
+  };
+
+  const notifyReady = () => {
+    tryPlay();
+    if (onReady) onReady(video);
+  };
+
+  video.addEventListener('canplay', () => { tryPlay(); notifyReady(); });
+  video.addEventListener('canplaythrough', () => { tryPlay(); notifyReady(); });
+  video.addEventListener('loadeddata', () => { tryPlay(); notifyReady(); });
+  video.addEventListener('loadedmetadata', () => { tryPlay(); notifyReady(); });
+  video.addEventListener('error', (e) => {
+    console.error('Failed to load /videos/AeropulseAI.mp4. Check filename and path in /public folder.', e);
+  });
+
+  video.load();
+  tryPlay();
+
+  aeroPulseVideo = video;
+  return video;
+}
+
+/**
+ * Asynchronous Video Preloader for VedaCure
+ * Directly streams local public asset /videos/VedaCure.mp4 mounted in DOM with hardware decoding
+ */
+let vedaCureVideo = null;
+function getVedaCureVideo(onReady) {
+  if (vedaCureVideo) {
+    if (onReady && vedaCureVideo.readyState >= 2) onReady(vedaCureVideo);
+    return vedaCureVideo;
+  }
+
+  let video = document.getElementById('vedacure-video-element');
+  if (!video) {
+    video = document.createElement('video');
+    video.id = 'vedacure-video-element';
+    video.src = '/videos/VedaCure.mp4';
+    video.crossOrigin = 'anonymous';
+    video.playsInline = true;
+    video.muted = true;
+    video.defaultMuted = true;
+    video.loop = true;
+    video.autoplay = true;
+    video.preload = 'auto';
+    video.setAttribute('webkit-playsinline', 'true');
+    video.setAttribute('playsinline', 'true');
+    video.setAttribute('muted', '');
+    video.setAttribute('autoplay', '');
+    video.setAttribute('loop', '');
+    video.style.position = 'fixed';
+    video.style.top = '0';
+    video.style.left = '0';
+    video.style.width = '1px';
+    video.style.height = '1px';
+    video.style.opacity = '0.001';
+    video.style.pointerEvents = 'none';
+    video.style.zIndex = '-9999';
+    document.body.appendChild(video);
+  }
+
+  const tryPlay = () => {
+    video.muted = true;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch((err) => {
+        console.warn('VedaCure autoplay waiting for user interaction:', err);
+        const onFirstGesture = () => {
+          video.muted = true;
+          video.play().catch(() => {});
+          window.removeEventListener('pointerdown', onFirstGesture);
+          window.removeEventListener('scroll', onFirstGesture);
+          window.removeEventListener('keydown', onFirstGesture);
+          window.removeEventListener('touchstart', onFirstGesture);
+          window.removeEventListener('wheel', onFirstGesture);
+        };
+        window.addEventListener('pointerdown', onFirstGesture, { once: true });
+        window.addEventListener('scroll', onFirstGesture, { once: true });
+        window.addEventListener('keydown', onFirstGesture, { once: true });
+        window.addEventListener('touchstart', onFirstGesture, { once: true });
+        window.addEventListener('wheel', onFirstGesture, { once: true });
+      });
+    }
+  };
+
+  const notifyReady = () => {
+    tryPlay();
+    if (onReady) onReady(video);
+  };
+
+  video.addEventListener('canplay', () => { tryPlay(); notifyReady(); });
+  video.addEventListener('canplaythrough', () => { tryPlay(); notifyReady(); });
+  video.addEventListener('loadeddata', () => { tryPlay(); notifyReady(); });
+  video.addEventListener('loadedmetadata', () => { tryPlay(); notifyReady(); });
+  video.addEventListener('error', (e) => {
+    console.error('Failed to load /videos/VedaCure.mp4. Check filename and path in /public folder.', e);
+  });
+
+  video.load();
+  tryPlay();
+
+  vedaCureVideo = video;
   return video;
 }
 
@@ -781,6 +955,8 @@ function loadVsPharmaPreviewImage(callback) {
 // Preload assets early
 if (typeof window !== 'undefined') {
   loadVsPharmaPreviewImage();
+  getAeroPulseVideo();
+  getVedaCureVideo();
 }
 
 /**
@@ -1062,28 +1238,15 @@ function generateProject1RightPageCanvas(existingCanvas = null) {
   ctx.closePath();
   ctx.clip();
 
+  // Solid dark background beneath video texture
+  ctx.fillStyle = '#09081e';
+  ctx.fillRect(imgX, imgY, imgW, imgH);
+
   const video = getVsPharmaVideo();
   if (video && video.readyState >= 2 && !video.seeking) {
     ctx.drawImage(video, imgX, imgY, imgW, imgH);
   } else if (vsPharmaPreviewImage && vsPharmaPreviewImage.complete && vsPharmaPreviewImage.naturalWidth > 0) {
     ctx.drawImage(vsPharmaPreviewImage, imgX, imgY, imgW, imgH);
-  } else {
-    // Cinematic dark theme placeholder while video streams in
-    const bgGrad = ctx.createLinearGradient(imgX, imgY, imgX + imgW, imgY + imgH);
-    bgGrad.addColorStop(0, '#09081E');
-    bgGrad.addColorStop(0.5, '#0e0b2a');
-    bgGrad.addColorStop(1, '#050038');
-    ctx.fillStyle = bgGrad;
-    ctx.fillRect(imgX, imgY, imgW, imgH);
-
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#FFD02F';
-    ctx.font = 'bold 36px "Cinzel", Georgia, serif';
-    ctx.fillText('VS PHARMA ACADEMY', cx, imgY + imgH / 2 - 20);
-
-    ctx.fillStyle = 'rgba(254, 240, 138, 0.85)';
-    ctx.font = '600 22px "Cinzel", Georgia, serif';
-    ctx.fillText('⚡ STREAMING LIVE SYSTEM PREVIEW...', cx, imgY + imgH / 2 + 25);
   }
   ctx.restore();
 
@@ -1138,6 +1301,764 @@ function generateProject1RightPageCanvas(existingCanvas = null) {
   ctx.shadowOffsetX = 1;
   ctx.shadowOffsetY = 1;
   ctx.fillText('VISIT VS PHARMA WEBSITE ↗', cx, btnY + 60);
+  ctx.restore();
+
+  // 5. Interaction Hint Label
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#1c0d05';
+  ctx.font = '800 24px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.14em';
+  ctx.shadowColor = 'rgba(212, 175, 55, 0.45)';
+  ctx.shadowBlur = 4;
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 1;
+  ctx.fillText('⚡ CLICK PREVIEW OR BUTTON TO OPEN PLATFORM', cx, 1180);
+  ctx.restore();
+
+  // 6. Bottom Flourish Accent
+  ctx.save();
+  ctx.translate(cx, 1240);
+  ctx.strokeStyle = 'rgba(184, 134, 11, 0.50)';
+  ctx.fillStyle = 'rgba(212, 175, 55, 0.25)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(-60, 0);
+  ctx.lineTo(-12, 0);
+  ctx.moveTo(12, 0);
+  ctx.lineTo(60, 0);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(0, 0, 4, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.restore();
+
+  return canvas;
+}
+
+/**
+ * Generates Project 2 Left Page Canvas (AeroPulse AI Overview, Metrics & Capabilities)
+ */
+function generateProject2LeftPageCanvas(existingCanvas = null) {
+  const canvas = existingCanvas || document.createElement('canvas');
+  canvas.width = 1200;
+  canvas.height = 1600;
+  const ctx = canvas.getContext('2d');
+
+  // Draw base authentic vintage parchment with spine gutter on right (isLeft = true)
+  drawParchmentBase(ctx, canvas.width, canvas.height, true);
+
+  const cx = canvas.width / 2; // 600
+
+  // Profile Card Outer Frame
+  ctx.save();
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.55)';
+  ctx.lineWidth = 2.5;
+  ctx.strokeRect(80, 140, canvas.width - 160, 1320);
+
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.35)';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(94, 154, canvas.width - 188, 1292);
+
+  drawFiligreeCorner(ctx, 80, 140, 56, false, false);
+  drawFiligreeCorner(ctx, canvas.width - 80, 140, 56, true, false);
+  drawFiligreeCorner(ctx, 80, 1460, 56, false, true);
+  drawFiligreeCorner(ctx, canvas.width - 80, 1460, 56, true, true);
+  ctx.restore();
+
+  // 1. Header Pill / Badge: [ AI & ENVIRONMENTAL ANALYTICS • LIVE ]
+  const badgeW = 720;
+  const badgeH = 56;
+  const badgeX = cx - badgeW / 2;
+  const badgeY = 190;
+
+  ctx.save();
+  ctx.fillStyle = 'rgba(184, 134, 11, 0.16)';
+  ctx.strokeStyle = 'rgba(140, 85, 10, 0.85)';
+  ctx.lineWidth = 2;
+  drawRoundedRect(ctx, badgeX, badgeY, badgeW, badgeH, 28);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#1f0c02';
+  ctx.font = '800 21px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.12em';
+  ctx.fillText('AI & ENVIRONMENTAL ANALYTICS  •  LIVE', cx, badgeY + 36);
+  ctx.restore();
+
+  // 2. Primary Title: "AEROPULSE AI"
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#0f0501';
+  ctx.font = '900 76px "Cinzel Decorative", "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.10em';
+  ctx.shadowColor = 'rgba(184, 134, 11, 0.55)';
+  ctx.shadowBlur = 8;
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 2;
+  ctx.fillText('AEROPULSE AI', cx, 325);
+  ctx.restore();
+
+  // 3. Subtitle: "Intelligent Air Quality Index (AQI) Platform & Predictive Studio"
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#260f03';
+  ctx.font = 'bold italic 34px "EB Garamond", Georgia, serif';
+  ctx.letterSpacing = '0.03em';
+  ctx.fillText('Intelligent Air Quality Index (AQI) Platform & Predictive Studio', cx, 395);
+  ctx.restore();
+
+  // 4. Clearly Visible Gilded Divider
+  ctx.save();
+  const divY = 445;
+  const lineHalfW = 300;
+
+  const gradLeft = ctx.createLinearGradient(cx - lineHalfW, divY, cx - 40, divY);
+  gradLeft.addColorStop(0, 'rgba(163, 116, 44, 0.15)');
+  gradLeft.addColorStop(1, 'rgba(140, 85, 10, 0.95)');
+  ctx.strokeStyle = gradLeft;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(cx - lineHalfW, divY);
+  ctx.lineTo(cx - 40, divY);
+  ctx.stroke();
+
+  const gradRight = ctx.createLinearGradient(cx + 40, divY, cx + lineHalfW, divY);
+  gradRight.addColorStop(0, 'rgba(140, 85, 10, 0.95)');
+  gradRight.addColorStop(1, 'rgba(163, 116, 44, 0.15)');
+  ctx.strokeStyle = gradRight;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(cx + 40, divY);
+  ctx.lineTo(cx + lineHalfW, divY);
+  ctx.stroke();
+
+  // Center diamond & accent dots
+  ctx.fillStyle = '#8b5a14';
+  ctx.strokeStyle = '#b8860b';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(cx, divY - 11);
+  ctx.lineTo(cx + 11, divY);
+  ctx.lineTo(cx, divY + 11);
+  ctx.lineTo(cx - 11, divY);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(cx - 24, divY, 3, 0, Math.PI * 2);
+  ctx.arc(cx + 24, divY, 3, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  // 5. Clear & Punchy Description
+  ctx.save();
+  ctx.fillStyle = '#120501';
+  ctx.font = '700 35px "EB Garamond", Georgia, serif';
+  const descText = "A modern environmental analytics web application providing real-time AQI tracking across diverse global cities. Features an integrated 'AI Studio' computational engine that calculates and predicts precise AQI levels based on user-provided environmental parameters.";
+  const nextY = drawWrappedText(ctx, descText, cx, 515, 960, 56, 'center');
+  ctx.restore();
+
+  // 6. Core Highlights (Clean 2-line wrapped bullet points at full bold font size)
+  const highlights = [
+    '✦   Real-time multi-city AQI monitoring & environmental data visualization',
+    '✦   Custom AI Studio: Input-driven algorithmic AQI calculator & predictive estimation',
+    '✦   Interactive analytics dashboard with responsive telemetry charts'
+  ];
+
+  ctx.save();
+  ctx.fillStyle = '#0a0301';
+  ctx.font = 'bold 34px "EB Garamond", Georgia, serif';
+  ctx.letterSpacing = '0.02em';
+
+  let currentBulletY = nextY + 45;
+  const bulletLineHeight = 44;
+  const bulletGap = 24;
+
+  highlights.forEach((h) => {
+    currentBulletY = drawWrappedText(ctx, h, cx, currentBulletY, 860, bulletLineHeight, 'center');
+    currentBulletY += bulletGap;
+  });
+  ctx.restore();
+
+  // 7. Tech Stack (Clean 2-line Row at bottom, bold and highly visible)
+  ctx.save();
+  const techDivY = currentBulletY + 18;
+  ctx.strokeStyle = 'rgba(140, 85, 10, 0.75)';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(cx - 300, techDivY);
+  ctx.lineTo(cx + 300, techDivY);
+  ctx.stroke();
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#0a0301';
+  ctx.font = '800 28px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.08em';
+  ctx.fillText('Python   •   JavaScript   •   React   •   Scikit-Learn', cx, techDivY + 48);
+  ctx.fillText('Pandas   •   NumPy   •   HTML5   •   CSS3', cx, techDivY + 94);
+  ctx.restore();
+
+  return canvas;
+}
+
+/**
+ * Generates Project 2 Right Page Canvas (AeroPulse AI Video Viewport & Clickable Link)
+ */
+function generateProject2RightPageCanvas(existingCanvas = null) {
+  const canvas = existingCanvas || document.createElement('canvas');
+  canvas.width = 1200;
+  canvas.height = 1600;
+  const ctx = canvas.getContext('2d');
+
+  // Draw base authentic vintage parchment with spine gutter on left (isLeft = false)
+  drawParchmentBase(ctx, canvas.width, canvas.height, false);
+
+  const cx = canvas.width / 2; // 600
+
+  // Profile Card Frame
+  ctx.save();
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.40)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(80, 150, canvas.width - 160, 1300);
+
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.22)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(94, 164, canvas.width - 188, 1272);
+
+  drawFiligreeCorner(ctx, 80, 150, 56, false, false);
+  drawFiligreeCorner(ctx, canvas.width - 80, 150, 56, true, false);
+  drawFiligreeCorner(ctx, 80, 1450, 56, false, true);
+  drawFiligreeCorner(ctx, canvas.width - 80, 1450, 56, true, true);
+  ctx.restore();
+
+  // 1. Header Kicker
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#543214';
+  ctx.font = '700 28px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.35em';
+  ctx.fillText('PROJECT PREVIEW', cx, 225);
+  ctx.restore();
+
+  // 2. Viewport Frame (Browser mockup frame)
+  const viewX = 120;
+  const viewY = 265;
+  const viewW = 960;
+  const viewH = 710;
+  const headerH = 56;
+
+  ctx.save();
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.30)';
+  ctx.shadowBlur = 20;
+  ctx.shadowOffsetY = 8;
+
+  // Browser Header Background
+  ctx.fillStyle = '#140c18';
+  ctx.beginPath();
+  ctx.moveTo(viewX + 16, viewY);
+  ctx.lineTo(viewX + viewW - 16, viewY);
+  ctx.quadraticCurveTo(viewX + viewW, viewY, viewX + viewW, viewY + 16);
+  ctx.lineTo(viewX + viewW, viewY + headerH);
+  ctx.lineTo(viewX, viewY + headerH);
+  ctx.lineTo(viewX, viewY + 16);
+  ctx.quadraticCurveTo(viewX, viewY, viewX + 16, viewY);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+
+  // 3 Traffic Light Dots
+  const dotY = viewY + headerH / 2;
+  const dots = ['#ef4444', '#f59e0b', '#10b981'];
+  dots.forEach((c, idx) => {
+    ctx.save();
+    ctx.fillStyle = c;
+    ctx.beginPath();
+    ctx.arc(viewX + 28 + idx * 22, dotY, 6, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  });
+
+  // URL Bar Container
+  ctx.save();
+  const urlX = viewX + 110;
+  const urlY = viewY + 12;
+  const urlW = viewW - 140;
+  const urlH = 32;
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+  ctx.strokeStyle = 'rgba(212, 175, 55, 0.40)';
+  ctx.lineWidth = 1;
+  drawRoundedRect(ctx, urlX, urlY, urlW, urlH, 16);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#fef3c7';
+  ctx.font = '500 16px "Space Grotesk", monospace';
+  ctx.fillText('🔒  https://aero-pulse-grz9repvd-ak-ri-o.vercel.app/', urlX + 18, urlY + 22);
+  ctx.restore();
+
+  // 3. Website Live Video Stream / Placeholder
+  const imgX = viewX;
+  const imgY = viewY + headerH;
+  const imgW = viewW;
+  const imgH = viewH - headerH;
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(imgX, imgY);
+  ctx.lineTo(imgX + imgW, imgY);
+  ctx.lineTo(imgX + imgW, imgY + imgH - 16);
+  ctx.quadraticCurveTo(imgX + imgW, imgY + imgH, imgX + imgW - 16, imgY + imgH);
+  ctx.lineTo(imgX + 16, imgY + imgH);
+  ctx.quadraticCurveTo(imgX, imgY + imgH, imgX, imgY + imgH - 16);
+  ctx.closePath();
+  ctx.clip();
+
+  // Solid dark background beneath video texture
+  ctx.fillStyle = '#020b0e';
+  ctx.fillRect(imgX, imgY, imgW, imgH);
+
+  const video = getAeroPulseVideo();
+  if (video && video.readyState >= 2 && !video.seeking) {
+    ctx.drawImage(video, imgX, imgY, imgW, imgH);
+  }
+  ctx.restore();
+
+  // Browser Window Outer Gilded Border
+  ctx.save();
+  ctx.strokeStyle = 'rgba(184, 134, 11, 0.65)';
+  ctx.lineWidth = 2.5;
+  drawRoundedRect(ctx, viewX, viewY, viewW, viewH, 16);
+  ctx.stroke();
+  ctx.restore();
+
+  // 4. Interactive Action Button: "EXPLORE AEROPULSE AI ↗"
+  const btnX = 160;
+  const btnY = 1030;
+  const btnW = 880;
+  const btnH = 96;
+
+  ctx.save();
+  ctx.shadowColor = 'rgba(6, 78, 59, 0.45)';
+  ctx.shadowBlur = 20;
+  ctx.shadowOffsetY = 6;
+
+  const btnGrad = ctx.createLinearGradient(btnX, btnY, btnX + btnW, btnY + btnH);
+  btnGrad.addColorStop(0, '#064e3b');
+  btnGrad.addColorStop(0.3, '#047857');
+  btnGrad.addColorStop(0.7, '#0f766e');
+  btnGrad.addColorStop(1, '#064e3b');
+  ctx.fillStyle = btnGrad;
+  drawRoundedRect(ctx, btnX, btnY, btnW, btnH, 24);
+  ctx.fill();
+  ctx.restore();
+
+  // Gilded Button Double Border
+  ctx.save();
+  ctx.strokeStyle = 'rgba(245, 197, 66, 0.85)';
+  ctx.lineWidth = 2.5;
+  drawRoundedRect(ctx, btnX, btnY, btnW, btnH, 24);
+  ctx.stroke();
+
+  ctx.strokeStyle = 'rgba(245, 197, 66, 0.40)';
+  ctx.lineWidth = 1;
+  drawRoundedRect(ctx, btnX + 5, btnY + 5, btnW - 10, btnH - 10, 20);
+  ctx.stroke();
+
+  // Button Typography
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#fef08a';
+  ctx.font = 'bold 36px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.12em';
+  ctx.shadowColor = 'rgba(245, 197, 66, 0.8)';
+  ctx.shadowBlur = 8;
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 1;
+  ctx.fillText('EXPLORE AEROPULSE AI ↗', cx, btnY + 60);
+  ctx.restore();
+
+  // 5. Interaction Hint Label
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#1c0d05';
+  ctx.font = '800 24px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.14em';
+  ctx.shadowColor = 'rgba(212, 175, 55, 0.45)';
+  ctx.shadowBlur = 4;
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 1;
+  ctx.fillText('⚡ CLICK PREVIEW OR BUTTON TO OPEN PLATFORM', cx, 1180);
+  ctx.restore();
+
+  // 6. Bottom Flourish Accent
+  ctx.save();
+  ctx.translate(cx, 1240);
+  ctx.strokeStyle = 'rgba(184, 134, 11, 0.50)';
+  ctx.fillStyle = 'rgba(212, 175, 55, 0.25)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(-60, 0);
+  ctx.lineTo(-12, 0);
+  ctx.moveTo(12, 0);
+  ctx.lineTo(60, 0);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(0, 0, 4, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.restore();
+
+  return canvas;
+}
+
+/**
+ * Generates Project 3 Left Page Canvas (VedaCure Overview, Vision & Capabilities)
+ */
+function generateProject3LeftPageCanvas(existingCanvas = null) {
+  const canvas = existingCanvas || document.createElement('canvas');
+  canvas.width = 1200;
+  canvas.height = 1600;
+  const ctx = canvas.getContext('2d');
+
+  // Draw base authentic vintage parchment with spine gutter on right (isLeft = true)
+  drawParchmentBase(ctx, canvas.width, canvas.height, true);
+
+  const cx = canvas.width / 2; // 600
+
+  // Profile Card Outer Frame
+  ctx.save();
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.55)';
+  ctx.lineWidth = 2.5;
+  ctx.strokeRect(80, 140, canvas.width - 160, 1320);
+
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.35)';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(94, 154, canvas.width - 188, 1292);
+
+  drawFiligreeCorner(ctx, 80, 140, 56, false, false);
+  drawFiligreeCorner(ctx, canvas.width - 80, 140, 56, true, false);
+  drawFiligreeCorner(ctx, 80, 1460, 56, false, true);
+  drawFiligreeCorner(ctx, canvas.width - 80, 1460, 56, true, true);
+  ctx.restore();
+
+  // 1. Header Pill / Badge: [ COMPUTER VISION & AYURVEDIC HEALTH • LIVE ]
+  const badgeW = 780;
+  const badgeH = 56;
+  const badgeX = cx - badgeW / 2;
+  const badgeY = 190;
+
+  ctx.save();
+  ctx.fillStyle = 'rgba(184, 134, 11, 0.16)';
+  ctx.strokeStyle = 'rgba(140, 85, 10, 0.85)';
+  ctx.lineWidth = 2;
+  drawRoundedRect(ctx, badgeX, badgeY, badgeW, badgeH, 28);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#1f0c02';
+  ctx.font = '800 20px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.15em';
+  ctx.fillText('COMPUTER VISION & AYURVEDIC HEALTH  •  LIVE', cx, badgeY + 36);
+  ctx.restore();
+
+  // 2. Primary Title: "VEDACURE"
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#0f0501';
+  ctx.font = '900 76px "Cinzel Decorative", "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.10em';
+  ctx.shadowColor = 'rgba(184, 134, 11, 0.55)';
+  ctx.shadowBlur = 8;
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 2;
+  ctx.fillText('VEDACURE', cx, 325);
+  ctx.restore();
+
+  // 3. Subtitle: "AI-Driven Ayurvedic Medicinal Plant & Leaf Diagnostic System"
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#260f03';
+  ctx.font = 'bold italic 34px "EB Garamond", Georgia, serif';
+  ctx.letterSpacing = '0.03em';
+  ctx.fillText('AI-Driven Ayurvedic Medicinal Plant & Leaf Diagnostic System', cx, 395);
+  ctx.restore();
+
+  // 4. Clearly Visible Gilded Divider
+  ctx.save();
+  const divY = 445;
+  const lineHalfW = 300;
+
+  const gradLeft = ctx.createLinearGradient(cx - lineHalfW, divY, cx - 40, divY);
+  gradLeft.addColorStop(0, 'rgba(163, 116, 44, 0.15)');
+  gradLeft.addColorStop(1, 'rgba(140, 85, 10, 0.95)');
+  ctx.strokeStyle = gradLeft;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(cx - lineHalfW, divY);
+  ctx.lineTo(cx - 40, divY);
+  ctx.stroke();
+
+  const gradRight = ctx.createLinearGradient(cx + 40, divY, cx + lineHalfW, divY);
+  gradRight.addColorStop(0, 'rgba(140, 85, 10, 0.95)');
+  gradRight.addColorStop(1, 'rgba(163, 116, 44, 0.15)');
+  ctx.strokeStyle = gradRight;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(cx + 40, divY);
+  ctx.lineTo(cx + lineHalfW, divY);
+  ctx.stroke();
+
+  // Center diamond & accent dots
+  ctx.fillStyle = '#8b5a14';
+  ctx.strokeStyle = '#b8860b';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(cx, divY - 11);
+  ctx.lineTo(cx + 11, divY);
+  ctx.lineTo(cx, divY + 11);
+  ctx.lineTo(cx - 11, divY);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(cx - 24, divY, 3, 0, Math.PI * 2);
+  ctx.arc(cx + 24, divY, 3, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  // 5. Clear & Punchy Description
+  ctx.save();
+  ctx.fillStyle = '#120501';
+  ctx.font = '700 35px "EB Garamond", Georgia, serif';
+  const descText = "An intelligent botanical diagnosis platform engineered to analyze Ayurvedic plant leaves for health assessments and medicinal properties. Features dual-mode input via live camera feed or image upload, backed by an indexed botanical reference library for instant comparative identification.";
+  const nextY = drawWrappedText(ctx, descText, cx, 515, 960, 56, 'center');
+  ctx.restore();
+
+  // 6. Core Highlights (Clean 2-line wrapped bullet points at full bold font size)
+  const highlights = [
+    '✦   Real-time leaf scanning via live webcam feed and static image upload',
+    '✦   Automated health diagnosis & Ayurvedic medicinal properties extraction',
+    '✦   Integrated botanical reference library for visual specimen indexing'
+  ];
+
+  ctx.save();
+  ctx.fillStyle = '#0a0301';
+  ctx.font = 'bold 34px "EB Garamond", Georgia, serif';
+  ctx.letterSpacing = '0.02em';
+
+  let currentBulletY = nextY + 45;
+  const bulletLineHeight = 44;
+  const bulletGap = 24;
+
+  highlights.forEach((h) => {
+    currentBulletY = drawWrappedText(ctx, h, cx, currentBulletY, 860, bulletLineHeight, 'center');
+    currentBulletY += bulletGap;
+  });
+  ctx.restore();
+
+  // 7. Tech Stack (Clean 2-line Row at bottom, bold and highly visible)
+  ctx.save();
+  const techDivY = currentBulletY + 18;
+  ctx.strokeStyle = 'rgba(140, 85, 10, 0.75)';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(cx - 300, techDivY);
+  ctx.lineTo(cx + 300, techDivY);
+  ctx.stroke();
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#0a0301';
+  ctx.font = '800 28px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.08em';
+  ctx.fillText('Python   •   Computer Vision   •   JavaScript', cx, techDivY + 48);
+  ctx.fillText('HTML5   •   CSS3   •   Render Deployment', cx, techDivY + 94);
+  ctx.restore();
+
+  return canvas;
+}
+
+/**
+ * Generates Project 3 Right Page Canvas (VedaCure Video Viewport & Clickable Link)
+ */
+function generateProject3RightPageCanvas(existingCanvas = null) {
+  const canvas = existingCanvas || document.createElement('canvas');
+  canvas.width = 1200;
+  canvas.height = 1600;
+  const ctx = canvas.getContext('2d');
+
+  // Draw base authentic vintage parchment with spine gutter on left (isLeft = false)
+  drawParchmentBase(ctx, canvas.width, canvas.height, false);
+
+  const cx = canvas.width / 2; // 600
+
+  // Profile Card Frame
+  ctx.save();
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.40)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(80, 150, canvas.width - 160, 1300);
+
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.25)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(94, 164, canvas.width - 188, 1272);
+
+  drawFiligreeCorner(ctx, 80, 150, 56, false, false);
+  drawFiligreeCorner(ctx, canvas.width - 80, 150, 56, true, false);
+  drawFiligreeCorner(ctx, 80, 1450, 56, false, true);
+  drawFiligreeCorner(ctx, canvas.width - 80, 1450, 56, true, true);
+  ctx.restore();
+
+  // 1. Sub-Header: "PROJECT PREVIEW"
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#3a200a';
+  ctx.font = 'bold 36px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.35em';
+  ctx.fillText('PROJECT PREVIEW', cx, 225);
+  ctx.restore();
+
+  // 2. Viewport Frame (Browser mockup frame)
+  const viewX = 120;
+  const viewY = 265;
+  const viewW = 960;
+  const viewH = 710;
+  const headerH = 56;
+
+  ctx.save();
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.30)';
+  ctx.shadowBlur = 20;
+  ctx.shadowOffsetY = 8;
+
+  // Browser Header Background
+  ctx.fillStyle = '#0f1712';
+  ctx.beginPath();
+  ctx.moveTo(viewX + 16, viewY);
+  ctx.lineTo(viewX + viewW - 16, viewY);
+  ctx.quadraticCurveTo(viewX + viewW, viewY, viewX + viewW, viewY + 16);
+  ctx.lineTo(viewX + viewW, viewY + headerH);
+  ctx.lineTo(viewX, viewY + headerH);
+  ctx.lineTo(viewX, viewY + 16);
+  ctx.quadraticCurveTo(viewX, viewY, viewX + 16, viewY);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+
+  // 3 Traffic Light Dots
+  const dotY = viewY + headerH / 2;
+  const dots = ['#ef4444', '#f59e0b', '#10b981'];
+  dots.forEach((c, idx) => {
+    ctx.save();
+    ctx.fillStyle = c;
+    ctx.beginPath();
+    ctx.arc(viewX + 28 + idx * 22, dotY, 6, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  });
+
+  // URL Bar Container
+  ctx.save();
+  const urlX = viewX + 110;
+  const urlY = viewY + 12;
+  const urlW = viewW - 140;
+  const urlH = 32;
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+  ctx.strokeStyle = 'rgba(212, 175, 55, 0.40)';
+  ctx.lineWidth = 1;
+  drawRoundedRect(ctx, urlX, urlY, urlW, urlH, 16);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#fef3c7';
+  ctx.font = '500 16px "Space Grotesk", monospace';
+  ctx.fillText('🔒  https://vedacure-0qyv.onrender.com/', urlX + 18, urlY + 22);
+  ctx.restore();
+
+  // 3. Website Live Video Stream inside Viewport
+  const imgX = viewX;
+  const imgY = viewY + headerH;
+  const imgW = viewW;
+  const imgH = viewH - headerH;
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(imgX, imgY);
+  ctx.lineTo(imgX + imgW, imgY);
+  ctx.lineTo(imgX + imgW, imgY + imgH - 16);
+  ctx.quadraticCurveTo(imgX + imgW, imgY + imgH, imgX + imgW - 16, imgY + imgH);
+  ctx.lineTo(imgX + 16, imgY + imgH);
+  ctx.quadraticCurveTo(imgX, imgY + imgH, imgX, imgY + imgH - 16);
+  ctx.closePath();
+  ctx.clip();
+
+  // Solid dark background beneath video texture
+  ctx.fillStyle = '#06150c';
+  ctx.fillRect(imgX, imgY, imgW, imgH);
+
+  const video = getVedaCureVideo();
+  if (video && video.readyState >= 2 && !video.seeking) {
+    ctx.drawImage(video, imgX, imgY, imgW, imgH);
+  }
+  ctx.restore();
+
+  // Browser Window Outer Gilded Border
+  ctx.save();
+  ctx.strokeStyle = 'rgba(184, 134, 11, 0.65)';
+  ctx.lineWidth = 2.5;
+  drawRoundedRect(ctx, viewX, viewY, viewW, viewH, 16);
+  ctx.stroke();
+  ctx.restore();
+
+  // 4. Interactive Action Button: "LAUNCH VEDACURE ↗"
+  const btnX = 160;
+  const btnY = 1030;
+  const btnW = 880;
+  const btnH = 96;
+
+  ctx.save();
+  ctx.shadowColor = 'rgba(6, 78, 59, 0.45)';
+  ctx.shadowBlur = 20;
+  ctx.shadowOffsetY = 6;
+
+  const btnGrad = ctx.createLinearGradient(btnX, btnY, btnX + btnW, btnY + btnH);
+  btnGrad.addColorStop(0, '#064e3b');
+  btnGrad.addColorStop(0.3, '#047857');
+  btnGrad.addColorStop(0.7, '#0f766e');
+  btnGrad.addColorStop(1, '#064e3b');
+  ctx.fillStyle = btnGrad;
+  drawRoundedRect(ctx, btnX, btnY, btnW, btnH, 24);
+  ctx.fill();
+  ctx.restore();
+
+  // Gilded Button Double Border
+  ctx.save();
+  ctx.strokeStyle = 'rgba(245, 197, 66, 0.85)';
+  ctx.lineWidth = 2.5;
+  drawRoundedRect(ctx, btnX, btnY, btnW, btnH, 24);
+  ctx.stroke();
+
+  ctx.strokeStyle = 'rgba(245, 197, 66, 0.40)';
+  ctx.lineWidth = 1;
+  drawRoundedRect(ctx, btnX + 5, btnY + 5, btnW - 10, btnH - 10, 20);
+  ctx.stroke();
+
+  // Button Typography
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#fef08a';
+  ctx.font = 'bold 36px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.12em';
+  ctx.shadowColor = 'rgba(245, 197, 66, 0.8)';
+  ctx.shadowBlur = 8;
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 1;
+  ctx.fillText('LAUNCH VEDACURE ↗', cx, btnY + 60);
   ctx.restore();
 
   // 5. Interaction Hint Label
@@ -1605,10 +2526,56 @@ export class BookOfSpellsViewer {
     this.project1RightCanvas = project1RightCanvas;
     this.project1RightTex = project1RightTex;
 
+    // Project 2 (AeroPulse AI) Spread Textures
+    const project2LeftCanvas = generateProject2LeftPageCanvas();
+    const project2LeftTex = new THREE.CanvasTexture(project2LeftCanvas);
+    project2LeftTex.colorSpace = THREE.SRGBColorSpace;
+    project2LeftTex.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+    project2LeftTex.wrapS = THREE.RepeatWrapping;
+    project2LeftTex.repeat.x = -1;
+    project2LeftTex.offset.x = 1;
+
+    const project2RightCanvas = generateProject2RightPageCanvas();
+    const project2RightTex = new THREE.CanvasTexture(project2RightCanvas);
+    project2RightTex.colorSpace = THREE.SRGBColorSpace;
+    project2RightTex.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+
+    this.project2RightCanvas = project2RightCanvas;
+    this.project2RightTex = project2RightTex;
+
+    // Project 3 (VedaCure) Spread Textures
+    const project3LeftCanvas = generateProject3LeftPageCanvas();
+    const project3LeftTex = new THREE.CanvasTexture(project3LeftCanvas);
+    project3LeftTex.colorSpace = THREE.SRGBColorSpace;
+    project3LeftTex.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+    project3LeftTex.wrapS = THREE.RepeatWrapping;
+    project3LeftTex.repeat.x = -1;
+    project3LeftTex.offset.x = 1;
+
+    const project3RightCanvas = generateProject3RightPageCanvas();
+    const project3RightTex = new THREE.CanvasTexture(project3RightCanvas);
+    project3RightTex.colorSpace = THREE.SRGBColorSpace;
+    project3RightTex.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+
+    this.project3RightCanvas = project3RightCanvas;
+    this.project3RightTex = project3RightTex;
+
     // Initialize Autoplaying Video Preview for VS Pharma Academy
     this.vsPharmaVideo = getVsPharmaVideo(() => {
       generateProject1RightPageCanvas(project1RightCanvas);
       project1RightTex.needsUpdate = true;
+    });
+
+    // Initialize Autoplaying Video Preview for AeroPulse AI
+    this.aeroPulseVideo = getAeroPulseVideo(() => {
+      generateProject2RightPageCanvas(project2RightCanvas);
+      project2RightTex.needsUpdate = true;
+    });
+
+    // Initialize Autoplaying Video Preview for VedaCure
+    this.vedaCureVideo = getVedaCureVideo(() => {
+      generateProject3RightPageCanvas(project3RightCanvas);
+      project3RightTex.needsUpdate = true;
     });
 
     // Also trigger instant redraw when static fallback image loads
@@ -1626,6 +2593,14 @@ export class BookOfSpellsViewer {
         project1LeftTex.needsUpdate = true;
         generateProject1RightPageCanvas(project1RightCanvas);
         project1RightTex.needsUpdate = true;
+        generateProject2LeftPageCanvas(project2LeftCanvas);
+        project2LeftTex.needsUpdate = true;
+        generateProject2RightPageCanvas(project2RightCanvas);
+        project2RightTex.needsUpdate = true;
+        generateProject3LeftPageCanvas(project3LeftCanvas);
+        project3LeftTex.needsUpdate = true;
+        generateProject3RightPageCanvas(project3RightCanvas);
+        project3RightTex.needsUpdate = true;
       });
     }
 
@@ -1655,6 +2630,54 @@ export class BookOfSpellsViewer {
 
     const project1RightMat = new THREE.MeshStandardMaterial({
       map: project1RightTex,
+      roughness: 0.88,
+      metalness: 0.02,
+      side: THREE.DoubleSide,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1,
+      depthTest: true,
+      depthWrite: true
+    });
+
+    const project2LeftMat = new THREE.MeshStandardMaterial({
+      map: project2LeftTex,
+      roughness: 0.88,
+      metalness: 0.02,
+      side: THREE.DoubleSide,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1,
+      depthTest: true,
+      depthWrite: true
+    });
+
+    const project2RightMat = new THREE.MeshStandardMaterial({
+      map: project2RightTex,
+      roughness: 0.88,
+      metalness: 0.02,
+      side: THREE.DoubleSide,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1,
+      depthTest: true,
+      depthWrite: true
+    });
+
+    const project3LeftMat = new THREE.MeshStandardMaterial({
+      map: project3LeftTex,
+      roughness: 0.88,
+      metalness: 0.02,
+      side: THREE.DoubleSide,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1,
+      depthTest: true,
+      depthWrite: true
+    });
+
+    const project3RightMat = new THREE.MeshStandardMaterial({
+      map: project3RightTex,
       roughness: 0.88,
       metalness: 0.02,
       side: THREE.DoubleSide,
@@ -1756,9 +2779,10 @@ export class BookOfSpellsViewer {
         origPositions: geo.attributes.position.array.slice()
       };
 
-      // Leaf 0: Front = Intro (Page 1), Back = Project 1 Details (Spread 1 Left Page)
-      // Leaf 1: Front = Project 1 Live Viewport & Link (Spread 1 Right Page), Back = Blank Left
-      // Leaves 2 & 3: Blank parchment
+      // Leaf 0: Front = Intro (Page 1), Back = Project 1 Details (Spread 1 Left Page, Page 2)
+      // Leaf 1: Front = Project 1 Viewport (Spread 1 Right Page, Page 3), Back = Project 2 Details (Spread 2 Left Page, Page 4)
+      // Leaf 2: Front = Project 2 Viewport (Spread 2 Right Page, Page 5), Back = Project 3 Details (Spread 3 Left Page, Page 6)
+      // Leaf 3: Front = Project 3 Viewport (Spread 3 Right Page, Page 7), Back = Blank Left
       let frontMat = blankRightMat;
       let backMat = leafBackBlankMat;
 
@@ -1768,9 +2792,9 @@ export class BookOfSpellsViewer {
         backMat = project1LeftMat;
       } else if (k === 1) {
         frontMat = project1RightMat;
-        backMat = leafBackBlankMat;
+        backMat = project2LeftMat;
 
-        // Dedicated Video Screen Mesh powered by THREE.VideoTexture (direct hardware decoding)
+        // Dedicated Video Screen Mesh powered by THREE.VideoTexture for VS Pharma Academy
         const screenW = this.pageWidth * (960 / 1200);
         const screenH = this.pageHeight * (654 / 1600);
         const screenGeo = new THREE.PlaneGeometry(screenW, screenH, segmentsX, segmentsY);
@@ -1801,9 +2825,87 @@ export class BookOfSpellsViewer {
 
           videoScreenMesh = new THREE.Mesh(screenGeo, videoMat);
           videoScreenMesh.position.z = 0.003;
-          videoScreenMesh.visible = false; // Initially hidden until video frames stream
+          videoScreenMesh.visible = false;
         } catch (err) {
-          console.warn('VideoTexture initialization error handled safely:', err);
+          console.warn('VS Pharma VideoTexture initialization error:', err);
+        }
+      } else if (k === 2) {
+        frontMat = project2RightMat;
+        backMat = project3LeftMat;
+
+        // Dedicated Video Screen Mesh powered by THREE.VideoTexture for AeroPulse AI
+        const screenW = this.pageWidth * (960 / 1200);
+        const screenH = this.pageHeight * (654 / 1600);
+        const screenGeo = new THREE.PlaneGeometry(screenW, screenH, segmentsX, segmentsY);
+        screenGeo.translate(0.02 + this.pageWidth / 2, 0.095 * this.pageHeight, 0);
+        screenGeo.computeVertexNormals();
+        screenGeo.userData = {
+          origPositions: screenGeo.attributes.position.array.slice()
+        };
+
+        const video = getAeroPulseVideo();
+        try {
+          const videoTex = new THREE.VideoTexture(video);
+          videoTex.colorSpace = THREE.SRGBColorSpace;
+          videoTex.minFilter = THREE.LinearFilter;
+          videoTex.magFilter = THREE.LinearFilter;
+          videoTex.generateMipmaps = false;
+
+          const videoMat = new THREE.MeshBasicMaterial({
+            map: videoTex,
+            toneMapped: false,
+            side: THREE.FrontSide,
+            depthTest: true,
+            depthWrite: true,
+            polygonOffset: true,
+            polygonOffsetFactor: -2,
+            polygonOffsetUnits: -2
+          });
+
+          videoScreenMesh = new THREE.Mesh(screenGeo, videoMat);
+          videoScreenMesh.position.z = 0.003;
+          videoScreenMesh.visible = false;
+        } catch (err) {
+          console.warn('AeroPulse VideoTexture initialization error:', err);
+        }
+      } else if (k === 3) {
+        frontMat = project3RightMat;
+        backMat = leafBackBlankMat;
+
+        // Dedicated Video Screen Mesh powered by THREE.VideoTexture for VedaCure
+        const screenW = this.pageWidth * (960 / 1200);
+        const screenH = this.pageHeight * (654 / 1600);
+        const screenGeo = new THREE.PlaneGeometry(screenW, screenH, segmentsX, segmentsY);
+        screenGeo.translate(0.02 + this.pageWidth / 2, 0.095 * this.pageHeight, 0);
+        screenGeo.computeVertexNormals();
+        screenGeo.userData = {
+          origPositions: screenGeo.attributes.position.array.slice()
+        };
+
+        const video = getVedaCureVideo();
+        try {
+          const videoTex = new THREE.VideoTexture(video);
+          videoTex.colorSpace = THREE.SRGBColorSpace;
+          videoTex.minFilter = THREE.LinearFilter;
+          videoTex.magFilter = THREE.LinearFilter;
+          videoTex.generateMipmaps = false;
+
+          const videoMat = new THREE.MeshBasicMaterial({
+            map: videoTex,
+            toneMapped: false,
+            side: THREE.FrontSide,
+            depthTest: true,
+            depthWrite: true,
+            polygonOffset: true,
+            polygonOffsetFactor: -2,
+            polygonOffsetUnits: -2
+          });
+
+          videoScreenMesh = new THREE.Mesh(screenGeo, videoMat);
+          videoScreenMesh.position.z = 0.003;
+          videoScreenMesh.visible = false;
+        } catch (err) {
+          console.warn('VedaCure VideoTexture initialization error:', err);
         }
       }
 
@@ -2350,20 +3452,46 @@ export class BookOfSpellsViewer {
     };
 
     this.onPointerMove = (e) => {
-      if (!this.renderer || !this.camera || this.leafMeshes.length < 2) return;
+      if (!this.renderer || !this.camera || this.leafMeshes.length < 4) return;
 
       const rect = this.renderer.domElement.getBoundingClientRect();
       this.pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       this.pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 
-      // Check if Spread 1 (Project 1) is currently visible and active
       const leaf0 = this.leafMeshes[0];
       const leaf1 = this.leafMeshes[1];
+      const leaf2 = this.leafMeshes[2];
+      const leaf3 = this.leafMeshes[3];
+
       const isSpread1Visible = leaf0.angle > 0.4 && leaf1.angle < Math.PI * 0.7 && this.isBookOpen;
+      const isSpread2Visible = leaf1.angle > 0.4 && leaf2.angle < Math.PI * 0.7 && this.isBookOpen;
+      const isSpread3Visible = leaf2.angle > 0.4 && leaf3.angle < Math.PI * 0.7 && this.isBookOpen;
 
       if (isSpread1Visible && !this.isPointerDown) {
         this.raycaster.setFromCamera(this.pointer, this.camera);
         const targets = [leaf1.frontMesh, leaf1.videoScreenMesh].filter(Boolean);
+        const hits = this.raycaster.intersectObjects(targets, true);
+        if (hits.length > 0) {
+          this.renderer.domElement.style.cursor = 'pointer';
+          this.isHoveringLink = true;
+          return;
+        }
+      }
+
+      if (isSpread2Visible && !this.isPointerDown) {
+        this.raycaster.setFromCamera(this.pointer, this.camera);
+        const targets = [leaf2.frontMesh, leaf2.videoScreenMesh].filter(Boolean);
+        const hits = this.raycaster.intersectObjects(targets, true);
+        if (hits.length > 0) {
+          this.renderer.domElement.style.cursor = 'pointer';
+          this.isHoveringLink = true;
+          return;
+        }
+      }
+
+      if (isSpread3Visible && !this.isPointerDown) {
+        this.raycaster.setFromCamera(this.pointer, this.camera);
+        const targets = [leaf3.frontMesh, leaf3.videoScreenMesh].filter(Boolean);
         const hits = this.raycaster.intersectObjects(targets, true);
         if (hits.length > 0) {
           this.renderer.domElement.style.cursor = 'pointer';
@@ -2382,7 +3510,7 @@ export class BookOfSpellsViewer {
       const wasPointerDown = this.isPointerDown;
       this.isPointerDown = false;
 
-      if (wasPointerDown && this.renderer && this.camera && this.leafMeshes.length >= 2) {
+      if (wasPointerDown && this.renderer && this.camera && this.leafMeshes.length >= 4) {
         const dist = Math.hypot(e.clientX - this.pointerDownPos.x, e.clientY - this.pointerDownPos.y);
         const duration = performance.now() - this.pointerDownTime;
 
@@ -2394,7 +3522,12 @@ export class BookOfSpellsViewer {
 
           const leaf0 = this.leafMeshes[0];
           const leaf1 = this.leafMeshes[1];
+          const leaf2 = this.leafMeshes[2];
+          const leaf3 = this.leafMeshes[3];
+
           const isSpread1Visible = leaf0.angle > 0.4 && leaf1.angle < Math.PI * 0.7 && this.isBookOpen;
+          const isSpread2Visible = leaf1.angle > 0.4 && leaf2.angle < Math.PI * 0.7 && this.isBookOpen;
+          const isSpread3Visible = leaf2.angle > 0.4 && leaf3.angle < Math.PI * 0.7 && this.isBookOpen;
 
           if (isSpread1Visible) {
             this.raycaster.setFromCamera(this.pointer, this.camera);
@@ -2402,6 +3535,20 @@ export class BookOfSpellsViewer {
             const hits = this.raycaster.intersectObjects(targets, true);
             if (hits.length > 0) {
               window.open('https://vs-pharma-academy.vercel.app/', '_blank', 'noopener,noreferrer');
+            }
+          } else if (isSpread2Visible) {
+            this.raycaster.setFromCamera(this.pointer, this.camera);
+            const targets = [leaf2.frontMesh, leaf2.videoScreenMesh].filter(Boolean);
+            const hits = this.raycaster.intersectObjects(targets, true);
+            if (hits.length > 0) {
+              window.open('https://aero-pulse-grz9repvd-ak-ri-o.vercel.app/', '_blank', 'noopener,noreferrer');
+            }
+          } else if (isSpread3Visible) {
+            this.raycaster.setFromCamera(this.pointer, this.camera);
+            const targets = [leaf3.frontMesh, leaf3.videoScreenMesh].filter(Boolean);
+            const hits = this.raycaster.intersectObjects(targets, true);
+            if (hits.length > 0) {
+              window.open('https://vedacure-0qyv.onrender.com/', '_blank', 'noopener,noreferrer');
             }
           }
         }
@@ -2444,23 +3591,58 @@ export class BookOfSpellsViewer {
         this.bookGroup.position.y = Math.sin(time * 1.4) * 0.025;
       }
 
-      // Live Video Preview update loop for Spread 1 (VS Pharma Academy)
-      if (this.leafMeshes && this.leafMeshes.length >= 2) {
+      // Live Video Preview update loop for Spread 1 (VS Pharma), Spread 2 (AeroPulse AI) & Spread 3 (VedaCure)
+      if (this.leafMeshes && this.leafMeshes.length >= 4) {
         const leaf0 = this.leafMeshes[0];
         const leaf1 = this.leafMeshes[1];
-        const isSpread1Visible = leaf0.angle > 0.4 && leaf1.angle < Math.PI * 0.7 && this.isBookOpen;
+        const leaf2 = this.leafMeshes[2];
+        const leaf3 = this.leafMeshes[3];
 
+        // Spread 1: VS Pharma Academy (Page 2 & 3)
+        const isSpread1Visible = leaf0.angle > 0.4 && leaf1.angle < Math.PI * 0.7 && this.isBookOpen;
         if (isSpread1Visible && this.vsPharmaVideo) {
           if (this.vsPharmaVideo.paused) {
             this.vsPharmaVideo.play().catch(() => {});
           }
           if (leaf1.videoScreenMesh) {
-            leaf1.videoScreenMesh.visible = (this.vsPharmaVideo.readyState >= 2 && !this.vsPharmaVideo.paused);
+            leaf1.videoScreenMesh.visible = (this.vsPharmaVideo.readyState >= 1);
           }
         } else if (this.vsPharmaVideo && !this.vsPharmaVideo.paused && !isSpread1Visible) {
           this.vsPharmaVideo.pause();
           if (leaf1 && leaf1.videoScreenMesh) {
             leaf1.videoScreenMesh.visible = false;
+          }
+        }
+
+        // Spread 2: AeroPulse AI (Page 4 & 5)
+        const isSpread2Visible = leaf1.angle > 0.4 && leaf2.angle < Math.PI * 0.7 && this.isBookOpen;
+        if (isSpread2Visible && this.aeroPulseVideo) {
+          if (this.aeroPulseVideo.paused) {
+            this.aeroPulseVideo.play().catch(() => {});
+          }
+          if (leaf2.videoScreenMesh) {
+            leaf2.videoScreenMesh.visible = (this.aeroPulseVideo.readyState >= 1);
+          }
+        } else if (this.aeroPulseVideo && !this.aeroPulseVideo.paused && !isSpread2Visible) {
+          this.aeroPulseVideo.pause();
+          if (leaf2 && leaf2.videoScreenMesh) {
+            leaf2.videoScreenMesh.visible = false;
+          }
+        }
+
+        // Spread 3: VedaCure (Page 6 & 7)
+        const isSpread3Visible = leaf2.angle > 0.4 && leaf3.angle < Math.PI * 0.7 && this.isBookOpen;
+        if (isSpread3Visible && this.vedaCureVideo) {
+          if (this.vedaCureVideo.paused) {
+            this.vedaCureVideo.play().catch(() => {});
+          }
+          if (leaf3.videoScreenMesh) {
+            leaf3.videoScreenMesh.visible = (this.vedaCureVideo.readyState >= 1);
+          }
+        } else if (this.vedaCureVideo && !this.vedaCureVideo.paused && !isSpread3Visible) {
+          this.vedaCureVideo.pause();
+          if (leaf3 && leaf3.videoScreenMesh) {
+            leaf3.videoScreenMesh.visible = false;
           }
         }
       }
@@ -2497,6 +3679,14 @@ export class BookOfSpellsViewer {
     if (this.vsPharmaVideo) {
       this.vsPharmaVideo.pause();
       this.vsPharmaVideo = null;
+    }
+    if (this.aeroPulseVideo) {
+      this.aeroPulseVideo.pause();
+      this.aeroPulseVideo = null;
+    }
+    if (this.vedaCureVideo) {
+      this.vedaCureVideo.pause();
+      this.vedaCureVideo = null;
     }
 
     window.removeEventListener('resize', this.onResize);

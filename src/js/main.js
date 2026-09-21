@@ -69,11 +69,30 @@ document.addEventListener('DOMContentLoaded', () => {
         // Stop any active smooth scroll tweens
         gsap.killTweensOf(window);
 
+        // Calibrate target position: "Projects" lands directly on "MY PROJECTS" title card
+        let targetPos;
+        if (targetId === '#projects') {
+          const aboutEl = document.getElementById('about');
+          const aboutST = typeof ScrollTrigger !== 'undefined'
+            ? ScrollTrigger.getAll().find((st) => st.trigger === aboutEl)
+            : null;
+
+          if (aboutST) {
+            // Keyframe (~0.82) where "MY PROJECTS - THE GRIMOIRE OF ENCHANTED WORKS" is at full opacity & centered
+            targetPos = aboutST.start + 0.82 * (aboutST.end - aboutST.start);
+          } else {
+            const bridgeEl = document.getElementById('projects-bridge-container') || document.getElementById('projects');
+            targetPos = bridgeEl ? (bridgeEl.getBoundingClientRect().top + window.pageYOffset) : targetEl.offsetTop;
+          }
+        } else {
+          targetPos = targetEl.getBoundingClientRect().top + window.pageYOffset;
+        }
+
         // Instant teleport to destination without intermediate scrubbing
         if (window.lenis) {
-          window.lenis.scrollTo(targetEl, { immediate: true });
+          window.lenis.scrollTo(targetPos, { immediate: true });
         } else {
-          targetEl.scrollIntoView({ behavior: 'instant' });
+          window.scrollTo({ top: targetPos, behavior: 'instant' });
         }
 
         // Synchronize ScrollTrigger so target page state loads instantly

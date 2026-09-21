@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Smooth Section Nav Links
+  // Instant Section Nav Links (Zero intermediate scrub animation)
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', function (e) {
       if (this.id === 'header-action-btn') return; // Handled by dynamic header nav
@@ -65,7 +65,22 @@ document.addEventListener('DOMContentLoaded', () => {
       const targetEl = document.querySelector(targetId);
       if (targetEl) {
         if (navLinks) navLinks.classList.remove('open');
-        targetEl.scrollIntoView({ behavior: 'smooth' });
+
+        // Stop any active smooth scroll tweens
+        gsap.killTweensOf(window);
+
+        // Instant teleport to destination without intermediate scrubbing
+        if (window.lenis) {
+          window.lenis.scrollTo(targetEl, { immediate: true });
+        } else {
+          targetEl.scrollIntoView({ behavior: 'instant' });
+        }
+
+        // Synchronize ScrollTrigger so target page state loads instantly
+        if (typeof ScrollTrigger !== 'undefined') {
+          ScrollTrigger.refresh();
+        }
+
         magicalAudio.playWandSpell();
       }
     });

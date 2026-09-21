@@ -1599,7 +1599,7 @@ function generateProject2RightPageCanvas(existingCanvas = null) {
   ctx.textAlign = 'left';
   ctx.fillStyle = '#fef3c7';
   ctx.font = '500 16px "Space Grotesk", monospace';
-  ctx.fillText('🔒  https://aero-pulse-grz9repvd-ak-ri-o.vercel.app/', urlX + 18, urlY + 22);
+  ctx.fillText('🔒  https://aero-pulse-ai.vercel.app/', urlX + 18, urlY + 22);
   ctx.restore();
 
   // 3. Website Live Video Stream / Placeholder
@@ -3772,7 +3772,7 @@ export class BookOfSpellsViewer {
             const targets = [leaf2.frontMesh, leaf2.videoScreenMesh].filter(Boolean);
             const hits = this.raycaster.intersectObjects(targets, true);
             if (hits.length > 0) {
-              window.open('https://aero-pulse-grz9repvd-ak-ri-o.vercel.app/', '_blank', 'noopener,noreferrer');
+              window.open('https://aero-pulse-ai.vercel.app/', '_blank', 'noopener,noreferrer');
             }
           } else if (isSpread3Visible) {
             this.raycaster.setFromCamera(this.pointer, this.camera);

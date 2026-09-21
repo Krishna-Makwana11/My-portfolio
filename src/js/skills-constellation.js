@@ -9,8 +9,8 @@ import { magicalAudio } from './audio-synth.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// 14 Exact Skills distributed evenly across 3 concentric orbits
-// 1. Outer Orbit (5 skills): HTML5, CSS3, JavaScript, React, Next.js
+// 17 Exact Skills distributed evenly across 3 concentric orbits
+// 1. Outer Orbit (6 skills): HTML5, CSS3, JavaScript, React, Next.js, Node.js
 const outerSkills = [
   {
     name: 'HTML5',
@@ -31,26 +31,6 @@ const outerSkills = [
   {
     name: 'Next.js',
     svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><circle cx="12" cy="12" r="11" fill="#000" stroke="rgba(255,255,255,0.4)" stroke-width="1"/><path d="M15 8v8M9 8v8l6.5-8" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`
-  }
-];
-
-// 2. Middle Orbit (5 skills): Python, Machine Learning, MySQL, Git, Node.js
-const middleSkills = [
-  {
-    name: 'Python',
-    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M11.9 2C8.3 2 8.5 3.6 8.5 3.6l.01 1.6h3.49v.5H4.8S2 5.4 2 9.1s2.5 3.5 2.5 3.5h1.5v-2.1s-.1-2.5 2.5-2.5h4.3s2.4.1 2.4-2.4V4.4S15.6 2 11.9 2zm-1.8 1.4c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9z" fill="#3776AB"/><path d="M12.1 22c3.6 0 3.4-1.6 3.4-1.6l-.01-1.6H12v-.5h7.2s2.8.3 2.8-3.4-2.5-3.5-2.5-3.5h-1.5v2.1s.1 2.5-2.5 2.5H11s-2.4-.1-2.4 2.4v1.2s-.4 2.4 3.5 2.4zm1.8-1.4c-.5 0-.9-.4-.9-.9s.4-.9.9-.9.9.4.9.9-.4.9-.9.9z" fill="#FFD438"/></svg>`
-  },
-  {
-    name: 'Machine Learning',
-    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#C084FC" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04z"/></svg>`
-  },
-  {
-    name: 'MySQL',
-    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M12 3c-4.9 0-9 4.1-9 9.1 0 3.6 2.1 6.7 5.2 8.1l.6-1.5C6.1 17.5 4.5 15 4.5 12.1c0-4.1 3.4-7.5 7.5-7.5s7.5 3.4 7.5 7.5c0 2.9-1.6 5.4-4.1 6.6l.6 1.5c3.1-1.4 5.2-4.5 5.2-8.1 0-5-4.1-9.1-9.2-9.1z" fill="#00758F"/><path d="M12 8a4 4 0 00-4 4c0 1.5.8 2.8 2 3.4l.7-1.4A2.5 2.5 0 019.5 12c0-1.4 1.1-2.5 2.5-2.5s2.5 1.1 2.5 2.5c0 .9-.5 1.6-1.2 2l.7 1.4c1.2-.6 2-1.9 2-3.4a4 4 0 00-4-4z" fill="#F29111"/></svg>`
-  },
-  {
-    name: 'Git',
-    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M21.6 10.6l-8.2-8.2c-.8-.8-2-.8-2.8 0L8.8 4.2l3.5 3.5c.8-.3 1.8-.1 2.4.5.6.6.8 1.6.5 2.4l3.4 3.4c.8-.3 1.8-.1 2.4.5.9.9.9 2.3 0 3.2-.9.9-2.3.9-3.2 0-.7-.7-.9-1.7-.5-2.5L13.9 12v5.3c.3.2.5.4.6.6.9.9.9 2.3 0 3.2-.9.9-2.3.9-3.2 0-.9-.9-.9-2.3 0-3.2.3-.3.6-.5 1-.6V11.8c-.4-.1-.7-.3-1-.6-.7-.7-.9-1.7-.5-2.5L7.4 5.2 2.4 10.2c-.8.8-.8 2 0 2.8l8.2 8.2c.8.8 2 .8 2.8 0l8.2-8.2c.8-.8.8-2 0-2.4z" fill="#F05032"/></svg>`
   },
   {
     name: 'Node.js',
@@ -58,7 +38,35 @@ const middleSkills = [
   }
 ];
 
-// 3. Inner Orbit (4 skills): Excel, PowerBI, SQL, C++
+// 2. Middle Orbit (6 skills): Python, NumPy, Pandas, Matplotlib, Seaborn, Git
+const middleSkills = [
+  {
+    name: 'Python',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M11.9 2C8.3 2 8.5 3.6 8.5 3.6l.01 1.6h3.49v.5H4.8S2 5.4 2 9.1s2.5 3.5 2.5 3.5h1.5v-2.1s-.1-2.5 2.5-2.5h4.3s2.4.1 2.4-2.4V4.4S15.6 2 11.9 2zm-1.8 1.4c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9z" fill="#3776AB"/><path d="M12.1 22c3.6 0 3.4-1.6 3.4-1.6l-.01-1.6H12v-.5h7.2s2.8.3 2.8-3.4-2.5-3.5-2.5-3.5h-1.5v2.1s.1 2.5-2.5 2.5H11s-2.4-.1-2.4 2.4v1.2s-.4 2.4 3.5 2.4zm1.8-1.4c-.5 0-.9-.4-.9-.9s.4-.9.9-.9.9.4.9.9-.4.9-.9.9z" fill="#FFD438"/></svg>`
+  },
+  {
+    name: 'NumPy',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M12 2.25L3.75 7v10L12 21.75l8.25-4.75V7L12 2.25z" fill="#013243"/><path d="M12 4.55l6.25 3.6-2.5 1.45-3.75-2.15-3.75 2.15-2.5-1.45L12 4.55z" fill="#4DABF7"/><path d="M5.75 8.7l5.25 3.05v6.5l-5.25-3.05V8.7z" fill="#4D77CF"/><path d="M13 18.25v-6.5l5.25-3.05v6.5l-5.25 3.05z" fill="#2E5BBA"/></svg>`
+  },
+  {
+    name: 'Pandas',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><rect x="3" y="4" width="4" height="7" rx="1.5" fill="#150458"/><rect x="3" y="13" width="4" height="7" rx="1.5" fill="#E70488"/><rect x="10" y="7" width="4" height="13" rx="1.5" fill="#150458"/><rect x="17" y="4" width="4" height="10" rx="1.5" fill="#FFD43B"/><rect x="17" y="16" width="4" height="4" rx="1.5" fill="#00D084"/></svg>`
+  },
+  {
+    name: 'Matplotlib',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><circle cx="12" cy="12" r="9" stroke="#3776AB" stroke-width="1.5" fill="#0D1E2D"/><path d="M5 13c2.5-4 5-1 7-5s4.5 1 7-4" stroke="#4DABF7" stroke-width="1.8" stroke-linecap="round"/><path d="M5 16c2.5-2 5-5 7-2s4.5-1 7-5" stroke="#FFA94D" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="10" r="1.3" fill="#51CF66"/></svg>`
+  },
+  {
+    name: 'Seaborn',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><rect width="24" height="24" rx="4" fill="#1A2744"/><path d="M4 18c3 0 4-11 8-11s5 11 8 11" stroke="#4C72B0" stroke-width="2" stroke-linecap="round"/><path d="M4 18c2.5 0 4.5-7 8-7s5.5 7 8 7" stroke="#55A868" stroke-width="1.8" stroke-linecap="round" opacity="0.85"/><path d="M4 18c2 0 5-3 8-3s6 3 8 3" stroke="#C44E52" stroke-width="1.6" stroke-linecap="round" opacity="0.75"/></svg>`
+  },
+  {
+    name: 'Git',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M21.6 10.6l-8.2-8.2c-.8-.8-2-.8-2.8 0L8.8 4.2l3.5 3.5c.8-.3 1.8-.1 2.4.5.6.6.8 1.6.5 2.4l3.4 3.4c.8-.3 1.8-.1 2.4.5.9.9.9 2.3 0 3.2-.9.9-2.3.9-3.2 0-.7-.7-.9-1.7-.5-2.5L13.9 12v5.3c.3.2.5.4.6.6.9.9.9 2.3 0 3.2-.9.9-2.3.9-3.2 0-.9-.9-.9-2.3 0-3.2.3-.3.6-.5 1-.6V11.8c-.4-.1-.7-.3-1-.6-.7-.7-.9-1.7-.5-2.5L7.4 5.2 2.4 10.2c-.8.8-.8 2 0 2.8l8.2 8.2c.8.8 2 .8 2.8 0l8.2-8.2c.8-.8.8-2 0-2.4z" fill="#F05032"/></svg>`
+  }
+];
+
+// 3. Inner Orbit (5 skills): Excel, PowerBI, SQL, MySQL, C++
 const innerSkills = [
   {
     name: 'Excel',
@@ -71,6 +79,10 @@ const innerSkills = [
   {
     name: 'SQL',
     svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#00BCF2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>`
+  },
+  {
+    name: 'MySQL',
+    svg: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M12 3c-4.9 0-9 4.1-9 9.1 0 3.6 2.1 6.7 5.2 8.1l.6-1.5C6.1 17.5 4.5 15 4.5 12.1c0-4.1 3.4-7.5 7.5-7.5s7.5 3.4 7.5 7.5c0 2.9-1.6 5.4-4.1 6.6l.6 1.5c3.1-1.4 5.2-4.5 5.2-8.1 0-5-4.1-9.1-9.2-9.1z" fill="#00758F"/><path d="M12 8a4 4 0 00-4 4c0 1.5.8 2.8 2 3.4l.7-1.4A2.5 2.5 0 019.5 12c0-1.4 1.1-2.5 2.5-2.5s2.5 1.1 2.5 2.5c0 .9-.5 1.6-1.2 2l.7 1.4c1.2-.6 2-1.9 2-3.4a4 4 0 00-4-4z" fill="#F29111"/></svg>`
   },
   {
     name: 'C++',

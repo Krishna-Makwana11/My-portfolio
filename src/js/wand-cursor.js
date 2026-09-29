@@ -119,10 +119,6 @@ export function initWandCursor() {
   });
 
   window.addEventListener('click', () => {
-    try {
-      magicalAudio.playWandSpell();
-    } catch (err) {}
-
     wand.classList.add('clicking');
     setTimeout(() => {
       wand.classList.remove('clicking');

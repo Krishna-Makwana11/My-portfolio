@@ -1079,3 +1079,277 @@ body.theme-hufflepuff .top-nav-action-btn.is-resume:hover {
   margin: 14px auto 0;
   font-size: 1.05rem;
 }
+
+/* ==========================================================================
+   ENCHANTED HEDWIG'S THEME AUDIO CONTROLLER & FLOATING HUD
+   ========================================================================== */
+
+/* Top Navigation Audio Button */
+.top-nav-audio-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.3s var(--ease-magic);
+}
+
+.top-nav-audio-btn:hover {
+  border-color: var(--house-secondary);
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: 0 0 16px var(--house-secondary-glow);
+  transform: translateY(-1px);
+}
+
+.top-nav-audio-btn.is-playing {
+  border-color: var(--house-secondary);
+  box-shadow: 0 0 14px var(--house-secondary-glow);
+}
+
+.top-nav-audio-btn.is-muted {
+  opacity: 0.6;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.audio-btn-icon {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+/* Audio Equalizer Wave Animation */
+.audio-equalizer,
+.audio-waves {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  height: 14px;
+}
+
+.audio-wave-bar,
+.wave-bar {
+  width: 2.5px;
+  height: 4px;
+  background: var(--house-secondary, #f5c542);
+  border-radius: 2px;
+  transition: height 0.2s ease, background 0.3s ease;
+}
+
+.top-nav-audio-btn.is-muted .audio-wave-bar,
+.audio-hud-btn.is-muted .wave-bar {
+  height: 3px !important;
+  background: rgba(255, 255, 255, 0.3) !important;
+  animation: none !important;
+}
+
+.audio-wave-bar.animating,
+.wave-bar.animating {
+  animation: audioWaveBar 1.2s ease-in-out infinite alternate;
+}
+
+.audio-wave-bar.bar-1,
+.wave-bar.bar-1 { animation-delay: 0.0s; }
+.audio-wave-bar.bar-2,
+.wave-bar.bar-2 { animation-delay: 0.25s; }
+.audio-wave-bar.bar-3,
+.wave-bar.bar-3 { animation-delay: 0.45s; }
+.wave-bar.bar-4 { animation-delay: 0.15s; }
+
+@keyframes audioWaveBar {
+  0% { height: 3px; }
+  50% { height: 13px; }
+  100% { height: 6px; }
+}
+
+/* Crest Bar Audio Toggle Button */
+.nav-audio-crest-btn {
+  color: var(--text-main);
+  font-size: 0.95rem;
+}
+
+.nav-audio-crest-btn.is-playing {
+  border-color: var(--house-secondary);
+  box-shadow: 0 0 16px var(--house-secondary-glow);
+}
+
+.nav-audio-crest-btn.is-muted {
+  opacity: 0.5;
+}
+
+.nav-audio-crest-icon {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+/* Floating Bottom-Left Enchanted Audio HUD */
+.enchanted-audio-hud {
+  position: fixed;
+  bottom: 26px;
+  left: 28px;
+  z-index: 990;
+  pointer-events: auto;
+  user-select: none;
+  animation: hudFadeIn 0.8s var(--ease-magic) backwards;
+}
+
+@keyframes hudFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.audio-hud-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px 8px 10px;
+  background: rgba(10, 8, 16, 0.84);
+  border: 1px solid var(--house-secondary, rgba(245, 197, 66, 0.4));
+  border-radius: 9999px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65), 0 0 20px var(--house-secondary-glow, rgba(245, 197, 66, 0.2));
+  cursor: pointer;
+  color: var(--text-main);
+  transition: all 0.35s var(--ease-magic);
+  outline: none;
+}
+
+.audio-hud-btn:hover {
+  background: rgba(18, 14, 28, 0.92);
+  border-color: var(--house-secondary-light, #fde047);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.75), 0 0 26px var(--house-secondary-glow);
+  transform: translateY(-3px) scale(1.02);
+}
+
+.audio-hud-btn.is-muted {
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  opacity: 0.75;
+}
+
+.audio-hud-btn.is-muted:hover {
+  opacity: 1;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Vinyl Disc / Enchanted Core */
+.audio-hud-disc {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #2d1820 0%, #110d18 70%, #08060c 100%);
+  border: 1.5px solid var(--house-secondary, rgba(245, 197, 66, 0.5));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 10px var(--house-secondary-glow);
+  transition: all 0.3s ease;
+}
+
+.audio-hud-btn.is-playing .audio-hud-disc {
+  animation: discSpin 6s linear infinite;
+}
+
+.audio-hud-btn.is-muted .audio-hud-disc {
+  animation: none;
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: none;
+}
+
+@keyframes discSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.disc-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 4px var(--house-secondary));
+}
+
+.audio-hud-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.audio-hud-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.audio-hud-title {
+  font-family: var(--font-magic-serif, 'Cinzel', serif);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text-main);
+  white-space: nowrap;
+}
+
+.audio-hud-badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(245, 197, 66, 0.18);
+  border: 1px solid rgba(245, 197, 66, 0.35);
+  color: var(--house-secondary-light, #fde047);
+}
+
+.audio-hud-sub {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.audio-status-text {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--text-dim, #94a3b8);
+  letter-spacing: 0.3px;
+}
+
+.audio-hud-btn.is-playing .audio-status-text {
+  color: var(--house-secondary-light, #fde047);
+}
+
+/* Responsive adjustment for Mobile */
+@media (max-width: 768px) {
+  .enchanted-audio-hud {
+    bottom: 18px;
+    left: 18px;
+  }
+
+  .audio-hud-title-row .audio-hud-badge {
+    display: none;
+  }
+
+  .audio-hud-btn {
+    padding: 6px 12px 6px 8px;
+    gap: 8px;
+  }
+
+  .audio-hud-disc {
+    width: 30px;
+    height: 30px;
+  }
+}
+

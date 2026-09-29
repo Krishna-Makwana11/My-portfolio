@@ -35,8 +35,6 @@ export function initHeroAvatarInteraction() {
         origin: { y: 0.55, x: 0.5 },
         colors: ['#f5c542', '#8b181b', '#ffffff', '#eab308']
       });
-    } else {
-      magicalAudio.playWandSpell();
     }
   }
 }

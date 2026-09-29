@@ -68,7 +68,6 @@ export function initBroomTransitionEngine() {
     isDragging = true;
     isAutoFlying = false;
     broom.classList.remove('flying');
-    magicalAudio.playWandSpell();
   });
 
   window.addEventListener('mousemove', (e) => {
@@ -95,7 +94,6 @@ export function initBroomTransitionEngine() {
   // Manual Trigger Button
   if (flyBtn) {
     flyBtn.addEventListener('click', () => {
-      magicalAudio.playWandSpell();
       broom.classList.remove('flying');
       void broom.offsetWidth; // trigger reflow
       broom.classList.add('flying');

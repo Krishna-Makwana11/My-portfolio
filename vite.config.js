@@ -4,10 +4,10 @@ export default defineConfig({
   root: '.',
   publicDir: 'public',
   server: {
-    port: 3000,
+    port: 5173,
     open: true,
     watch: {
-      ignored: ['**/public/videos/**', '**/*.mp4']
+      ignored: ['**/public/videos/**', '**/*.mp4', '**/public/audio/**', '**/*.mp3']
     }
   },
   build: {

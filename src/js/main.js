@@ -52,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (mobileBtn && navLinks) {
     mobileBtn.addEventListener('click', () => {
       navLinks.classList.toggle('open');
-      magicalAudio.playWandSpell();
     });
   }
 
@@ -99,8 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof ScrollTrigger !== 'undefined') {
           ScrollTrigger.refresh();
         }
-
-        magicalAudio.playWandSpell();
       }
     });
   });
@@ -209,7 +206,6 @@ function initDynamicHeaderNav() {
   actionBtn.addEventListener('click', (e) => {
     if (currentMode === 'home') {
       e.preventDefault();
-      magicalAudio.playWandSpell();
 
       // Get or create a seamless black transition veil
       let veil = document.getElementById('hp-instant-reset-veil');
@@ -258,8 +254,6 @@ function initDynamicHeaderNav() {
           veil.style.opacity = '0';
         }, 50);
       }, 230);
-    } else {
-      magicalAudio.playWandSpell();
     }
   });
 }

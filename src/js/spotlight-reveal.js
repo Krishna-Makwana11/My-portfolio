@@ -116,8 +116,6 @@ export function initSpotlightReveal() {
               module.triggerHouseMagicShower(currentHouse);
             }
           });
-        } else {
-          magicalAudio.playWandSpell();
         }
       } catch (err) {}
     });

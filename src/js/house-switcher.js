@@ -131,7 +131,6 @@ export function initHouseSwitcher() {
     houseSelectBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       houseDropdown.classList.toggle('show');
-      magicalAudio.playWandSpell();
     });
 
     document.addEventListener('click', () => {
@@ -187,12 +186,6 @@ export function initHouseSwitcher() {
     });
   }
 
-  // Sound Engine Toggle
-  if (audioBtn) {
-    audioBtn.addEventListener('click', () => {
-      const isActive = magicalAudio.toggleSound();
-      audioBtn.classList.toggle('active', isActive);
-      audioBtn.title = isActive ? 'Mute Enchanted Sounds' : 'Enable Enchanted Sounds';
-    });
-  }
+  // Sound Engine Controls Binding
+  magicalAudio.bindControls();
 }

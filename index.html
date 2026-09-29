@@ -91,6 +91,16 @@
           </button>
         </div>
       </div>
+
+      <!-- Enchanted Background Music Toggle -->
+      <button class="top-nav-btn top-nav-audio-btn is-playing" id="btn-toggle-audio" aria-label="Toggle Hedwig's Theme Music" title="Play / Pause Hedwig's Theme (Looping)">
+        <span class="audio-btn-icon">🎵</span>
+        <span class="audio-equalizer">
+          <span class="audio-wave-bar bar-1 animating"></span>
+          <span class="audio-wave-bar bar-2 animating"></span>
+          <span class="audio-wave-bar bar-3 animating"></span>
+        </span>
+      </button>
     </div>
 
     <!-- 4 Hogwarts House Crests Bar (Visible on All Subsequent Pages for Direct Theme Change) -->
@@ -110,6 +120,9 @@
       <button class="crest-theme-btn" data-house="hufflepuff" title="Switch to Hufflepuff Theme" aria-label="Hufflepuff Theme">
         <img src="/assets/crests/crest_hufflepuff.png" alt="Hufflepuff Crest" class="crest-btn-img" />
         <span class="crest-glow-indicator"></span>
+      </button>
+      <button class="crest-theme-btn nav-audio-crest-btn is-playing" id="btn-toggle-audio-crests" aria-label="Toggle Hedwig's Theme Music" title="Play / Pause Hedwig's Theme">
+        <span class="nav-audio-crest-icon">🎵</span>
       </button>
     </div>
   </nav>
@@ -468,6 +481,31 @@
       </div>
     </section>
   </main>
+
+  <!-- Floating Enchanted Music Player HUD (Hedwig's Theme Continuous Loop) -->
+  <aside class="enchanted-audio-hud" id="enchanted-audio-hud" aria-label="Hogwarts Soundtrack HUD">
+    <button class="audio-hud-btn is-playing" id="btn-floating-audio" aria-label="Toggle Hedwig's Theme Soundtrack" title="Toggle Hedwig's Theme (Looping Across Portfolio)">
+      <div class="audio-hud-disc">
+        <span class="disc-glow"></span>
+        <span class="disc-icon">⚡</span>
+      </div>
+      <div class="audio-hud-info">
+        <div class="audio-hud-title-row">
+          <span class="audio-hud-title">Hedwig's Theme</span>
+          <span class="audio-hud-badge">OST</span>
+        </div>
+        <div class="audio-hud-sub">
+          <span class="audio-waves">
+            <span class="wave-bar bar-1 animating"></span>
+            <span class="wave-bar bar-2 animating"></span>
+            <span class="wave-bar bar-3 animating"></span>
+            <span class="wave-bar bar-4 animating"></span>
+          </span>
+          <span class="audio-status-text">Playing in Loop</span>
+        </div>
+      </div>
+    </button>
+  </aside>
 
   <!-- Main JavaScript Module -->
   <script type="module" src="/src/js/main.js"></script>

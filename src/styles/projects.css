@@ -355,40 +355,101 @@
   box-shadow: 0 0 12px var(--house-secondary-glow, rgba(245, 197, 66, 0.6));
 }
 
-/* Responsive Media Queries */
-@media (max-width: 900px) {
+/* ==========================================================================
+   PROJECTS / 3D GRIMOIRE RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 1024px) {
   .spells-hud-overlay {
-    padding: 24px 20px;
+    padding: 28px 24px;
   }
 
   .spells-hud-project-title {
-    font-size: 1.25rem;
+    font-size: 1.35rem;
   }
 
   .spells-hud-footer {
-    padding: 16px;
+    padding: 16px 20px;
     gap: 16px;
+    border-radius: 16px;
   }
 
   .spells-btn {
-    padding: 8px 14px;
-    font-size: 0.75rem;
+    padding: 8px 16px;
+    font-size: 0.78rem;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .spells-hud-overlay {
+    padding: 18px 14px;
+  }
+
+  .spells-hud-badge {
+    padding: 4px 12px;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+  }
+
+  .spells-hud-scroll-hint {
+    padding: 4px 10px;
+    font-size: 0.68rem;
+  }
+
   .spells-hud-footer {
+    padding: 12px 14px;
+    border-radius: 14px;
     flex-direction: column;
     align-items: flex-start;
+    gap: 10px;
+  }
+
+  .spells-hud-project-title {
+    font-size: 1.15rem;
+  }
+
+  .spells-hud-cat {
+    font-size: 0.68rem;
   }
 
   .spells-hud-actions {
     width: 100%;
-    justify-content: space-between;
+    display: flex;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .spells-btn {
+    padding: 6px 12px;
+    font-size: 0.72rem;
+    gap: 5px;
   }
 
   .spells-folio-nav {
     width: 100%;
     justify-content: space-between;
+  }
+
+  .spells-nav-arrow {
+    width: 30px;
+    height: 30px;
+  }
+
+  .spells-folio-dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .spells-folio-dot.active {
+    width: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .spells-hud-header {
+    gap: 6px;
+  }
+
+  .spells-hud-scroll-hint span:last-child {
+    display: none;
   }
 }

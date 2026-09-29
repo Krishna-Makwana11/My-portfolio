@@ -2447,9 +2447,12 @@ export class BookOfSpellsViewer {
     const height = this.container.clientHeight || window.innerHeight;
     const aspect = width / height;
 
-    // Camera at (0, 0, 5) with near: 0.1, far: 1000
+    // Adaptive camera position for tablet / mobile so the open book is never cropped
+    const zPos = width <= 480 ? 7.2 : (width <= 768 ? 6.2 : (width <= 1024 ? 5.4 : 5.0));
+
+    // Camera at (0, 0, zPos) with near: 0.1, far: 1000
     this.camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
-    this.camera.position.set(0, 0, 5);
+    this.camera.position.set(0, 0, zPos);
     this.camera.lookAt(0, 0, 0);
 
     this.bookGroup = new THREE.Group();
@@ -3791,10 +3794,10 @@ export class BookOfSpellsViewer {
     };
 
     if (this.renderer && this.renderer.domElement) {
-      this.renderer.domElement.addEventListener('pointerdown', this.onPointerDown);
-      this.renderer.domElement.addEventListener('pointermove', this.onPointerMove);
+      this.renderer.domElement.addEventListener('pointerdown', this.onPointerDown, { passive: true });
+      this.renderer.domElement.addEventListener('pointermove', this.onPointerMove, { passive: true });
     }
-    window.addEventListener('pointerup', this.onPointerUp);
+    window.addEventListener('pointerup', this.onPointerUp, { passive: true });
   }
 
   handleResize() {
@@ -3802,9 +3805,14 @@ export class BookOfSpellsViewer {
     const width = this.container.clientWidth || window.innerWidth;
     const height = this.container.clientHeight || window.innerHeight;
 
+    // Adaptive camera Z-position for mobile / tablet
+    const zPos = width <= 480 ? 7.2 : (width <= 768 ? 6.2 : (width <= 1024 ? 5.4 : 5.0));
+    this.camera.position.z = zPos;
+
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(width, height);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   }
 
   animate() {

@@ -743,36 +743,82 @@ body.theme-hufflepuff .top-nav-action-btn.is-resume:hover {
   transition: color 0.3s ease, opacity 0.2s ease;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .top-left-header {
-    top: 12px;
-    left: 12px;
-    z-index: 1001;
+    top: 16px;
+    left: 16px;
   }
 
   .top-right-nav {
-    top: 12px;
-    right: 12px;
-    left: auto;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    padding: 6px 8px;
-    gap: 4px;
+    top: 16px;
+    right: 16px;
+    gap: 6px;
+    padding: 5px 8px;
   }
 
   .top-nav-btn {
     padding: 6px 10px;
-    font-size: 0.72rem;
+    font-size: 0.76rem;
+    gap: 5px;
+  }
+}
+
+@media (max-width: 768px) {
+  .top-left-header {
+    top: 10px;
+    left: 10px;
+    z-index: 1001;
+  }
+
+  .top-right-nav {
+    top: 10px;
+    right: 10px;
+    left: auto;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    padding: 4px 6px;
+    gap: 3px;
+    max-width: calc(100vw - 110px);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .top-right-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-full-links {
+    gap: 3px;
+    flex-wrap: nowrap;
+  }
+
+  .top-nav-btn {
+    padding: 4px 7px;
+    font-size: 0.68rem;
+    gap: 3px;
+    white-space: nowrap;
+  }
+
+  .house-crest-toggle-btn {
+    width: 26px;
+    height: 26px;
+    padding: 2px;
+  }
+
+  .house-select-btn {
+    padding: 4px 6px;
+    font-size: 0.68rem;
   }
 
   .nav-crests-bar {
-    gap: 6px;
+    gap: 4px;
+    padding: 2px;
   }
 
   .crest-theme-btn {
-    width: 32px;
-    height: 32px;
-    padding: 3px;
+    width: 28px;
+    height: 28px;
+    padding: 2px;
   }
 }
 

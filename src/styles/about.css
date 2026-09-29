@@ -71,15 +71,6 @@
   align-items: center;
 }
 
-@media (max-width: 900px) {
-  .daily-prophet-body {
-    grid-template-columns: 1fr;
-  }
-  .daily-prophet-frame {
-    padding: 28px;
-  }
-}
-
 /* Profile Portrait Frame */
 .moving-portrait-wrapper {
   position: relative;
@@ -129,4 +120,77 @@
   font-family: var(--font-rune);
   font-size: 1.15rem;
   color: var(--house-secondary-light);
+}
+
+/* ==========================================================================
+   DAILY PROPHET RESPONSIVE MEDIA QUERIES (TABLET & MOBILE)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .about-section {
+    padding: 90px 0;
+  }
+
+  .daily-prophet-frame {
+    padding: 36px 28px;
+  }
+
+  .daily-prophet-body {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .moving-portrait-wrapper {
+    max-width: 340px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-section {
+    padding: 70px 0 40px;
+  }
+
+  .about-container {
+    padding: 0 16px;
+  }
+
+  .daily-prophet-frame {
+    padding: 24px 16px;
+    border-radius: 16px;
+  }
+
+  .daily-prophet-header {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+  }
+
+  .prophet-headline {
+    font-size: clamp(1.6rem, 6vw, 2.4rem);
+    letter-spacing: 1px;
+  }
+
+  .prophet-subheading {
+    font-size: 1.05rem;
+    margin-top: 6px;
+  }
+
+  .moving-portrait-wrapper {
+    max-width: 280px;
+    border-radius: 12px;
+  }
+
+  .story-lead {
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+
+  .story-text {
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  .story-quote-box {
+    padding: 12px 14px;
+    font-size: 1rem;
+  }
 }

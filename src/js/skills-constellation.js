@@ -268,9 +268,13 @@ function initThreeSnitch() {
   const height = container ? container.clientHeight : 560;
 
   // Scene & Perspective Camera
+  const isMobile = window.innerWidth <= 768;
+  const isTablet = window.innerWidth <= 1024;
+  const snitchZ = isMobile ? 6.2 : (isTablet ? 5.6 : 5.2);
+
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-  camera.position.set(0, 0.1, 5.2);
+  camera.position.set(0, 0.1, snitchZ);
 
   // WebGL Renderer
   const renderer = new THREE.WebGLRenderer({
@@ -280,7 +284,7 @@ function initThreeSnitch() {
     powerPreference: 'high-performance'
   });
   renderer.setSize(width, height);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.35;
 
@@ -436,12 +440,16 @@ function initThreeSnitch() {
   // Resize handler
   window.addEventListener('resize', () => {
     if (!container) return;
-    const newW = container.clientWidth;
-    const newH = container.clientHeight;
+    const newW = container.clientWidth || 560;
+    const newH = container.clientHeight || 560;
+    const isMobile = window.innerWidth <= 768;
+    const isTablet = window.innerWidth <= 1024;
+    camera.position.z = isMobile ? 6.2 : (isTablet ? 5.6 : 5.2);
     camera.aspect = newW / newH;
     camera.updateProjectionMatrix();
     renderer.setSize(newW, newH);
-  });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  }, { passive: true });
 
   return {
     setHouseColor: (primaryHex) => {

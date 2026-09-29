@@ -42,6 +42,7 @@ export function initWandCursor() {
     '[role="button"]',
     '[role="link"]',
     '.top-nav-btn',
+    '.portal-spell-btn',
     '.house-option',
     '.project-card',
     '.vortex-skill-item',

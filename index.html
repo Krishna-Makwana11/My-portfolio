@@ -28,6 +28,40 @@
 </head>
 <body>
 
+  <!-- ==========================================================================
+       CINEMATIC HOGWARTS ENTRY PORTAL ("CAST ALOHOMORA & ENTER")
+       Unlocks Hedwig's Theme with sound in full compliance with browser policies
+       ========================================================================== -->
+  <div id="hp-enter-portal" class="hp-enter-portal" role="dialog" aria-modal="true" aria-label="Enter Hogwarts Portal">
+    <div class="portal-backdrop-glow"></div>
+    <div class="portal-stars-canvas-layer"></div>
+    <div class="portal-mist-layer"></div>
+
+    <div class="portal-content-card">
+      <div class="portal-crest-container">
+        <div class="portal-runic-ring"></div>
+        <img src="/assets/crests/hogwarts_crest.png" alt="Hogwarts Seal" class="portal-crest-img" />
+        <div class="portal-crest-sparkle-glow"></div>
+      </div>
+
+      <div class="portal-text-group">
+        <h1 class="portal-name">KRISHNA MAKWANA</h1>
+      </div>
+
+      <button id="hp-btn-alohomora" class="portal-spell-btn" aria-label="Cast Alohomora and Enter Portfolio with Music">
+        <span class="spell-btn-shimmer"></span>
+        <span class="spell-btn-spark">⚡</span>
+        <span class="spell-btn-text">Cast Alohomora & Enter</span>
+        <span class="spell-btn-note">🎵</span>
+      </button>
+
+      <p class="portal-hint">
+        <span class="portal-hint-dot"></span>
+        Tap to awaken the magical symphony & step inside
+      </p>
+    </div>
+  </div>
+
   <!-- Global Fixed / Static Theme Ambient Background -->
   <div class="global-fixed-theme-bg" id="global-theme-bg"></div>
 
@@ -483,7 +517,7 @@
   </main>
 
   <!-- Background Music Audio Element -->
-  <audio id="hp-bg-music" src="/audio/hedwig-theme.mp3" loop preload="auto"></audio>
+  <audio id="hp-bg-music" src="/audio/hedwig-theme.mp3" autoplay loop preload="auto" playsinline></audio>
 
   <!-- Main JavaScript Module -->
   <script type="module" src="/src/js/main.js"></script>

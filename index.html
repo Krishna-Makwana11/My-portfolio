@@ -482,30 +482,8 @@
     </section>
   </main>
 
-  <!-- Floating Enchanted Music Player HUD (Hedwig's Theme Continuous Loop) -->
-  <aside class="enchanted-audio-hud" id="enchanted-audio-hud" aria-label="Hogwarts Soundtrack HUD">
-    <button class="audio-hud-btn is-playing" id="btn-floating-audio" aria-label="Toggle Hedwig's Theme Soundtrack" title="Toggle Hedwig's Theme (Looping Across Portfolio)">
-      <div class="audio-hud-disc">
-        <span class="disc-glow"></span>
-        <span class="disc-icon">⚡</span>
-      </div>
-      <div class="audio-hud-info">
-        <div class="audio-hud-title-row">
-          <span class="audio-hud-title">Hedwig's Theme</span>
-          <span class="audio-hud-badge">OST</span>
-        </div>
-        <div class="audio-hud-sub">
-          <span class="audio-waves">
-            <span class="wave-bar bar-1 animating"></span>
-            <span class="wave-bar bar-2 animating"></span>
-            <span class="wave-bar bar-3 animating"></span>
-            <span class="wave-bar bar-4 animating"></span>
-          </span>
-          <span class="audio-status-text">Playing in Loop</span>
-        </div>
-      </div>
-    </button>
-  </aside>
+  <!-- Background Music Audio Element -->
+  <audio id="hp-bg-music" src="/audio/hedwig-theme.mp3" loop preload="auto"></audio>
 
   <!-- Main JavaScript Module -->
   <script type="module" src="/src/js/main.js"></script>

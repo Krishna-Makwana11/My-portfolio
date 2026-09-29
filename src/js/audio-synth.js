@@ -36,7 +36,13 @@ class MagicalAudioEngine {
 
   initAudioElements() {
     try {
-      this.bgMusic = new Audio('/audio/hedwig-theme.mp3');
+      const domAudio = typeof document !== 'undefined' ? document.getElementById('hp-bg-music') : null;
+      if (domAudio) {
+        this.bgMusic = domAudio;
+      } else if (!this.bgMusic) {
+        this.bgMusic = new Audio('/audio/hedwig-theme.mp3');
+      }
+
       this.bgMusic.loop = true;
       this.bgMusic.preload = 'auto';
       this.bgMusic.volume = this.isMuted ? 0 : this.targetVolume;
@@ -123,7 +129,7 @@ class MagicalAudioEngine {
 
   bindControls() {
     const audioBtns = document.querySelectorAll(
-      '#btn-toggle-audio, #btn-floating-audio, .top-nav-audio-btn, .audio-hud-btn, .btn-magic-audio'
+      '#btn-toggle-audio, #btn-toggle-audio-crests, .top-nav-audio-btn, .nav-audio-crest-btn, .btn-magic-audio'
     );
     audioBtns.forEach((btn) => {
       if (!btn.dataset.audioBound) {
@@ -138,6 +144,7 @@ class MagicalAudioEngine {
   }
 
   playMusic(withFade = true) {
+    this.initAudioElements();
     if (!this.bgMusic) return;
     this.initAudioContext();
 
@@ -242,7 +249,7 @@ class MagicalAudioEngine {
 
     // Update all audio toggle buttons across the DOM
     const audioBtns = document.querySelectorAll(
-      '#btn-toggle-audio, #btn-floating-audio, .top-nav-audio-btn, .audio-hud-btn, .btn-magic-audio'
+      '#btn-toggle-audio, #btn-toggle-audio-crests, .top-nav-audio-btn, .nav-audio-crest-btn, .btn-magic-audio'
     );
 
     audioBtns.forEach((btn) => {

@@ -952,11 +952,95 @@ function loadVsPharmaPreviewImage(callback) {
   return img;
 }
 
+/**
+ * Asynchronous Video Preloader for Esports & Gaming Revenue Analysis
+ * Directly streams local public asset /videos/EsportsGamingRevenue.mp4 mounted in DOM with hardware decoding
+ */
+let esportsVideo = null;
+function getEsportsVideo(onReady) {
+  if (esportsVideo) {
+    if (onReady && esportsVideo.readyState >= 2) onReady(esportsVideo);
+    return esportsVideo;
+  }
+
+  let video = document.getElementById('esports-video-element');
+  if (!video) {
+    video = document.createElement('video');
+    video.id = 'esports-video-element';
+    video.src = '/videos/EsportsGamingRevenue.mp4';
+    video.crossOrigin = 'anonymous';
+    video.playsInline = true;
+    video.muted = true;
+    video.defaultMuted = true;
+    video.loop = true;
+    video.autoplay = true;
+    video.preload = 'auto';
+    video.setAttribute('webkit-playsinline', 'true');
+    video.setAttribute('playsinline', 'true');
+    video.setAttribute('muted', '');
+    video.setAttribute('autoplay', '');
+    video.setAttribute('loop', '');
+    video.style.position = 'fixed';
+    video.style.top = '0';
+    video.style.left = '0';
+    video.style.width = '1px';
+    video.style.height = '1px';
+    video.style.opacity = '0.001';
+    video.style.pointerEvents = 'none';
+    video.style.zIndex = '-9999';
+    document.body.appendChild(video);
+  }
+
+  const tryPlay = () => {
+    video.muted = true;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch((err) => {
+        console.warn('Esports video autoplay waiting for user interaction:', err);
+        const onFirstGesture = () => {
+          video.muted = true;
+          video.play().catch(() => {});
+          window.removeEventListener('pointerdown', onFirstGesture);
+          window.removeEventListener('scroll', onFirstGesture);
+          window.removeEventListener('keydown', onFirstGesture);
+          window.removeEventListener('touchstart', onFirstGesture);
+          window.removeEventListener('wheel', onFirstGesture);
+        };
+        window.addEventListener('pointerdown', onFirstGesture, { once: true });
+        window.addEventListener('scroll', onFirstGesture, { once: true });
+        window.addEventListener('keydown', onFirstGesture, { once: true });
+        window.addEventListener('touchstart', onFirstGesture, { once: true });
+        window.addEventListener('wheel', onFirstGesture, { once: true });
+      });
+    }
+  };
+
+  const notifyReady = () => {
+    tryPlay();
+    if (onReady) onReady(video);
+  };
+
+  video.addEventListener('canplay', () => { tryPlay(); notifyReady(); });
+  video.addEventListener('canplaythrough', () => { tryPlay(); notifyReady(); });
+  video.addEventListener('loadeddata', () => { tryPlay(); notifyReady(); });
+  video.addEventListener('loadedmetadata', () => { tryPlay(); notifyReady(); });
+  video.addEventListener('error', (e) => {
+    console.error('Failed to load /videos/EsportsGamingRevenue.mp4. Check filename and path in /public folder.', e);
+  });
+
+  video.load();
+  tryPlay();
+
+  esportsVideo = video;
+  return video;
+}
+
 // Preload assets early
 if (typeof window !== 'undefined') {
   loadVsPharmaPreviewImage();
   getAeroPulseVideo();
   getVedaCureVideo();
+  getEsportsVideo();
 }
 
 /**
@@ -2097,7 +2181,7 @@ function generateProject3RightPageCanvas(existingCanvas = null) {
 }
 
 /**
- * Generates Project 4 / Spread 5 Left Page Canvas (Page 8 - Clean Blank Vintage Parchment)
+ * Generates Project 4 Left Page Canvas (Esports & Gaming Revenue Analysis Overview & Metrics)
  */
 function generateProject4LeftPageCanvas(existingCanvas = null) {
   const canvas = existingCanvas || document.createElement('canvas');
@@ -2108,13 +2192,378 @@ function generateProject4LeftPageCanvas(existingCanvas = null) {
   // Draw base authentic vintage parchment with spine gutter on right (isLeft = true)
   drawParchmentBase(ctx, canvas.width, canvas.height, true);
 
+  const cx = canvas.width / 2; // 600
+
+  // Profile Card Outer Frame
+  ctx.save();
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.55)';
+  ctx.lineWidth = 2.5;
+  ctx.strokeRect(80, 140, canvas.width - 160, 1320);
+
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.35)';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(94, 154, canvas.width - 188, 1292);
+
+  drawFiligreeCorner(ctx, 80, 140, 56, false, false);
+  drawFiligreeCorner(ctx, canvas.width - 80, 140, 56, true, false);
+  drawFiligreeCorner(ctx, 80, 1460, 56, false, true);
+  drawFiligreeCorner(ctx, canvas.width - 80, 1460, 56, true, true);
+  ctx.restore();
+
+  // 1. Header Pill / Badge: [ DATA ANALYTICS & MARKET INTELLIGENCE • LIVE ]
+  const badgeW = 780;
+  const badgeH = 56;
+  const badgeX = cx - badgeW / 2;
+  const badgeY = 190;
+
+  ctx.save();
+  ctx.fillStyle = 'rgba(184, 134, 11, 0.16)';
+  ctx.strokeStyle = 'rgba(140, 85, 10, 0.85)';
+  ctx.lineWidth = 2;
+  drawRoundedRect(ctx, badgeX, badgeY, badgeW, badgeH, 28);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#1f0c02';
+  ctx.font = '800 20px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.15em';
+  ctx.fillText('DATA ANALYTICS & MARKET INTELLIGENCE  •  LIVE', cx, badgeY + 36);
+  ctx.restore();
+
+  // 2. Primary Title: "ESPORTS & GAMING REVENUE ANALYSIS"
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#0f0501';
+  ctx.font = '900 62px "Cinzel Decorative", "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.08em';
+  ctx.shadowColor = 'rgba(184, 134, 11, 0.55)';
+  ctx.shadowBlur = 8;
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 2;
+  ctx.fillText('ESPORTS & GAMING', cx, 305);
+  ctx.fillText('REVENUE ANALYSIS', cx, 375);
+  ctx.restore();
+
+  // 3. Subtitle: "Interactive Financial Modeling & Global Gaming Revenue Dashboard"
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#260f03';
+  ctx.font = 'bold italic 32px "EB Garamond", Georgia, serif';
+  ctx.letterSpacing = '0.03em';
+  ctx.fillText('Interactive Financial Modeling & Global Gaming Revenue Dashboard', cx, 430);
+  ctx.restore();
+
+  // 4. Clearly Visible Gilded Divider
+  ctx.save();
+  const divY = 475;
+  const lineHalfW = 300;
+
+  const gradLeft = ctx.createLinearGradient(cx - lineHalfW, divY, cx - 40, divY);
+  gradLeft.addColorStop(0, 'rgba(163, 116, 44, 0.15)');
+  gradLeft.addColorStop(1, 'rgba(140, 85, 10, 0.95)');
+  ctx.strokeStyle = gradLeft;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(cx - lineHalfW, divY);
+  ctx.lineTo(cx - 40, divY);
+  ctx.stroke();
+
+  const gradRight = ctx.createLinearGradient(cx + 40, divY, cx + lineHalfW, divY);
+  gradRight.addColorStop(0, 'rgba(140, 85, 10, 0.95)');
+  gradRight.addColorStop(1, 'rgba(163, 116, 44, 0.15)');
+  ctx.strokeStyle = gradRight;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(cx + 40, divY);
+  ctx.lineTo(cx + lineHalfW, divY);
+  ctx.stroke();
+
+  // Center diamond & accent dots
+  ctx.fillStyle = '#8b5a14';
+  ctx.strokeStyle = '#b8860b';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(cx, divY - 11);
+  ctx.lineTo(cx + 11, divY);
+  ctx.lineTo(cx, divY + 11);
+  ctx.lineTo(cx - 11, divY);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(cx - 24, divY, 3, 0, Math.PI * 2);
+  ctx.arc(cx + 24, divY, 3, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  // 5. Clear & Punchy Description
+  ctx.save();
+  ctx.fillStyle = '#120501';
+  ctx.font = '700 34px "EB Garamond", Georgia, serif';
+  const descText = "A comprehensive data analytics case study examining revenue streams, sponsorship models, and tournament prize distributions across the global esports and video game industry. Built using advanced Microsoft Excel modeling, dynamic pivot tables, and KPI visualizations to forecast market growth patterns and franchise profitability.";
+  const nextY = drawWrappedText(ctx, descText, cx, 540, 960, 52, 'center');
+  ctx.restore();
+
+  // 6. Core Highlights (3 clean bullet points)
+  const highlights = [
+    '✦   Market segment revenue breakdown & multi-year historical growth modeling',
+    '✦   Prize pool distribution, audience engagement metrics & team monetization analysis',
+    '✦   Interactive KPI dashboard driven by dynamic formulas, slicers, and summary pivots'
+  ];
+
+  ctx.save();
+  ctx.fillStyle = '#0a0301';
+  ctx.font = 'bold 32px "EB Garamond", Georgia, serif';
+  ctx.letterSpacing = '0.02em';
+
+  let currentBulletY = nextY + 45;
+  const bulletLineHeight = 44;
+  const bulletGap = 20;
+
+  highlights.forEach((h) => {
+    currentBulletY = drawWrappedText(ctx, h, cx, currentBulletY, 880, bulletLineHeight, 'center');
+    currentBulletY += bulletGap;
+  });
+  ctx.restore();
+
+  // 7. Tech Stack (Clean 2-line Row at bottom, bold and highly visible)
+  ctx.save();
+  const techDivY = currentBulletY + 15;
+  ctx.strokeStyle = 'rgba(140, 85, 10, 0.75)';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(cx - 300, techDivY);
+  ctx.lineTo(cx + 300, techDivY);
+  ctx.stroke();
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#0a0301';
+  ctx.font = '800 26px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.08em';
+  ctx.fillText('Microsoft Excel   •   Advanced Formulas   •   Pivot Tables', cx, techDivY + 46);
+  ctx.fillText('Data Visualization   •   Financial Modeling', cx, techDivY + 90);
+  ctx.restore();
+
   return canvas;
 }
 
 /**
- * Generates Project 4 / Spread 5 Right Page Canvas (Page 9 - Clean Blank Vintage Parchment)
+ * Generates Project 4 Right Page Canvas (Esports & Gaming Revenue Analysis Video Viewport & Clickable Link)
  */
 function generateProject4RightPageCanvas(existingCanvas = null) {
+  const canvas = existingCanvas || document.createElement('canvas');
+  canvas.width = 1200;
+  canvas.height = 1600;
+  const ctx = canvas.getContext('2d');
+
+  // Draw base authentic vintage parchment with spine gutter on left (isLeft = false)
+  drawParchmentBase(ctx, canvas.width, canvas.height, false);
+
+  const cx = canvas.width / 2; // 600
+
+  // Profile Card Frame
+  ctx.save();
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.40)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(80, 150, canvas.width - 160, 1300);
+
+  ctx.strokeStyle = 'rgba(163, 116, 44, 0.22)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(94, 164, canvas.width - 188, 1272);
+
+  drawFiligreeCorner(ctx, 80, 150, 56, false, false);
+  drawFiligreeCorner(ctx, canvas.width - 80, 150, 56, true, false);
+  drawFiligreeCorner(ctx, 80, 1450, 56, false, true);
+  drawFiligreeCorner(ctx, canvas.width - 80, 1450, 56, true, true);
+  ctx.restore();
+
+  // 1. Sub-Header: "PROJECT PREVIEW"
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#3a200a';
+  ctx.font = 'bold 36px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.35em';
+  ctx.fillText('PROJECT PREVIEW', cx, 225);
+  ctx.restore();
+
+  // 2. Viewport Frame (Browser mockup frame)
+  const viewX = 120;
+  const viewY = 265;
+  const viewW = 960;
+  const viewH = 710;
+  const headerH = 56;
+
+  ctx.save();
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.30)';
+  ctx.shadowBlur = 20;
+  ctx.shadowOffsetY = 8;
+
+  // Browser Header Background
+  ctx.fillStyle = '#101d24';
+  ctx.beginPath();
+  ctx.moveTo(viewX + 16, viewY);
+  ctx.lineTo(viewX + viewW - 16, viewY);
+  ctx.quadraticCurveTo(viewX + viewW, viewY, viewX + viewW, viewY + 16);
+  ctx.lineTo(viewX + viewW, viewY + headerH);
+  ctx.lineTo(viewX, viewY + headerH);
+  ctx.lineTo(viewX, viewY + 16);
+  ctx.quadraticCurveTo(viewX, viewY, viewX + 16, viewY);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+
+  // 3 Traffic Light Dots
+  const dotY = viewY + headerH / 2;
+  const dots = ['#ef4444', '#f59e0b', '#10b981'];
+  dots.forEach((c, idx) => {
+    ctx.save();
+    ctx.fillStyle = c;
+    ctx.beginPath();
+    ctx.arc(viewX + 28 + idx * 22, dotY, 6, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  });
+
+  // URL Bar Container
+  ctx.save();
+  const urlX = viewX + 110;
+  const urlY = viewY + 12;
+  const urlW = viewW - 140;
+  const urlH = 32;
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+  ctx.strokeStyle = 'rgba(212, 175, 55, 0.40)';
+  ctx.lineWidth = 1;
+  drawRoundedRect(ctx, urlX, urlY, urlW, urlH, 16);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#fef3c7';
+  ctx.font = '500 16px "Space Grotesk", monospace';
+  ctx.fillText('🔒  https://docs.google.com/spreadsheets/d/1bU8RGppneyvRp1A0RbGhFKNh26vNUtaH/edit', urlX + 18, urlY + 22);
+  ctx.restore();
+
+  // 3. Website Live Video Stream inside Viewport
+  const imgX = viewX;
+  const imgY = viewY + headerH;
+  const imgW = viewW;
+  const imgH = viewH - headerH;
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(imgX, imgY);
+  ctx.lineTo(imgX + imgW, imgY);
+  ctx.lineTo(imgX + imgW, imgY + imgH - 16);
+  ctx.quadraticCurveTo(imgX + imgW, imgY + imgH, imgX + imgW - 16, imgY + imgH);
+  ctx.lineTo(imgX + 16, imgY + imgH);
+  ctx.quadraticCurveTo(imgX, imgY + imgH, imgX, imgY + imgH - 16);
+  ctx.closePath();
+  ctx.clip();
+
+  // Solid dark background beneath video texture
+  ctx.fillStyle = '#06131c';
+  ctx.fillRect(imgX, imgY, imgW, imgH);
+
+  const video = getEsportsVideo();
+  if (video && video.readyState >= 2 && !video.seeking) {
+    ctx.drawImage(video, imgX, imgY, imgW, imgH);
+  }
+  ctx.restore();
+
+  // Browser Window Outer Gilded Border
+  ctx.save();
+  ctx.strokeStyle = 'rgba(184, 134, 11, 0.65)';
+  ctx.lineWidth = 2.5;
+  drawRoundedRect(ctx, viewX, viewY, viewW, viewH, 16);
+  ctx.stroke();
+  ctx.restore();
+
+  // 4. Interactive Action Button: "EXPLORE SPREADSHEET ↗"
+  const btnX = 160;
+  const btnY = 1030;
+  const btnW = 880;
+  const btnH = 96;
+
+  ctx.save();
+  ctx.shadowColor = 'rgba(14, 116, 144, 0.45)';
+  ctx.shadowBlur = 20;
+  ctx.shadowOffsetY = 6;
+
+  const btnGrad = ctx.createLinearGradient(btnX, btnY, btnX + btnW, btnY + btnH);
+  btnGrad.addColorStop(0, '#0e3b43');
+  btnGrad.addColorStop(0.3, '#0e7490');
+  btnGrad.addColorStop(0.7, '#155e75');
+  btnGrad.addColorStop(1, '#0e3b43');
+  ctx.fillStyle = btnGrad;
+  drawRoundedRect(ctx, btnX, btnY, btnW, btnH, 24);
+  ctx.fill();
+  ctx.restore();
+
+  // Gilded Button Double Border
+  ctx.save();
+  ctx.strokeStyle = 'rgba(245, 197, 66, 0.85)';
+  ctx.lineWidth = 2.5;
+  drawRoundedRect(ctx, btnX, btnY, btnW, btnH, 24);
+  ctx.stroke();
+
+  ctx.strokeStyle = 'rgba(245, 197, 66, 0.40)';
+  ctx.lineWidth = 1;
+  drawRoundedRect(ctx, btnX + 5, btnY + 5, btnW - 10, btnH - 10, 20);
+  ctx.stroke();
+
+  // Button Typography
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#fef08a';
+  ctx.font = 'bold 36px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.12em';
+  ctx.shadowColor = 'rgba(245, 197, 66, 0.8)';
+  ctx.shadowBlur = 8;
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 1;
+  ctx.fillText('EXPLORE SPREADSHEET ↗', cx, btnY + 60);
+  ctx.restore();
+
+  // 5. Interaction Hint Label
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#1c0d05';
+  ctx.font = '800 24px "Cinzel", Georgia, serif';
+  ctx.letterSpacing = '0.14em';
+  ctx.shadowColor = 'rgba(212, 175, 55, 0.45)';
+  ctx.shadowBlur = 4;
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 1;
+  ctx.fillText('⚡ CLICK PREVIEW OR BUTTON TO OPEN SPREADSHEET', cx, 1180);
+  ctx.restore();
+
+  // 6. Bottom Flourish Accent
+  ctx.save();
+  ctx.translate(cx, 1240);
+  ctx.strokeStyle = 'rgba(184, 134, 11, 0.50)';
+  ctx.fillStyle = 'rgba(212, 175, 55, 0.25)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(-60, 0);
+  ctx.lineTo(-12, 0);
+  ctx.moveTo(12, 0);
+  ctx.lineTo(60, 0);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(0, 0, 4, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.restore();
+
+  return canvas;
+}
+
+/**
+ * Generates Closing Page Canvas (Page 11 - Clean Slate Blank Vintage Parchment)
+ */
+function generateMoreEnchantmentsPageCanvas(existingCanvas = null) {
   const canvas = existingCanvas || document.createElement('canvas');
   canvas.width = 1200;
   canvas.height = 1600;
@@ -2593,7 +3042,7 @@ export class BookOfSpellsViewer {
     this.project3RightCanvas = project3RightCanvas;
     this.project3RightTex = project3RightTex;
 
-    // Project 4 (More Projects in Progress / Closing) Spread Textures
+    // Project 4 (Esports & Gaming Revenue Analysis) Spread Textures
     const project4LeftCanvas = generateProject4LeftPageCanvas();
     const project4LeftTex = new THREE.CanvasTexture(project4LeftCanvas);
     project4LeftTex.colorSpace = THREE.SRGBColorSpace;
@@ -2609,6 +3058,15 @@ export class BookOfSpellsViewer {
 
     this.project4RightCanvas = project4RightCanvas;
     this.project4RightTex = project4RightTex;
+
+    // Closing Page (Page 11 - More Enchantments in the Forge) Canvas & Texture
+    const page11Canvas = generateMoreEnchantmentsPageCanvas();
+    const page11Tex = new THREE.CanvasTexture(page11Canvas);
+    page11Tex.colorSpace = THREE.SRGBColorSpace;
+    page11Tex.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+
+    this.page11Canvas = page11Canvas;
+    this.page11Tex = page11Tex;
 
     // Initialize Autoplaying Video Preview for VS Pharma Academy
     this.vsPharmaVideo = getVsPharmaVideo(() => {
@@ -2626,6 +3084,12 @@ export class BookOfSpellsViewer {
     this.vedaCureVideo = getVedaCureVideo(() => {
       generateProject3RightPageCanvas(project3RightCanvas);
       project3RightTex.needsUpdate = true;
+    });
+
+    // Initialize Autoplaying Video Preview for Esports & Gaming Revenue Analysis
+    this.esportsVideo = getEsportsVideo(() => {
+      generateProject4RightPageCanvas(project4RightCanvas);
+      project4RightTex.needsUpdate = true;
     });
 
     // Also trigger instant redraw when static fallback image loads
@@ -2655,6 +3119,8 @@ export class BookOfSpellsViewer {
         project4LeftTex.needsUpdate = true;
         generateProject4RightPageCanvas(project4RightCanvas);
         project4RightTex.needsUpdate = true;
+        generateMoreEnchantmentsPageCanvas(page11Canvas);
+        page11Tex.needsUpdate = true;
       });
     }
 
@@ -2766,6 +3232,18 @@ export class BookOfSpellsViewer {
       depthWrite: true
     });
 
+    const page11Mat = new THREE.MeshStandardMaterial({
+      map: page11Tex,
+      roughness: 0.88,
+      metalness: 0.02,
+      side: THREE.DoubleSide,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1,
+      depthTest: true,
+      depthWrite: true
+    });
+
     const blankRightMat = new THREE.MeshStandardMaterial({
       map: blankRightTex,
       roughness: 0.88,
@@ -2810,7 +3288,7 @@ export class BookOfSpellsViewer {
       depthWrite: true
     });
 
-    const paperTopFaceMat = blankRightMat;
+    const paperTopFaceMat = page11Mat;
 
     const solidBlockGeo = new THREE.BoxGeometry(this.pageWidth, this.pageHeight, pT);
     solidBlockGeo.translate(0.02 + this.pageWidth / 2, 0, 0);
@@ -2860,8 +3338,8 @@ export class BookOfSpellsViewer {
       // Leaf 0: Front = Intro (Page 1), Back = Project 1 Details (Spread 1 Left Page, Page 2)
       // Leaf 1: Front = Project 1 Viewport (Spread 1 Right Page, Page 3), Back = Project 2 Details (Spread 2 Left Page, Page 4)
       // Leaf 2: Front = Project 2 Viewport (Spread 2 Right Page, Page 5), Back = Project 3 Details (Spread 3 Left Page, Page 6)
-      // Leaf 3: Front = Project 3 Viewport (Spread 3 Right Page, Page 7), Back = Project 4 Closing (Spread 4 Left Page, Page 8)
-      // Leaf 4: Front = Project 4 Vault (Spread 4 Right Page, Page 9), Back = Blank Left
+      // Leaf 3: Front = Project 3 Viewport (Spread 3 Right Page, Page 7), Back = Project 4 Details (Spread 4 Left Page, Page 8)
+      // Leaf 4: Front = Project 4 Viewport (Spread 4 Right Page, Page 9), Back = Page 10 (Spread 5 Left Page)
       let frontMat = blankRightMat;
       let backMat = leafBackBlankMat;
 
@@ -2989,6 +3467,42 @@ export class BookOfSpellsViewer {
       } else if (k === 4) {
         frontMat = project4RightMat;
         backMat = leafBackBlankMat;
+
+        // Dedicated Video Screen Mesh powered by THREE.VideoTexture for Esports & Gaming Revenue Analysis
+        const screenW = this.pageWidth * (960 / 1200);
+        const screenH = this.pageHeight * (654 / 1600);
+        const screenGeo = new THREE.PlaneGeometry(screenW, screenH, segmentsX, segmentsY);
+        screenGeo.translate(0.02 + this.pageWidth / 2, 0.095 * this.pageHeight, 0);
+        screenGeo.computeVertexNormals();
+        screenGeo.userData = {
+          origPositions: screenGeo.attributes.position.array.slice()
+        };
+
+        const video = getEsportsVideo();
+        try {
+          const videoTex = new THREE.VideoTexture(video);
+          videoTex.colorSpace = THREE.SRGBColorSpace;
+          videoTex.minFilter = THREE.LinearFilter;
+          videoTex.magFilter = THREE.LinearFilter;
+          videoTex.generateMipmaps = false;
+
+          const videoMat = new THREE.MeshBasicMaterial({
+            map: videoTex,
+            toneMapped: false,
+            side: THREE.FrontSide,
+            depthTest: true,
+            depthWrite: true,
+            polygonOffset: true,
+            polygonOffsetFactor: -2,
+            polygonOffsetUnits: -2
+          });
+
+          videoScreenMesh = new THREE.Mesh(screenGeo, videoMat);
+          videoScreenMesh.position.z = 0.003;
+          videoScreenMesh.visible = false;
+        } catch (err) {
+          console.warn('Esports VideoTexture initialization error:', err);
+        }
       }
 
       const frontMesh = new THREE.Mesh(geo, frontMat);
@@ -3584,6 +4098,17 @@ export class BookOfSpellsViewer {
         }
       }
 
+      if (isSpread4Visible && !this.isPointerDown) {
+        this.raycaster.setFromCamera(this.pointer, this.camera);
+        const targets = [leaf4.frontMesh, leaf4.videoScreenMesh].filter(Boolean);
+        const hits = this.raycaster.intersectObjects(targets, true);
+        if (hits.length > 0) {
+          this.renderer.domElement.style.cursor = 'pointer';
+          this.isHoveringLink = true;
+          return;
+        }
+      }
+
       this.isHoveringLink = false;
       if (!this.isPointerDown && this.renderer && this.renderer.domElement) {
         this.renderer.domElement.style.cursor = 'grab';
@@ -3608,10 +4133,12 @@ export class BookOfSpellsViewer {
           const leaf1 = this.leafMeshes[1];
           const leaf2 = this.leafMeshes[2];
           const leaf3 = this.leafMeshes[3];
+          const leaf4 = this.leafMeshes[4];
 
           const isSpread1Visible = leaf0.angle > 0.4 && leaf1.angle < Math.PI * 0.7 && this.isBookOpen;
           const isSpread2Visible = leaf1.angle > 0.4 && leaf2.angle < Math.PI * 0.7 && this.isBookOpen;
           const isSpread3Visible = leaf2.angle > 0.4 && leaf3.angle < Math.PI * 0.7 && this.isBookOpen;
+          const isSpread4Visible = leaf3.angle > 0.4 && leaf4.angle < Math.PI * 0.7 && this.isBookOpen;
 
           if (isSpread1Visible) {
             this.raycaster.setFromCamera(this.pointer, this.camera);
@@ -3634,6 +4161,13 @@ export class BookOfSpellsViewer {
             if (hits.length > 0) {
               window.open('https://vedacure-0qyv.onrender.com/', '_blank', 'noopener,noreferrer');
             }
+          } else if (isSpread4Visible) {
+            this.raycaster.setFromCamera(this.pointer, this.camera);
+            const targets = [leaf4.frontMesh, leaf4.videoScreenMesh].filter(Boolean);
+            const hits = this.raycaster.intersectObjects(targets, true);
+            if (hits.length > 0) {
+              window.open('https://docs.google.com/spreadsheets/d/1bU8RGppneyvRp1A0RbGhFKNh26vNUtaH/edit?usp=drive_link&ouid=117297401338608380510&rtpof=true&sd=true', '_blank', 'noopener,noreferrer');
+            }
           }
         }
       }
@@ -3648,6 +4182,25 @@ export class BookOfSpellsViewer {
       this.renderer.domElement.addEventListener('pointermove', this.onPointerMove, { passive: true });
     }
     window.addEventListener('pointerup', this.onPointerUp, { passive: true });
+
+    // Universal gesture unlock for all embedded HTML5 videos to bypass browser autoplay blocks
+    const unlockAllVideos = () => {
+      [this.vsPharmaVideo, this.aeroPulseVideo, this.vedaCureVideo, this.esportsVideo].forEach((v) => {
+        if (v) {
+          v.muted = true;
+          v.defaultMuted = true;
+          v.setAttribute('muted', '');
+          v.setAttribute('playsinline', '');
+          if (v.paused) {
+            v.play().catch(() => {});
+          }
+        }
+      });
+    };
+    window.addEventListener('pointerdown', unlockAllVideos, { passive: true });
+    window.addEventListener('scroll', unlockAllVideos, { passive: true });
+    window.addEventListener('wheel', unlockAllVideos, { passive: true });
+    window.addEventListener('touchstart', unlockAllVideos, { passive: true });
   }
 
   handleResize() {
@@ -3680,7 +4233,7 @@ export class BookOfSpellsViewer {
         this.bookGroup.position.y = Math.sin(time * 1.4) * 0.025;
       }
 
-      // Live Video Preview update loop for Spread 1 (VS Pharma), Spread 2 (AeroPulse AI) & Spread 3 (VedaCure)
+      // Live Video Preview update loop for Spread 1 (VS Pharma), Spread 2 (AeroPulse AI), Spread 3 (VedaCure) & Spread 4 (Esports & Gaming)
       if (this.leafMeshes && this.leafMeshes.length >= 5) {
         const leaf0 = this.leafMeshes[0];
         const leaf1 = this.leafMeshes[1];
@@ -3691,6 +4244,8 @@ export class BookOfSpellsViewer {
         // Spread 1: VS Pharma Academy (Page 2 & 3)
         const isSpread1Visible = leaf0.angle > 0.4 && leaf1.angle < Math.PI * 0.7 && this.isBookOpen;
         if (isSpread1Visible && this.vsPharmaVideo) {
+          this.vsPharmaVideo.muted = true;
+          this.vsPharmaVideo.defaultMuted = true;
           if (this.vsPharmaVideo.paused) {
             this.vsPharmaVideo.play().catch(() => {});
           }
@@ -3707,6 +4262,8 @@ export class BookOfSpellsViewer {
         // Spread 2: AeroPulse AI (Page 4 & 5)
         const isSpread2Visible = leaf1.angle > 0.4 && leaf2.angle < Math.PI * 0.7 && this.isBookOpen;
         if (isSpread2Visible && this.aeroPulseVideo) {
+          this.aeroPulseVideo.muted = true;
+          this.aeroPulseVideo.defaultMuted = true;
           if (this.aeroPulseVideo.paused) {
             this.aeroPulseVideo.play().catch(() => {});
           }
@@ -3723,6 +4280,8 @@ export class BookOfSpellsViewer {
         // Spread 3: VedaCure (Page 6 & 7)
         const isSpread3Visible = leaf2.angle > 0.4 && leaf3.angle < Math.PI * 0.7 && this.isBookOpen;
         if (isSpread3Visible && this.vedaCureVideo) {
+          this.vedaCureVideo.muted = true;
+          this.vedaCureVideo.defaultMuted = true;
           if (this.vedaCureVideo.paused) {
             this.vedaCureVideo.play().catch(() => {});
           }
@@ -3733,6 +4292,24 @@ export class BookOfSpellsViewer {
           this.vedaCureVideo.pause();
           if (leaf3 && leaf3.videoScreenMesh) {
             leaf3.videoScreenMesh.visible = false;
+          }
+        }
+
+        // Spread 4: Esports & Gaming Revenue Analysis (Page 8 & 9)
+        const isSpread4Visible = leaf3.angle > 0.4 && leaf4.angle < Math.PI * 0.7 && this.isBookOpen;
+        if (isSpread4Visible && this.esportsVideo) {
+          this.esportsVideo.muted = true;
+          this.esportsVideo.defaultMuted = true;
+          if (this.esportsVideo.paused) {
+            this.esportsVideo.play().catch(() => {});
+          }
+          if (leaf4.videoScreenMesh) {
+            leaf4.videoScreenMesh.visible = (this.esportsVideo.readyState >= 1);
+          }
+        } else if (this.esportsVideo && !this.esportsVideo.paused && !isSpread4Visible) {
+          this.esportsVideo.pause();
+          if (leaf4 && leaf4.videoScreenMesh) {
+            leaf4.videoScreenMesh.visible = false;
           }
         }
       }
@@ -3747,8 +4324,8 @@ export class BookOfSpellsViewer {
 
   flipToSpread(index) {
     if (index < 0 || index >= 6) return;
-    const openPhaseEnd = 0.15;
-    const flipsPhaseEnd = 0.70;
+    const openPhaseEnd = 0.16;
+    const flipsPhaseEnd = 0.62;
     const totalFlips = 5;
     const targetProgress = openPhaseEnd + (index / totalFlips) * (flipsPhaseEnd - openPhaseEnd);
 
@@ -3777,6 +4354,10 @@ export class BookOfSpellsViewer {
     if (this.vedaCureVideo) {
       this.vedaCureVideo.pause();
       this.vedaCureVideo = null;
+    }
+    if (this.esportsVideo) {
+      this.esportsVideo.pause();
+      this.esportsVideo = null;
     }
 
     window.removeEventListener('resize', this.onResize);

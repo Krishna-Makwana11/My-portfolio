@@ -399,8 +399,8 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 40;
-  width: 170px;
-  height: 170px;
+  width: 180px;
+  height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -411,8 +411,8 @@
 /* 2D Circular Orbital Track (22s Smooth Infinite Rotation) */
 .orbital-track {
   position: absolute;
-  width: 130px;
-  height: 130px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   transform-origin: center center;
   animation: orbitTrackRotate 22s linear infinite;
@@ -433,7 +433,7 @@
   }
 }
 
-/* 4 Cardinal Orbit Nodes (90° Spacing: Top, Right, Bottom, Left) */
+/* 5 Evenly Distributed Orbit Nodes (72° Radial Spacing along circle) */
 .orbital-item {
   position: absolute;
   width: 52px;
@@ -443,27 +443,43 @@
   justify-content: center;
 }
 
+/* Node 1: Top (0°) */
+.orbital-node-1,
 .orbital-pos-top {
-  top: 0;
+  top: 0%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-.orbital-pos-right {
-  top: 50%;
-  right: 0;
-  transform: translate(50%, -50%);
+/* Node 2: Top-Right (72°) */
+.orbital-node-2,
+.orbital-pos-top-right {
+  top: 34.55%;
+  left: 97.55%;
+  transform: translate(-50%, -50%);
 }
 
-.orbital-pos-bottom {
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 50%);
+/* Node 3: Bottom-Right (144°) */
+.orbital-node-3,
+.orbital-pos-bottom-right {
+  top: 90.45%;
+  left: 79.39%;
+  transform: translate(-50%, -50%);
 }
 
-.orbital-pos-left {
-  top: 50%;
-  left: 0;
+/* Node 4: Bottom-Left (216°) */
+.orbital-node-4,
+.orbital-pos-bottom-left {
+  top: 90.45%;
+  left: 20.61%;
+  transform: translate(-50%, -50%);
+}
+
+/* Node 5: Top-Left (288°) */
+.orbital-node-5,
+.orbital-pos-top-left {
+  top: 34.55%;
+  left: 2.45%;
   transform: translate(-50%, -50%);
 }
 

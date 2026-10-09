@@ -52,6 +52,7 @@ export function initWandCursor() {
     '.filter-btn',
     '.btn-owl-send',
     '.social-icon-btn',
+    '.orbital-social-btn',
     '.dock-social-btn',
     '.btn-project-link',
     '.intro-btn',
